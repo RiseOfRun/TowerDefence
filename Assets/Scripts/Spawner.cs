@@ -12,12 +12,12 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameEvents.OnTowerBuilt += GameEventsOnOnTowerBuilt;
     }
 
-    private void GameEventsOnOnTowerBuilt(Tower obj)
+    public void SpawnWave(WaveSettings currentWave)
     {
-        throw new System.NotImplementedException();
+        
+        
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class Spawner : MonoBehaviour
         }
         StartCoroutine(Spawn());
     }
-    
+
     IEnumerator Spawn()
     {
         yield return new WaitForSeconds(4f);

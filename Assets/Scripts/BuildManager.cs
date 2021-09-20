@@ -15,7 +15,7 @@ public class BuildManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckClick();
+        RayCastCheckOnClick();
     }
 
     public void CheckClick()
@@ -27,6 +27,20 @@ public class BuildManager : MonoBehaviour
         Vector3 point = ray.GetPoint(enter);
         Vector3Int rounded = Vector3Int.RoundToInt(point);
         Build(rounded);
+    }
+
+    public void RayCastCheckOnClick()
+    {
+        if (!Input.GetMouseButtonDown(0)) return;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (!Physics.Raycast(ray, out RaycastHit hitInfo)) return;
+        Square hitSquare = hitInfo.collider.gameObject.GetComponent<Square>();
+        if (hitSquare == null || !hitSquare.CanBuild) return;
+        Build(hitSquare.transform.position);
+        hitSquare.OnBuildTower();
+
+
+
     }
 
     public void Build(Vector3 point)

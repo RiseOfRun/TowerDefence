@@ -1,12 +1,14 @@
 ﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 public class GameEvents
 {
-    public static event Action<Enemy> OnEnemyKilled;
-    public static event Action<Tower> OnTowerBuilt;
+    public static event Action<int> OnEnemyKilled;
+    public static readonly UnityEvent<Tower> OnTowerBuilt = new UnityEvent<Tower>();
 
-    public static void TowerBuilt(Tower tower)
+    public static void TowerBuilt(Tower t)
     {
-        OnTowerBuilt?.Invoke(tower);
+        OnTowerBuilt?.Invoke(t);
     }
 }

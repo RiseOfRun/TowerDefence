@@ -44,8 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48bbb78265e84af46b8efd469a836aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Range: 5
-  Damage: 20
+  Range: 3
+  Damage: 5
+  BulletPrefab: {fileID: 2495520863954214787, guid: b422b702118a121498f989802942303e, type: 3}
+  AttackPerSecond: 1.5
 --- !u!1 &6480719579369022576
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +97,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 98f3683aa6d80c248a5aa06e5f62dce1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.43582648
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 98f3683aa6d80c248a5aa06e5f62dce1, type: 3}
       propertyPath: m_LocalPosition.z

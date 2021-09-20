@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Square : MonoBehaviour
 {
+    public bool Blank = true;
+    public bool CanBuild = false;
+    public GameObject BlankMesh;
+    public GameObject TowerMesh;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +19,15 @@ public class Square : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OnBuildTower()
+    {
+        if (CanBuild)
+        {
+            CanBuild = false;
+            BlankMesh.SetActive(false);
+            TowerMesh.SetActive(true);
+        }
     }
 }

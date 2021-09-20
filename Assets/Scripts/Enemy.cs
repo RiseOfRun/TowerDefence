@@ -1,27 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int Health
-    {
-        get => health;
-        set
-        {
-            health = value;
-            Debug.Log($"Ouch {health}");
-        }
-    }
+    public float Health { get; set; }
     public float Speed;
-    public float Score;
+    public int Score;
+    
     public Transform[] Waypoints;
     public Queue<Vector3> Path = new Queue<Vector3>();
-    [SerializeField] private int health;
-
+    [SerializeField] private float InitHealth;
+    [SerializeField] private int BasicScore;
     void Start()
     {
+        Health = InitHealth;
+        Score = BasicScore;
+        
         foreach (var point in Waypoints)
         {
             Path.Enqueue(point.position);
@@ -47,7 +45,18 @@ public class Enemy : MonoBehaviour
         {
             Path.Dequeue();
         }
+    }
 
-        
+    public void Init(float scoreMulti, float healthMulti, float speedMulti=1, int level = 1)
+    {
+        Health += InitHealth * healthMulti * level;
+        Speed += Speed * speedMulti;
+        Score += (int) (BasicScore * scoreMulti * level);
+    }
+    
+
+    public void ApplyDamage(int damage)
+    {
+        Health -= damage;
     }
 }
