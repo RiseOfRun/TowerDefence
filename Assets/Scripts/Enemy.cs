@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +18,7 @@ public class Enemy : MonoBehaviour
     public Queue<Vector3> Path = new Queue<Vector3>();
     [SerializeField] private float InitHealth;
     [SerializeField] private int BasicScore;
+    private UnityEvent ev;
     void Start()
     {
         Health = InitHealth;
@@ -25,7 +29,7 @@ public class Enemy : MonoBehaviour
             Path.Enqueue(point.position);
         }
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -37,6 +41,8 @@ public class Enemy : MonoBehaviour
 
         if (Path.Count==0)
         {
+            GameEvents.EnemyEndPath(this);
+            Destroy(gameObject);
             return;
         }
         Vector3 point = Path.Peek();
@@ -58,5 +64,9 @@ public class Enemy : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         Health -= damage;
+        if (Health<=0)
+        {
+            GameEvents.EnemySlain(this);
+        }
     }
 }

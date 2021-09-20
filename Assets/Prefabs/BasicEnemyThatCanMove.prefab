@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b153162cc0be9c840b560c3e233497f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 2
+  Speed: 1
   Score: 1
   Waypoints:
   - {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   InitHealth: 100
-  BasicScore: 0
+  BasicScore: 100
 --- !u!136 &1346394852679372781
 CapsuleCollider:
   m_ObjectHideFlags: 0
