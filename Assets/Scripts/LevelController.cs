@@ -15,10 +15,19 @@ public class LevelController : MonoBehaviour
     public int WaveCount;
     public bool newStart = true;
     public GameObject UnitPool;
-    public int currentWave;
+    public int CurrentWave;
+    [SerializeField] private bool waveInProgress;
+    public bool WaveInProgress
+    {
+        get => waveInProgress;
+        set
+        {
+            Debug.Log("Set to "+value);
+            waveInProgress = value;
+        }
+    }
 
     private WaveController waveController;
-    private bool waveInProgress = false;
     private int enemyCount;
     private void Awake()
     {
@@ -26,13 +35,18 @@ public class LevelController : MonoBehaviour
         {
             Instance = this;
         }
+        else if(Instance == this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(this);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
-        currentWave = 1;
+        CurrentWave = 1;
         waveController = GetComponentInChildren<WaveController>();
         if (waveController != null)
         {
@@ -44,7 +58,7 @@ public class LevelController : MonoBehaviour
 
     void OnUnitSlain(Enemy unit)
     {
-        if (!waveInProgress) return;
+        if (!WaveInProgress) return;
         enemyCount -= 1;
         Player.Instance.Money += unit.Score;
     }
@@ -52,36 +66,60 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (waveInProgress)
+        if (WaveInProgress)
         {
             CheckAllive();
         }
+        CheckGameState();
     }
 
+    void CheckGameState()
+    {
+        if (CurrentWave==WaveCount && !WaveInProgress)
+        {
+            OnGameWin();
+        }
+
+        if (Player.Instance.Lives<=0)
+        {
+            OnGameOver();
+        }
+    }
+
+    void OnGameWin()
+    {
+        
+    }void OnGameOver()
+    {
+        
+    }
     void CheckAllive()
     {
-        Debug.Log($"Units on map : {UnitPool.transform.childCount}");
+        if (enemyCount<=0 && WaveInProgress)
+        {
+            WaveInProgress = false;
+            CurrentWave += 1;
+        }
     }
 
     public void NextWave()
-    {
+    {        
         WaveSettings waveSettings = waveController.WaveSettings.First();
+        enemyCount = waveSettings.Size;
+        WaveInProgress = true;
         foreach (var enemyGroup in waveSettings.EnemyGroups)
         {
             foreach (var enemy in enemyGroup.EnemiesInGroup)
             {
-                enemy.Init(waveController.ScoreMulti, waveController.HealthMulti, waveController.SpeedMulti, 1);
+                enemy.Init(waveController.ScoreMulti, waveController.HealthMulti, 
+                    waveController.SpeedMulti, CurrentWave-1);
             }
         }
-
+        
         foreach (var spawner in Spawners)
         {
             spawner.SpawnWave(waveSettings, waveController);
         }
-
-        waveInProgress = true;
-        GameEvents.StartWave(currentWave);
-        enemyCount = waveSettings.Size;
-
+        GameEvents.StartWave(CurrentWave);
     }
 }

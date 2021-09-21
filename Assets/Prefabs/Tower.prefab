@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Range: 3
-  Damage: 5
+  Damage: 20
+  Cost: 50
   BulletPrefab: {fileID: 2495520863954214787, guid: b422b702118a121498f989802942303e, type: 3}
   AttackPerSecond: 1.5
 --- !u!1 &6480719579369022576

@@ -7,6 +7,8 @@ public class Tower : MonoBehaviour
 {
     public float Range;
     public int Damage=200;
+    public int Cost;
+    
     private Enemy target;
     public Bullet BulletPrefab;
     public float AttackPerSecond = 1f;

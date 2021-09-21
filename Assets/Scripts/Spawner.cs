@@ -12,7 +12,6 @@ public class Spawner : MonoBehaviour
     void Start()
     {
     }
-
     public void SpawnWave(WaveSettings currentWave, WaveController controller)
     {
         WavePopulation = new Queue<Enemy>();
@@ -37,13 +36,11 @@ public class Spawner : MonoBehaviour
 
 
     }
-
     // Update is called once per frame
     void Update()
     {
   
     }
-
     IEnumerator Spawn(WaveSettings settings, WaveController controller)
     {
         for (int i = 0; i < settings.Size; i++)
@@ -56,7 +53,7 @@ public class Spawner : MonoBehaviour
             current.Waypoints = WayPoints;
             WavePopulation.Dequeue();
             Enemy newEnemy = Instantiate(current, LevelController.Instance.UnitPool.transform);
-            newEnemy.Init(controller.ScoreMulti,controller.HealthMulti,controller.SpeedMulti,LevelController.Instance.currentWave);
+            newEnemy.Init(controller.ScoreMulti,controller.HealthMulti,controller.SpeedMulti,LevelController.Instance.CurrentWave);
             Vector3 position = transform.position;
             newEnemy.gameObject.transform.position += new Vector3(position.x,0,position.z);
             yield return new WaitForSeconds(settings.Delay);

@@ -3,26 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class Enemy : MonoBehaviour
 {
-    public float Health { get; set; }
+    public float Health;
     public float Speed;
     public int Score;
     
     public Transform[] Waypoints;
     public Queue<Vector3> Path = new Queue<Vector3>();
     [SerializeField] private float InitHealth;
-    [SerializeField] private int BasicScore;
+    [SerializeField] private int InitScore;
+    [SerializeField] private float InitSpeed;
     private UnityEvent ev;
     void Start()
     {
         Health = InitHealth;
-        Score = BasicScore;
+        Score = InitScore;
+        Speed = InitSpeed;
         
         foreach (var point in Waypoints)
         {
@@ -56,8 +57,8 @@ public class Enemy : MonoBehaviour
     public void Init(float scoreMulti, float healthMulti, float speedMulti=1, int level = 1)
     {
         Health += InitHealth * healthMulti * level;
-        Speed += Speed * speedMulti;
-        Score += (int) (BasicScore * scoreMulti * level);
+        Speed += InitSpeed*speedMulti*level;
+        Score += (int) (InitScore * scoreMulti * level);
     }
     
 

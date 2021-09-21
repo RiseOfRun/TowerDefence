@@ -36,6 +36,7 @@ public class BuildManager : MonoBehaviour
         if (!Physics.Raycast(ray, out RaycastHit hitInfo)) return;
         Square hitSquare = hitInfo.collider.gameObject.GetComponent<Square>();
         if (hitSquare == null || !hitSquare.CanBuild) return;
+        if (Player.Instance.Money < currentTower.Cost) return;
         Build(hitSquare.transform.position);
         hitSquare.OnBuildTower();
 
@@ -46,5 +47,6 @@ public class BuildManager : MonoBehaviour
     public void Build(Vector3 point)
     {
         Instantiate(currentTower, point, Quaternion.identity);
+        Player.Instance.Money -= currentTower.Cost;
     }
 }

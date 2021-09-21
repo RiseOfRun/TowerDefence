@@ -11,15 +11,14 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        if (Instance==null)
+        if (Instance == null) 
         {
             Instance = this;
-        }
-        else if(Instance==this)
+        } else if(Instance == this)
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(Instance);
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {

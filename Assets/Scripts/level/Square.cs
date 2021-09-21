@@ -23,11 +23,9 @@ public class Square : MonoBehaviour
 
     public void OnBuildTower()
     {
-        if (CanBuild)
-        {
-            CanBuild = false;
-            BlankMesh.SetActive(false);
-            TowerMesh.SetActive(true);
-        }
+        if (!CanBuild) return;
+        CanBuild = false;
+        BlankMesh.SetActive(false);
+        TowerMesh.SetActive(true);
     }
 }
