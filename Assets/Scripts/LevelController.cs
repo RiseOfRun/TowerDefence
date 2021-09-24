@@ -7,7 +7,9 @@ using UnityEngine;
 public class LevelController : MonoBehaviour
 {
     public static LevelController Instance;
-
+    public GameObject UIPanel;
+    public GameObject WinPanel;
+    public GameObject LosePanel;
     public Field GameField;
     public Spawner[] Spawners;
     public GameObject Finish;
@@ -16,16 +18,7 @@ public class LevelController : MonoBehaviour
     public bool newStart = true;
     public GameObject UnitPool;
     public int CurrentWave;
-    [SerializeField] private bool waveInProgress;
-    public bool WaveInProgress
-    {
-        get => waveInProgress;
-        set
-        {
-            Debug.Log("Set to "+value);
-            waveInProgress = value;
-        }
-    }
+    public bool WaveInProgress;
 
     private WaveController waveController;
     private int enemyCount;
@@ -88,10 +81,12 @@ public class LevelController : MonoBehaviour
 
     void OnGameWin()
     {
-        
+        UIPanel.SetActive(false);
+        WinPanel.SetActive(true);
     }void OnGameOver()
     {
-        
+        UIPanel.SetActive(false);
+        LosePanel.SetActive(true);
     }
     void CheckAllive()
     {
@@ -107,15 +102,7 @@ public class LevelController : MonoBehaviour
         WaveSettings waveSettings = waveController.WaveSettings.First();
         enemyCount = waveSettings.Size;
         WaveInProgress = true;
-        foreach (var enemyGroup in waveSettings.EnemyGroups)
-        {
-            foreach (var enemy in enemyGroup.EnemiesInGroup)
-            {
-                enemy.Init(waveController.ScoreMulti, waveController.HealthMulti, 
-                    waveController.SpeedMulti, CurrentWave-1);
-            }
-        }
-        
+
         foreach (var spawner in Spawners)
         {
             spawner.SpawnWave(waveSettings, waveController);

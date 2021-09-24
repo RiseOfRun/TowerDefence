@@ -58,7 +58,7 @@ MonoBehaviour:
   - {fileID: 0}
   InitHealth: 100
   InitScore: 20
-  InitSpeed: 1
+  InitSpeed: 1.2
 --- !u!136 &1346394852679372781
 CapsuleCollider:
   m_ObjectHideFlags: 0

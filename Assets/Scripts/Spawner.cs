@@ -53,7 +53,7 @@ public class Spawner : MonoBehaviour
             current.Waypoints = WayPoints;
             WavePopulation.Dequeue();
             Enemy newEnemy = Instantiate(current, LevelController.Instance.UnitPool.transform);
-            newEnemy.Init(controller.ScoreMulti,controller.HealthMulti,controller.SpeedMulti,LevelController.Instance.CurrentWave);
+            newEnemy.Init(controller.ScoreMulti,controller.HealthMulti,controller.SpeedMulti, LevelController.Instance.CurrentWave-1);
             Vector3 position = transform.position;
             newEnemy.gameObject.transform.position += new Vector3(position.x,0,position.z);
             yield return new WaitForSeconds(settings.Delay);

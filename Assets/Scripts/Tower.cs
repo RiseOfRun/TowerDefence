@@ -52,7 +52,7 @@ public class Tower : MonoBehaviour
     public void Shot()
     {
         currentTime -= Time.deltaTime;
-        if (target==null&&currentTime<0)
+        if (target==null && currentTime<0)
         {
             currentTime = 0;
             return;
