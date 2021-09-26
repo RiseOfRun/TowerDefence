@@ -24,7 +24,7 @@ public class ControlPanel : MonoBehaviour
     public void Pause()
     {
         FreeAllButtons();
-        TManager.CurrentTimeScale = 0;
+        TManager.CurrentTimeScale = 0.00001f;
     }
 
     public void TurnNormalSpeed()

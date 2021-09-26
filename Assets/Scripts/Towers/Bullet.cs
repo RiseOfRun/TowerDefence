@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour, ISourceOfDamage
+public class Bullet : SourceOfDamage
 {
     public float Speed;
-    public int Damage;
     public Enemy Target;
     // Start is called before the first frame update
     private Vector3 lastTargetPosition;
@@ -44,5 +43,10 @@ public class Bullet : MonoBehaviour, ISourceOfDamage
     void Update()
     {
         Move();
+    }
+
+    public override void Init()
+    {
+        throw new System.NotImplementedException();
     }
 }

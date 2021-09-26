@@ -13,7 +13,9 @@ public class Enemy : MonoBehaviour
     public float Speed = 0;
     public int Score = 0;
     public int Penalty = 1;
-
+    
+    public List<Debuff> Debuffs = new List<Debuff>();
+    
     public Transform[] Waypoints;
     public Queue<Vector3> Path = new Queue<Vector3>();
     [SerializeField] private float InitHealth;
@@ -50,6 +52,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+        HandleDebuffs();
 
         Vector3 point = Path.Peek();
         transform.position = Vector3.MoveTowards(transform.position, point, Time.deltaTime * Speed);
@@ -67,12 +70,21 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void ApplyDamage(int damage)
+    public void ApplyDamage(float damage)
     {
         Health -= damage;
         if (Health <= 0)
         {
             GameEvents.EnemySlain(this);
         }
+    }
+
+    private void HandleDebuffs()
+    {
+        foreach (Debuff debuff in Debuffs)
+        {
+            debuff.Tick();
+        }
+        Debuffs = Debuffs.Where(x => x != null).ToList();
     }
 }
