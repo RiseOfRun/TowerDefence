@@ -27,7 +27,6 @@ public class ManualDeltaTimer
         }
         LeastTime -= count;
     }
-
     public void TryToDoAction()
     {
         if (Stop)
@@ -39,7 +38,7 @@ public class ManualDeltaTimer
             return;
         }
 
-        Capacity = (int) (Mathf.Floor(Mathf.Abs(LeastTime) / CallDown)+1);
+        Capacity = (int) (Mathf.Floor(Mathf.Abs(LeastTime) / CallDown) + 1);
         
         for (int i = 0; i < Capacity; i++)
         {
@@ -47,6 +46,6 @@ public class ManualDeltaTimer
         }
 
         Capacity = 0;
-        LeastTime = CallDown;
+        LeastTime += CallDown;
     }
 }

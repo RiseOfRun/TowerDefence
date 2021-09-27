@@ -16,9 +16,13 @@ public class FreezingPulse : SourceOfDamage
             var debuff = ScriptableObject.CreateInstance<ChillDebuff>();
             debuff.Init(target,SlowEffect,DebuffEffect,Duration);
         }
+        Invoke("EndEffect",1);
+    }
+
+    void EndEffect()
+    {
         Destroy(gameObject);
     }
-    
 
     // Update is called once per frame
     void Update()

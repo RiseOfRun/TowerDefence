@@ -20,7 +20,6 @@ public class ChillDebuff : Debuff
         Destroy(handler);
         Target.Speed *= Power;
         DurationTimer.Stop = true;
-        Destroy(this);
     }
 
     public override void Tick()
