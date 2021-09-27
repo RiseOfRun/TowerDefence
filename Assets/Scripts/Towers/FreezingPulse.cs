@@ -13,7 +13,7 @@ public class FreezingPulse : SourceOfDamage
         Debug.Log($"I have {Targets.Count} target");
         foreach (var target in Targets)
         {
-            var debuff = ScriptableObject.CreateInstance<ChillDebuff>();
+            var debuff = new ChillDebuff();
             debuff.Init(target,SlowEffect,DebuffEffect,Duration);
         }
         Invoke("EndEffect",1);

@@ -46,6 +46,6 @@ public class ManualDeltaTimer
         }
 
         Capacity = 0;
-        LeastTime += CallDown;
+        LeastTime = CallDown;
     }
 }

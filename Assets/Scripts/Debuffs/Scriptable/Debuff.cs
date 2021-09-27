@@ -1,45 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEditor;
 using UnityEngine;
 
-public abstract class Debuff : ScriptableObject
+public abstract class Debuff
 {
     public Enemy Target;
-    public GameObject HandlerPrefub;
+    public GameObject HandlerPrefab;
     public float Power;
     public float Duration = 0;
     public float TickCount;
 
     protected GameObject handler;
     protected float TickDuration;
-    protected ManualDeltaTimer DebuffTickTimer = new ManualDeltaTimer();
-    protected ManualDeltaTimer DurationTimer = new ManualDeltaTimer();
 
-    public Debuff()
-    {
-    }
+    private float timeLeft;
+    private float timeLeftToTick;
 
-    public void Start()
-    {
-    }
+    public bool IsOver => timeLeft < 0;
 
-    public virtual void Init(Enemy target, float power, GameObject debuffEffect, float duration = 0,
-        float tickCount = 0)
+    public void Init(Enemy target, float power, GameObject debuffEffect, float duration = 0, float tickCount = 0)
     {
-        HandlerPrefub = debuffEffect;
+        HandlerPrefab = debuffEffect;
         Power = power;
         Target = target;
         Duration = duration;
+        timeLeft = duration;
+        timeLeftToTick = TickDuration;
         TickDuration = Duration / TickCount;
-
-        DebuffTickTimer.CallDown = TickDuration;
-        DebuffTickTimer.OnTick += OnDebuffTick;
-
-        DurationTimer.CallDown = Duration;
-        DurationTimer.LeastTime = Duration;
-        DurationTimer.Capacity = 0;
-        DurationTimer.OnTick += OnDebuffEnd;
         OnApply();
     }
 
@@ -50,5 +39,20 @@ public abstract class Debuff : ScriptableObject
     public abstract void OnDebuffTick();
     public abstract void OnDebuffEnd();
 
-    public abstract void Tick();
+    public virtual void Update()
+    {
+        timeLeft -= Time.deltaTime;
+        timeLeftToTick -= Time.deltaTime;
+
+        if (timeLeftToTick < 0)
+        {
+            OnDebuffTick();
+            timeLeftToTick += TickDuration;
+        }
+
+        if (timeLeft < 0)
+        {
+            OnDebuffEnd();
+        }
+    }
 }

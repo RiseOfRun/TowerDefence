@@ -83,8 +83,9 @@ public class Enemy : MonoBehaviour
     {
         foreach (Debuff debuff in Debuffs)
         {
-            debuff.Tick();
+            debuff.Update();
         }
-        Debuffs = Debuffs.Where(x => x != null).ToList();
+
+        Debuffs.RemoveAll(d => d.IsOver);
     }
 }

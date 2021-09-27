@@ -7,19 +7,12 @@ using UnityEngine.PlayerLoop;
 
 public class FreezingTower : Tower
 {
-    ManualDeltaTimer timer = new ManualDeltaTimer();
+    private float timeToAttack;
 
     public override void Start()
     {
         base.Start();
-        timer.CallDown = SecondsOnAttack;
-        timer.OnTick += OnTimerTick;
-    }
-
-    private void OnTimerTick()
-    {
-        var source = Instantiate(SourceOfDamagePrefab, transform);
-        source.Init(Targets, Damage);
+        timeToAttack = SecondsOnAttack;
     }
 
     protected override void CheckTarget()
@@ -37,10 +30,24 @@ public class FreezingTower : Tower
 
     protected override void Attack()
     {
-        timer.Next(Time.deltaTime);
+        timeToAttack -= Time.deltaTime;
         if (Targets.Count != 0)
         {
-            timer.TryToDoAction();
+            if (timeToAttack < 0)
+            {
+                OnTimerTick();
+                timeToAttack += SecondsOnAttack;
+            }
         }
+        else
+        {
+            timeToAttack = 0;
+        }
+    }
+
+    private void OnTimerTick()
+    {
+        var source = Instantiate(SourceOfDamagePrefab, transform);
+        source.Init(Targets, Damage);
     }
 }

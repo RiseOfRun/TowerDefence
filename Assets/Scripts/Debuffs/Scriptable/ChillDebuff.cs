@@ -5,27 +5,14 @@ using UnityEngine;
 
 public class ChillDebuff : Debuff
 {
-    public ChillDebuff()
-    {
-    }
-
     public override void OnDebuffTick()
     {
     }
     
-    
-
     public override void OnDebuffEnd()
     {
-        Destroy(handler);
+        Object.Destroy(handler);
         Target.Speed *= Power;
-        DurationTimer.Stop = true;
-    }
-
-    public override void Tick()
-    {
-        DurationTimer.Next(Time.deltaTime);
-        DurationTimer.TryToDoAction();
     }
 
     public override void OnApply()
@@ -41,7 +28,7 @@ public class ChillDebuff : Debuff
             similar.OnDebuffEnd();
         }
         Target.Debuffs.Add(this);
-        handler = Instantiate(HandlerPrefub, Target.transform);
+        handler = Object.Instantiate(HandlerPrefab, Target.transform);
         Target.Speed /= Power;
     }
 }
