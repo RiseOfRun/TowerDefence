@@ -85,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5678842804374185903, guid: 6cbcd7cacc9f9784db9c889cd4c108be, type: 3}
       propertyPath: m_Name
-      value: BasicEnemyThatCanMove
+      value: BasicEnemyThatCanMove Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6cbcd7cacc9f9784db9c889cd4c108be, type: 3}

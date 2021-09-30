@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5678842804374185902}
   - component: {fileID: 5678842804374185897}
   - component: {fileID: 1346394852679372781}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FastEnemies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,8 @@ MonoBehaviour:
   Health: 0
   Speed: 1
   Score: 1
+  Penalty: 1
+  Debuffs: []
   Waypoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -84,7 +86,7 @@ GameObject:
   - component: {fileID: 7014080514681534717}
   - component: {fileID: 6267003546875197272}
   - component: {fileID: 8150435383722312594}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

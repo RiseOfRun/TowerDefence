@@ -1,17 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Tower : MonoBehaviour
 {
+    public Transform SourcePosition;
     public float Range;
     public int Damage=200;
     public int Cost;
-    
+    public List<Debuff> DebuffsToApply = new List<Debuff>();
     [FormerlySerializedAs("targets")] public List<Enemy> Targets = new List<Enemy>();
     [FormerlySerializedAs("SourceOfDamage_Prefab")] public SourceOfDamage SourceOfDamagePrefab;
     public float AttackPerSecond = 1f;
@@ -29,7 +27,7 @@ public class Tower : MonoBehaviour
         // Debug.Log($"towerDamage = {Damage}");
     }
 
-    protected virtual void FindTarget()
+    protected void FindTarget()
     {
         var objects = Physics.OverlapBox(transform.position, new Vector3(Range/2,Range/2,Range/2));
         foreach (var item in objects)
@@ -38,13 +36,13 @@ public class Tower : MonoBehaviour
             {
                 Debug.Log(Vector3.Distance(transform.position,item.transform.position));
                 Targets.Add(item.gameObject.GetComponent<Enemy>());
-                StartCoroutine(DrawLazer());
+                StartCoroutine(DrawLaser());
                 return;
             }
         }
     }
 
-    IEnumerator DrawLazer()
+    IEnumerator DrawLaser()
     {
         while (Targets.Count != 0 && Targets[0] != null)
         {
@@ -66,7 +64,8 @@ public class Tower : MonoBehaviour
         for (int i = 0; i <= shotsPerTick; i++)
         {
             SourceOfDamage newBullet = Instantiate(SourceOfDamagePrefab, transform.position,Quaternion.identity);
-            (newBullet as Bullet)?.Init(Damage,Targets[0]);
+            newBullet.transform.position = SourcePosition.position;
+            newBullet.Init(Targets,Damage,DebuffsToApply);
         }
         currentTime = SecondsOnAttack;
         

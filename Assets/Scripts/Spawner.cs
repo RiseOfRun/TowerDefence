@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public Queue<Enemy> WavePopulation = new Queue<Enemy>();
+    public Queue<EnemyGroup> WavePopulation = new Queue<EnemyGroup>();
     public Transform[] WayPoints;
 
     // Start is called before the first frame update
@@ -14,22 +13,12 @@ public class Spawner : MonoBehaviour
     }
     public void SpawnWave(WaveSettings currentWave, WaveController controller)
     {
-        WavePopulation = new Queue<Enemy>();
-        int spawned = 0;
-        while (spawned<currentWave.Size)
+        WavePopulation = new Queue<EnemyGroup>();
+        foreach (var party in currentWave.EnemyGroups)
         {
-            foreach (Enemy enemy in currentWave.EnemyGroups.SelectMany(enemyGroup => enemyGroup.EnemiesInGroup))
+            for (int i = 0; i < party.Size; i++)
             {
-                if (spawned < currentWave.Size)
-                {
-                    WavePopulation.Enqueue(enemy);
-                    spawned++;
-                }
-                else
-                {
-                    StartCoroutine(Spawn(currentWave, controller));
-                    return;
-                }
+                WavePopulation.Enqueue(party);
             }
         }
         StartCoroutine(Spawn(currentWave,controller));
@@ -45,15 +34,14 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < settings.Size; i++)
         {
-            Enemy current = WavePopulation?.Peek();
+            EnemyGroup current = WavePopulation?.Peek();
             if (current==null)
             {
                 break;
             }
-            current.Waypoints = WayPoints;
             WavePopulation.Dequeue();
-            Enemy newEnemy = Instantiate(current, LevelController.Instance.UnitPool.transform);
-            newEnemy.Init(controller.ScoreMulti,controller.HealthMulti,controller.SpeedMulti, LevelController.Instance.CurrentWave-1);
+            Enemy newEnemy = controller.GetEnemy(current);
+            newEnemy.Waypoints = WayPoints;
             Vector3 position = transform.position;
             newEnemy.gameObject.transform.position += new Vector3(position.x,0,position.z);
             yield return new WaitForSeconds(settings.Delay);

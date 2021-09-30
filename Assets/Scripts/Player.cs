@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,10 +7,6 @@ public class Player : MonoBehaviour
     public static Player Instance;
     // Start is called before the first frame update
 
-    void OnEnemyEndPath(Enemy unit)
-    {
-        Lives -= unit.Penalty;
-    }
     void Awake()
     {
         if (Instance == null) 
@@ -26,7 +20,6 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
-        GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
     }
 
     // Update is called once per frame

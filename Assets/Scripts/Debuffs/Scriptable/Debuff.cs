@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Timers;
-using UnityEditor;
 using UnityEngine;
 
-public abstract class Debuff
+public abstract class Debuff : ScriptableObject
 {
-    public Enemy Target;
     public GameObject HandlerPrefab;
     public float Power;
     public float Duration = 0;
     public float TickCount;
 
+    protected Enemy Target;
     protected GameObject handler;
     protected float TickDuration;
 
@@ -20,13 +16,10 @@ public abstract class Debuff
 
     public bool IsOver => timeLeft < 0;
 
-    public void Init(Enemy target, float power, GameObject debuffEffect, float duration = 0, float tickCount = 0)
+    public void Init(Enemy target)
     {
-        HandlerPrefab = debuffEffect;
-        Power = power;
         Target = target;
-        Duration = duration;
-        timeLeft = duration;
+        timeLeft = Duration;
         timeLeftToTick = TickDuration;
         TickDuration = Duration / TickCount;
         OnApply();
@@ -39,7 +32,7 @@ public abstract class Debuff
     public abstract void OnDebuffTick();
     public abstract void OnDebuffEnd();
 
-    public virtual void Update()
+    public void Update()
     {
         timeLeft -= Time.deltaTime;
         timeLeftToTick -= Time.deltaTime;

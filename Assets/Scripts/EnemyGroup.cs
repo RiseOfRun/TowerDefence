@@ -1,9 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class EnemyGroup
 {
-    public List<Enemy> EnemiesInGroup = new List<Enemy>();
+    public Enemy enemyInGroup;
+    public int Size;
+    public float Health;
+    public float Speed;
+    public int Score;
+    public bool ModifyHealth;
 }

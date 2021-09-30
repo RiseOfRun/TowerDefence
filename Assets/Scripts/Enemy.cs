@@ -1,11 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 public class Enemy : MonoBehaviour
 {
@@ -18,9 +12,9 @@ public class Enemy : MonoBehaviour
     
     public Transform[] Waypoints;
     public Queue<Vector3> Path = new Queue<Vector3>();
-    [SerializeField] private float InitHealth;
-    [SerializeField] private int InitScore;
-    [SerializeField] private float InitSpeed;
+    public float InitHealth;
+    public int InitScore;
+    public float InitSpeed;
 
     private void Awake()
     {

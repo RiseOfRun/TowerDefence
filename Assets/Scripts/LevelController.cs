@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -39,6 +36,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
+        GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
         CurrentWave = 1;
         waveController = GetComponentInChildren<WaveController>();
         if (waveController != null)
@@ -54,6 +52,13 @@ public class LevelController : MonoBehaviour
         if (!WaveInProgress) return;
         enemyCount -= 1;
         Player.Instance.Money += unit.Score;
+    }
+
+    void OnEnemyEndPath(Enemy unit)
+    {
+        if (!WaveInProgress) return;
+        enemyCount -= 1;
+        Player.Instance.Lives -= unit.Penalty;
     }
 
     // Update is called once per frame
