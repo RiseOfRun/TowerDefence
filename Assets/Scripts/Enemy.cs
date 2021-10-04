@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,11 +8,13 @@ public class Enemy : MonoBehaviour
     public float Speed = 0;
     public int Score = 0;
     public int Penalty = 1;
-    
+
     public List<Debuff> Debuffs = new List<Debuff>();
-    
+
     public Transform[] Waypoints;
     public Queue<Vector3> Path = new Queue<Vector3>();
+    public Action<float> OnHealthChanged;
+
     public float InitHealth;
     public int InitScore;
     public float InitSpeed;
@@ -46,6 +49,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         HandleDebuffs();
 
         Vector3 point = Path.Peek();
@@ -71,6 +75,7 @@ public class Enemy : MonoBehaviour
         {
             GameEvents.EnemySlain(this);
         }
+        OnHealthChanged?.Invoke(Health);
     }
 
     private void HandleDebuffs()

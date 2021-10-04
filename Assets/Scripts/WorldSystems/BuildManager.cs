@@ -34,11 +34,18 @@ public class BuildManager : MonoBehaviour
     public void CheckClick()
     {
         if (!InBuildMode) return;
-        if (!Input.GetMouseButtonDown(0)) return;
-        InBuildMode = true;
-        if (InBuildMode)
+        if (Input.GetMouseButtonDown(0))
         {
-            BuildMirageTower();
+            InBuildMode = true;
+            if (InBuildMode)
+            {
+                BuildMirageTower();
+            }
+        }
+        if (Input.GetMouseButtonDown(1) && mirage !=null)
+        {
+            InBuildMode = false;
+            Destroy(mirage.gameObject);
         }
     }
 
@@ -57,8 +64,9 @@ public class BuildManager : MonoBehaviour
 
     public void Build(Vector3 point)
     {
-        Instantiate(currentTower, point, Quaternion.identity);
-        currentTower.transform.position += new Vector3(0, 0.2f, 0);
+        Tower newTower = Instantiate(currentTower, point, Quaternion.identity);
+        newTower.transform.position += new Vector3(0, 0.2f, 0);
+        LevelController.Instance.Towers.Add(newTower);
         Player.Instance.Money -= currentTower.Cost;
     }
 

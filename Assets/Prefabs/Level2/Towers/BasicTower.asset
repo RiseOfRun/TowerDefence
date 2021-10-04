@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f488e2c2c16a05541baa506c550890f0, type: 3}
   m_Name: BasicTower
   m_EditorClassIdentifier: 
-  Tower: {fileID: 6911923604517838113, guid: e57b5197471a7ce4da0c5de61a0c2eff, type: 3}
+  Tower: {fileID: 7473171443476290798, guid: e57b5197471a7ce4da0c5de61a0c2eff, type: 3}
   Mirage: {fileID: -1386551764338460529, guid: 894e7463d2cd42845abc9d6d0283b414, type: 3}
   Icon: {fileID: -382305985603570283, guid: ae0af7fa21cb91344bb6d31bf149241d, type: 3}
   Name: Basic Tower

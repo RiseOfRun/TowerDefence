@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class SourceOfDamage : MonoBehaviour
@@ -14,7 +15,7 @@ public abstract class SourceOfDamage : MonoBehaviour
     public virtual void Init(List<Enemy> targets, float damage, List<Debuff> debuffs = null)
     {
         DebuffsToApply = debuffs;
-        Targets = targets;
+        Targets = targets.Where(x=> x!=null).ToList();
         Damage = damage;
     }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class LevelController : MonoBehaviour
     public GameObject UnitPool;
     public int CurrentWave;
     public bool WaveInProgress;
+    public List<Tower> Towers = new List<Tower>();
 
     private WaveController waveController;
     private int enemyCount;
