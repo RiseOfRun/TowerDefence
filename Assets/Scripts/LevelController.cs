@@ -13,12 +13,14 @@ public class LevelController : MonoBehaviour
     public GameObject Finish;
     public bool DynamicMode = true;
     public int WaveCount;
+    public int TimeBetweenWaves;
     public bool newStart = true;
     public GameObject UnitPool;
     public int CurrentWave;
     public bool WaveInProgress;
     public List<Tower> Towers = new List<Tower>();
 
+    public float timeToWave;
     private WaveController waveController;
     private int enemyCount;
     private void Awake()
@@ -37,6 +39,7 @@ public class LevelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timeToWave = TimeBetweenWaves;
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
         GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
         CurrentWave = 1;
@@ -66,6 +69,14 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!WaveInProgress)
+        {
+            timeToWave -= Time.deltaTime;
+            if (timeToWave<=0)
+            {
+                NextWave();
+            }
+        }
         if (WaveInProgress)
         {
             CheckAllive();
@@ -105,7 +116,8 @@ public class LevelController : MonoBehaviour
     }
 
     public void NextWave()
-    {        
+    {
+        timeToWave = TimeBetweenWaves;
         WaveSettings waveSettings = waveController.WaveSettings.First();
         enemyCount = waveSettings.Size;
         WaveInProgress = true;

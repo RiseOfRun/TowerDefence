@@ -76,14 +76,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SourcePosition: {fileID: 5490024413277778565}
-  Range: 3
-  Damage: 20
+  Range: 2
+  Damage: 35
   Cost: 50
   CanForceTarget: 1
   DebuffsToApply: []
   Targets: []
   SourceOfDamagePrefab: {fileID: 4207677129459178337, guid: be1be834c7a58d14b88c7e6be6898a42, type: 3}
-  AttackPerSecond: 1
+  AttackPerSecond: 1.5
 --- !u!1001 &599350067302416132
 PrefabInstance:
   m_ObjectHideFlags: 0

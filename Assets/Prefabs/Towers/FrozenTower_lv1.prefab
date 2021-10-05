@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4624093983598970742}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.535, z: 0}
+  m_LocalPosition: {x: 0, y: 0.33499992, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4372685649982454779}
@@ -75,15 +75,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48bbb78265e84af46b8efd469a836aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SourcePosition: {fileID: 1542807573453002652, guid: f2a23803c6fb3bc4589cbf5027409e2e, type: 3}
-  Range: 4
+  SourcePosition: {fileID: 3506752766965896972}
+  Range: 2.5
   Damage: 10
   Cost: 80
   CanForceTarget: 0
-  DebuffsToApply: []
+  DebuffsToApply:
+  - {fileID: 11400000, guid: da2210f86e850f44081e237cffacee06, type: 2}
   Targets: []
   SourceOfDamagePrefab: {fileID: 9153009474300756896, guid: f2a23803c6fb3bc4589cbf5027409e2e, type: 3}
-  AttackPerSecond: 1
+  AttackPerSecond: 0.5
 --- !u!1001 &1637602028006432308
 PrefabInstance:
   m_ObjectHideFlags: 0

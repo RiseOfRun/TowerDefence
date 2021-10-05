@@ -1,28 +1,43 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
-[ExecuteInEditMode]
-public class DestrObjContainer : MonoBehaviour
+using Object = UnityEngine.Object;
+
+public class DestrObjContainer : EditorWindow
 {
-    public DestroyableObject DO;
-    // Start is called before the first frame update
-    void Start()
+    public GameObject Prefab;
+    
+    [MenuItem("Tools/Spawn DO's")]
+    public static void OpenWindow()
     {
-        
+        DestrObjContainer window = (DestrObjContainer)GetWindow(typeof(DestrObjContainer));
+        window.Show();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnGUI()
     {
-        
-    }
+        SerializedObject serializedObject = new SerializedObject(this);
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("Prefab"), new GUIContent("Prefab to spawn"));
+        serializedObject.ApplyModifiedPropertiesWithoutUndo();
 
-    private void OnEnable()
-    {
-        if (DO!=null)
+        if (GUILayout.Button("Spawn"))
         {
-            Instantiate(DO, transform);
+            SpawnObjects();
         }
+    }
+
+    private void SpawnObjects()
+    {
+        int undoID = Undo.GetCurrentGroup();
+        
+        foreach (Object o in Selection.objects)
+        {
+            if (o is GameObject g)
+            {
+                Object prefab = PrefabUtility.InstantiatePrefab(Prefab, g.transform);
+                Undo.RegisterCreatedObjectUndo(prefab, "Created object");
+            }
+        }
+
+        Undo.CollapseUndoOperations(undoID);
     }
 }

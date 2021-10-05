@@ -5,9 +5,9 @@ using UnityEngine.Serialization;
 
 public class TargetSystem : MonoBehaviour
 {
-    [FormerlySerializedAs("EnemyTarget")] public List<Enemy> EnemyTargets;
+    [FormerlySerializedAs("EnemyTarget")] public List<Enemy> EnemyTargets = new List<Enemy>();
     public static TargetSystem Instance;
-    public GameObject TargetMarkPrefab;
+    public TargetMark TargetMarkPrefab;
 
     private GameObject targetMark;
 
@@ -37,47 +37,22 @@ public class TargetSystem : MonoBehaviour
         {
             Debug.Log("HIT");
             Enemy hitEnemy = hit.collider.gameObject.GetComponentInChildren<Enemy>();
-            if (hitEnemy != EnemyTargets)
+            if (!EnemyTargets.Contains(hitEnemy))
             {
-                EnemyTargets = hitEnemy;
+                EnemyTargets.Add(hitEnemy);
+                Instantiate(TargetMarkPrefab, hitEnemy.transform);
             }
             else
             {
-                EnemyTargets = null;
+                EnemyTargets.Remove(hitEnemy);
+                Destroy(hitEnemy.GetComponentInChildren<TargetMark>().gameObject);
             }
         }
-    }
-
-    void TargetMarkHandler()
-    {
-        if (EnemyTargets == null)
-        {
-            if (targetMark != null)
-            {
-                Destroy(targetMark);
-            }
-
-            return;
-        }
-
-        if (targetMark == null)
-        {
-            targetMark = Instantiate(TargetMarkPrefab);
-        }
-
-        if (targetMark.transform.parent != EnemyTargets.transform)
-        {
-            targetMark.transform.parent = EnemyTargets.transform;
-            targetMark.transform.localPosition = Vector3.zero;
-        }
-
-        targetMark.transform.rotation = Camera.main.transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
         LMBHandler();
-        TargetMarkHandler();
     }
 }

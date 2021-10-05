@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -26,6 +27,10 @@ public class Tower : MonoBehaviour
         SecondsOnAttack = 1 / AttackPerSecond;
         GameEvents.TowerBuilt(this);
         timeToAttack = SecondsOnAttack;
+        if (SourcePosition==null)
+        {
+            SourcePosition = transform;
+        }
         // GameEvents.TowerBuilt(this);
         // GameEvents.OnEnemyKilled.Invoke(1);
         // Debug.Log($"towerDamage = {Damage}");
@@ -35,31 +40,24 @@ public class Tower : MonoBehaviour
     protected void CheckTarget()
     {
         Targets = new List<Enemy>();
-        Collider[] objects = Physics.OverlapBox(transform.position, 
-            new Vector3(Range / 2, Range / 2, Range / 2),
-            Quaternion.identity, 
+        Collider[] objects = Physics.OverlapSphere(transform.position,
+            Range,
             LayerMask.GetMask("Enemies"));
-        
-        if (TargetSystem.Instance.EnemyTargets!=null)
+        if (CanForceTarget)
         {
-            Targets.Add(TargetSystem.Instance.EnemyTargets);
+            Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(
+                x => x!=null && Vector3.Distance(transform.position,x.transform.position)<=Range));
         }
-        
+
         foreach (Collider item in objects)
         {
             Enemy unit = item.GetComponent<Enemy>();
-            if (CanForceTarget && TargetSystem.Instance.EnemyTargets!=null)
-            {
-                if (unit==TargetSystem.Instance.EnemyTargets)
-                {
-                    continue;
-                }
-            }
+            if (TargetSystem.Instance.EnemyTargets.Contains(unit)) continue;
             Targets.Add(unit);
         }
     }
 
-    protected void Attack()
+    public void Attack()
     {
         timeToAttack -= Time.deltaTime;
         if (Targets.Count != 0)
@@ -99,7 +97,7 @@ public class Tower : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position,new Vector3(Range,1,Range));
+        Gizmos.DrawWireSphere(transform.position,Range);
 
     }
 }

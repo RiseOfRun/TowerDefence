@@ -20,13 +20,14 @@ public class DestroyableObject : Enemy
     }
     
 
-    public void ApplyDamage(float count)
+    public override void ApplyDamage(float damage)
     {
-        Health -= count;
+        Health -= damage;
         if (Health<=0)
         {
             Destroy(gameObject);
         }
+        OnHealthChanged?.Invoke(Health);
     }
 
     private void OnDestroy()

@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void ApplyDamage(float damage)
+    public virtual void ApplyDamage(float damage)
     {
         Health -= damage;
         if (Health <= 0)

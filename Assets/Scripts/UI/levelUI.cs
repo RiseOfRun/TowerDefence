@@ -7,6 +7,7 @@ public class levelUI : MonoBehaviour
     public Text Money;
     public Text Lives;
     public Text WaveNumber;
+    public Text Timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,5 +23,15 @@ public class levelUI : MonoBehaviour
         WaveNumber.text =
             $"{LevelController.Instance.CurrentWave:00}/{LevelController.Instance.WaveCount:00}";
         StartWaveButton.interactable = !LevelController.Instance.WaveInProgress;
+
+        if (!LevelController.Instance.WaveInProgress)
+        {
+            Timer.text = ((int)LevelController.Instance.timeToWave).ToString();
+            Timer.enabled = true;
+        }
+        else
+        {
+            Timer.enabled = false;
+        }
     }
 }

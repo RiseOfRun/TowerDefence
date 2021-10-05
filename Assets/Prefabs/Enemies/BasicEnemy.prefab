@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b153162cc0be9c840b560c3e233497f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
+  Health: 1
   Speed: 1
   Score: 1
   Penalty: 1
@@ -61,7 +61,7 @@ MonoBehaviour:
   - {fileID: 0}
   InitHealth: 100
   InitScore: 20
-  InitSpeed: 2
+  InitSpeed: 1
 --- !u!136 &2094756951579449329
 CapsuleCollider:
   m_ObjectHideFlags: 0
