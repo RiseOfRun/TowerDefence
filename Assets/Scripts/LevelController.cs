@@ -61,9 +61,13 @@ public class LevelController : MonoBehaviour
 
     void OnEnemyEndPath(Enemy unit)
     {
-        if (!WaveInProgress) return;
         enemyCount -= 1;
         Player.Instance.Lives -= unit.Penalty;
+        if (Player.Instance.Lives<0)
+        {
+            Player.Instance.Lives = 0;
+        }
+        Destroy(unit.gameObject);
     }
 
     // Update is called once per frame
@@ -86,7 +90,7 @@ public class LevelController : MonoBehaviour
 
     void CheckGameState()
     {
-        if (CurrentWave==WaveCount && !WaveInProgress)
+        if (CurrentWave>WaveCount && !WaveInProgress)
         {
             OnGameWin();
         }
@@ -119,7 +123,7 @@ public class LevelController : MonoBehaviour
     {
         timeToWave = TimeBetweenWaves;
         WaveSettings waveSettings = waveController.WaveSettings.First();
-        enemyCount = waveSettings.Size;
+        enemyCount = waveSettings.Size*Spawners.Length;
         WaveInProgress = true;
 
         foreach (var spawner in Spawners)

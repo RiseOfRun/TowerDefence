@@ -8,8 +8,9 @@ using UnityEngine.Serialization;
 public class Tower : MonoBehaviour
 {
     public Transform SourcePosition;
+    public List<Upgrade> Upgrades;
     public float Range;
-    public int Damage=200;
+    public float Damage=200;
     public int Cost;
     public bool CanForceTarget;
     public List<Debuff> DebuffsToApply = new List<Debuff>();
@@ -22,7 +23,6 @@ public class Tower : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        Debug.Log("Hello");
         currentTime = 0;
         SecondsOnAttack = 1 / AttackPerSecond;
         GameEvents.TowerBuilt(this);
@@ -40,21 +40,22 @@ public class Tower : MonoBehaviour
     protected void CheckTarget()
     {
         Targets = new List<Enemy>();
-        Collider[] objects = Physics.OverlapSphere(transform.position,
-            Range,
-            LayerMask.GetMask("Enemies"));
+        List<Enemy> selectedTargets = new List<Enemy>();
         if (CanForceTarget)
         {
             Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(
-                x => x!=null && Vector3.Distance(transform.position,x.transform.position)<=Range));
+                x=>x!=null && Vector3.Distance(x.transform.position,transform.position)<=Range));
         }
-
+        Collider[] objects = Physics.OverlapSphere(transform.position,
+            Range,
+            LayerMask.GetMask("Enemies"));
         foreach (Collider item in objects)
         {
             Enemy unit = item.GetComponent<Enemy>();
-            if (TargetSystem.Instance.EnemyTargets.Contains(unit)) continue;
-            Targets.Add(unit);
+            if (Targets.Contains(unit)) continue;
+            selectedTargets.Add(unit);
         }
+        Targets.AddRange(selectedTargets.OrderByDescending(x=>x.PercentComplete));
     }
 
     public void Attack()

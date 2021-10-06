@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &705234389120429555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 705234389120429554}
+  - component: {fileID: 705234389120429553}
+  m_Layer: 0
+  m_Name: WaveController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &705234389120429554
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705234389120429555}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &705234389120429553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705234389120429555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d94369819141c3abcd41ece579e8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScoreMulti: 0.2
+  HealthMulti: 0.4
+  SpeedMulti: 0
+  WaveSettings:
+  - Name: WaveOne
+    Delay: 1
+    EnemyGroups:
+    - enemyInGroup: {fileID: 4715838168555044789, guid: 8696a54d31a23be4f8c3d55e65a89b1a, type: 3}
+      Size: 4
+      Health: 100
+      Speed: 1.2
+      Score: 10
+      ModifyHealth: 1
+    - enemyInGroup: {fileID: 4296300123148467620, guid: bc534a33fd46e7d4da105317d313a3ff, type: 3}
+      Size: 1
+      Health: 0
+      Speed: 0
+      Score: 0
+      ModifyHealth: 0

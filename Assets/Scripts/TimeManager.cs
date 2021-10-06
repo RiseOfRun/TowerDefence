@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
+    public static TimeManager Instance;
     public float CurrentTimeScale
     {
         get => currentTimeScale;
@@ -21,6 +22,15 @@ public class TimeManager : MonoBehaviour
     {
         fixedDeltaTime = Time.fixedDeltaTime;
         CurrentTimeScale = currentTimeScale;
+
+        if (Instance==null)
+        {
+            Instance = this;
+        }
+        else if (Instance==this)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame
