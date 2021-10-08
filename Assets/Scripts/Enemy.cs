@@ -75,6 +75,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void ApplyDamage(float damage)
     {
+        Debug.Log($"Ouch! {damage}");
         Health -= damage;
         OnHealthChanged?.Invoke(Health);
         if (Health <= 0)

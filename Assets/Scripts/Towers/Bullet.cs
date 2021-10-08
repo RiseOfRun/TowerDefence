@@ -31,6 +31,12 @@ public class Bullet : SourceOfDamage
         }
         transform.position = Vector3.MoveTowards(transform.position, lastTargetPosition, Time.deltaTime * Speed);
         if (transform.position != lastTargetPosition) return;
+        DoAction();
+        
+    }
+
+    public virtual void DoAction()
+    {
         if (Target!=null)
         {
             Target.ApplyDamage(Damage);
@@ -40,12 +46,12 @@ public class Bullet : SourceOfDamage
     }
     
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         Move();
     }
 
-    public override void Init()
+    public virtual void Init()
     {
         throw new System.NotImplementedException();
     }

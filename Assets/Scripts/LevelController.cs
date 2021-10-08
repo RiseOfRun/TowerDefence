@@ -19,12 +19,14 @@ public class LevelController : MonoBehaviour
     public int CurrentWave;
     public bool WaveInProgress;
     public List<Tower> Towers = new List<Tower>();
-
+    public List<TowerPattern> TowersToBuild;
+    public BuildPanel Panel;
     public float timeToWave;
     private WaveController waveController;
     private int enemyCount;
     private void Awake()
     {
+        Panel.Towers = TowersToBuild;
         if (Instance == null)
         {
             Instance = this;

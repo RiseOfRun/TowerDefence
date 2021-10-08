@@ -205,13 +205,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 8e646522d129c5f44a582f6f6cee2a22, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -4855243574250553854, guid: 5a916a764e6c673478a539d3807a8186, type: 3}
     - target: {fileID: 919132149155446097, guid: 8e646522d129c5f44a582f6f6cee2a22, type: 3}
       propertyPath: m_Name
       value: towerSquare_bottomA
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8e646522d129c5f44a582f6f6cee2a22, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e646522d129c5f44a582f6f6cee2a22, type: 3}
