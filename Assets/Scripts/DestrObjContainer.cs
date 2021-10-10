@@ -5,8 +5,8 @@ using Object = UnityEngine.Object;
 public class DestrObjContainer : EditorWindow
 {
     public GameObject Prefab;
-    
     [MenuItem("Tools/Spawn DO's")]
+
     public static void OpenWindow()
     {
         DestrObjContainer window = (DestrObjContainer)GetWindow(typeof(DestrObjContainer));
