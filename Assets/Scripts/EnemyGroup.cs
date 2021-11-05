@@ -1,9 +1,10 @@
 ﻿using System;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class EnemyGroup
 {
-    public Enemy enemyInGroup;
+    [FormerlySerializedAs("TargetableInGroup")] [FormerlySerializedAs("enemyInGroup")] public Enemy EnemyInGroup;
     public int Size;
     public float Health;
     public float Speed;

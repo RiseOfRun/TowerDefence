@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &6670434787858291186
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 328824775309230677}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+  m_Center: {x: 0, y: 0.49999997, z: 0}
 --- !u!1 &7673514915006159015
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +22,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5490024413277778565}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SourceTransform
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -40,8 +53,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4372685649982454779}
   - component: {fileID: 7473171443476290798}
-  m_Layer: 0
-  m_Name: BasicTower_lv1
+  m_Layer: 7
+  m_Name: BasicTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,7 +68,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8980637826533046330}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 9.199996, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1142762878560360687}
@@ -76,7 +89,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SourcePosition: {fileID: 5490024413277778565}
-  Upgrades: []
   Range: 2
   Damage: 35
   Cost: 50
@@ -84,6 +96,7 @@ MonoBehaviour:
   DebuffsToApply: []
   Targets: []
   SourceOfDamagePrefab: {fileID: 4207677129459178337, guid: be1be834c7a58d14b88c7e6be6898a42, type: 3}
+  Upgrades: []
   AttackPerSecond: 1.5
 --- !u!1001 &599350067302416132
 PrefabInstance:
@@ -98,15 +111,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
       propertyPath: m_LocalPosition.x
@@ -114,7 +127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
       propertyPath: m_LocalPosition.z
@@ -152,8 +165,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: model
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
+--- !u!1 &328824775309230677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}
+  m_PrefabInstance: {fileID: 599350067302416132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1142762878560360687 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d12da29aedd7f104aa212e94c0810ade, type: 3}

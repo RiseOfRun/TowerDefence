@@ -7,7 +7,7 @@ public abstract class Debuff : ScriptableObject
     public float Duration = 0;
     public float TickCount;
 
-    protected Enemy Target;
+    protected Targetable Target;
     protected GameObject handler;
     protected float TickDuration;
 
@@ -16,7 +16,7 @@ public abstract class Debuff : ScriptableObject
 
     public bool IsOver => timeLeft < 0;
 
-    public void Init(Enemy target)
+    public void Init(Targetable target)
     {
         Target = target;
         timeLeft = Duration;

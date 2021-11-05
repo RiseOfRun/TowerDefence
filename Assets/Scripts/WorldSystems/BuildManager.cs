@@ -1,12 +1,14 @@
+using System;
 using UnityEngine;
 
 public class BuildManager : MonoBehaviour
 {
-    public Tower currentTower;
+    public TowerPattern currentTower;
     public static BuildManager Instance;
     public bool InBuildMode = false;
     public MirageOfTower MiragePrefab;
-
+    public BuildPanel BuildPanel;
+    public ParticleSystem OnBuildParticle;
     private MirageOfTower mirage;
 
     // Start is called before the first frame update
@@ -24,9 +26,14 @@ public class BuildManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    private void Start()
+    {
+        BuildPanel = FindObjectOfType<BuildPanel>();
+    }
+
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         CheckClick();
     }
@@ -36,45 +43,50 @@ public class BuildManager : MonoBehaviour
         if (!InBuildMode) return;
         if (Input.GetMouseButtonDown(0))
         {
-            InBuildMode = true;
-            if (InBuildMode)
-            {
-                BuildMirageTower();
-            }
+            BuildTower();
         }
+        
         if (Input.GetMouseButtonDown(1) && mirage !=null)
         {
             InBuildMode = false;
             Destroy(mirage.gameObject);
         }
     }
-
-    public void BuildMirageTower()
+    
+    public void BuildTower()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hitInfo)) return;
+        if (!Physics.Raycast(ray, out RaycastHit hitInfo,float.MaxValue)) return;
         Square hitSquare = hitInfo.collider.gameObject.GetComponent<Square>();
         if (hitSquare == null || !hitSquare.CanBuild) return;
-        if (Player.Instance.Money < currentTower.Cost) return;
-        InBuildMode = false;
-        Build(hitSquare.transform.position);
+        Build(hitSquare,currentTower);
         Destroy(mirage.gameObject);
-        hitSquare.OnBuildTower();
+        InBuildMode = false;
     }
 
-    public void Build(Vector3 point)
+    public void Build(Square place, TowerPattern tower)
     {
-        Tower newTower = Instantiate(currentTower, point, Quaternion.identity);
-        newTower.transform.position += new Vector3(0, 0.2f, 0);
+        if (Player.Instance.Money < tower.Cost) return;
+        Tower newTower = tower.SpawnTower(place);
         LevelController.Instance.Towers.Add(newTower);
-        Player.Instance.Money -= currentTower.Cost;
+        if (OnBuildParticle!=null)
+        {
+            Instantiate(OnBuildParticle, newTower.transform);
+        }
+        Player.Instance.Money -= tower.Cost;
+        place.OnBuildTower();
+
     }
 
-    public void EnterToBuildMode(MirageOfTower miragePref, Tower towerPref)
+    public void EnterToBuildMode(MirageOfTower miragePref, TowerPattern towerPref)
     {
         MiragePrefab = miragePref;
         currentTower = towerPref;
         InBuildMode = true;
+        if (mirage!=null)
+        {
+            Destroy(mirage.gameObject);
+        }
         mirage = Instantiate(Instance.MiragePrefab);
     }
 }

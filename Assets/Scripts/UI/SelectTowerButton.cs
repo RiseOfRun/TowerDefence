@@ -15,24 +15,32 @@ public class SelectTowerButton : MonoBehaviour
     void Start()
     {
         button = GetComponentInChildren<Button>();
-        button.onClick.AddListener(SelectTower);
+        button.onClick.AddListener(OnButtonClick);
     }
 
     public void Init(TowerPattern Tower)
     {
         Pattern = Instantiate(Tower);
         Name.text = Pattern.Name;
-        Cost.text = Pattern.Tower.Cost.ToString();
+        Cost.text = Pattern.TowerPref.Cost.ToString();
         Icon.sprite = Tower.Icon;
     }
 
-    public void SelectTower()
+    public void OnButtonClick()
     {
-        if (Pattern.Tower.Cost > Player.Instance.Money)
+        if (!Pattern.IsUpgrade)
         {
+            if (Pattern.TowerPref.Cost > Player.Instance.Money)
+            {
+                return;
+            }
+            BuildManager.Instance.EnterToBuildMode(Pattern.Mirage, Pattern);
             return;
         }
-
-        BuildManager.Instance.EnterToBuildMode(Pattern.Mirage, Pattern.Tower);
+        Tower targetTower = TargetSystem.Instance.TargetedTower;
+        var place = targetTower.transform.parent.GetComponent<Square>();
+        Destroy(targetTower.gameObject);
+        BuildManager.Instance.BuildPanel.OnFreeTower();
+        BuildManager.Instance.Build(place,Pattern);
     }
 }

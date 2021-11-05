@@ -35,6 +35,7 @@ public class ReplaceTool : EditorWindow
                 Undo.RegisterCompleteObjectUndo(g,"DestroyedObject");
                 Object prefab = PrefabUtility.InstantiatePrefab(Prefab,g.transform.parent);
                 ((GameObject) prefab).transform.position = g.transform.position;
+                ((GameObject) prefab).transform.rotation = g.transform.rotation;
                 Undo.RegisterCreatedObjectUndo(prefab, "Created Object");
                 Undo.DestroyObjectImmediate(g);
             }

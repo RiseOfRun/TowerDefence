@@ -1,18 +1,14 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Targetable
 {
-    public float Health = 0;
     public float Speed = 0;
     public int Score = 0;
     public int Penalty = 1;
-    public List<Debuff> Debuffs = new List<Debuff>();
     public Transform[] Waypoints;
     public Queue<Vector3> Path = new Queue<Vector3>();
-    public Action<float> OnHealthChanged;
-    
     public float InitHealth;
     public int InitScore;
     public float InitSpeed;
@@ -20,13 +16,13 @@ public class Enemy : MonoBehaviour
 
     private float fullDistance=0;
     private float passedDistance=0;
-    private void Awake()
+
+    void Awake()
     {
         Health = InitHealth;
         Score = InitScore;
         Speed = InitSpeed;
     }
-
     void Start()
     {
         Vector3 currentPosition = transform.position;
@@ -37,13 +33,10 @@ public class Enemy : MonoBehaviour
             currentPosition = point.position;
         }
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (Health <= 0)
         {
-            Destroy(gameObject);
             return;
         }
 
@@ -64,7 +57,7 @@ public class Enemy : MonoBehaviour
             Path.Dequeue();
         }
     }
-
+    
     public void Init(float scoreMulti, float healthMulti, float speedMulti = 1, int level = 1)
     {
         Health += InitHealth * healthMulti * level;
@@ -73,25 +66,31 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public virtual void ApplyDamage(float damage)
+    public override void OnDeath()
+    {
+        enabled = false;
+        Animator animator = GetComponent<Animator>();
+        animator.SetTrigger("Die");
+    }
+
+    private void Death()
+    {
+        Debug.Log("died");
+        Destroy(gameObject);
+    }
+
+    public override void ApplyDamage(float damage)
     {
         Debug.Log($"Ouch! {damage}");
         Health -= damage;
         OnHealthChanged?.Invoke(Health);
         if (Health <= 0)
         {
-            Debug.Log("died");
             GameEvents.EnemySlain(this);
+            OnDeath();
+
         }
     }
 
-    private void HandleDebuffs()
-    {
-        foreach (Debuff debuff in Debuffs)
-        {
-            debuff.Update();
-        }
-
-        Debuffs.RemoveAll(d => d.IsOver);
-    }
+    
 }

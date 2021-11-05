@@ -1,32 +1,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelController : MonoBehaviour
 {
     public static LevelController Instance;
-    public GameObject UIPanel;
-    public GameObject WinPanel;
-    public GameObject LosePanel;
+    [HideInInspector]public GameObject winPanel;
+    [HideInInspector]public GameObject losePanel;
+    [HideInInspector]public GameObject UnitPool;
+    [HideInInspector]public List<Tower> Towers = new List<Tower>();
+    [HideInInspector][FormerlySerializedAs("Panel")] public BuildPanel BuuldPanel;
+    [HideInInspector][FormerlySerializedAs("CoinGain")] public ScoreAlert ScoreTablet;
+    public float timeToWave;
     public Field GameField;
     public Spawner[] Spawners;
     public GameObject Finish;
-    public bool DynamicMode = true;
     public int WaveCount;
     public int TimeBetweenWaves;
     public bool newStart = true;
-    public GameObject UnitPool;
     public int CurrentWave;
     public bool WaveInProgress;
-    public List<Tower> Towers = new List<Tower>();
     public List<TowerPattern> TowersToBuild;
-    public BuildPanel Panel;
-    public float timeToWave;
+    private GameObject UIPanel;
     private WaveController waveController;
     private int enemyCount;
+    
     private void Awake()
     {
-        Panel.Towers = TowersToBuild;
         if (Instance == null)
         {
             Instance = this;
@@ -36,27 +37,29 @@ public class LevelController : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(this);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        timeToWave = TimeBetweenWaves;
+        UIPanel = GetComponentInChildren<levelUI>().gameObject;
+        BuuldPanel = GetComponentInChildren<BuildPanel>();
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
         GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
-        CurrentWave = 1;
         waveController = GetComponentInChildren<WaveController>();
-        if (waveController != null)
-        {
-            DynamicMode = true;
-        }
-
         Spawners = GetComponentsInChildren<Spawner>();
+        
+    }
+
+    void Start()
+    {
+        BuuldPanel.Towers = TowersToBuild;
+        timeToWave = TimeBetweenWaves;
+        CurrentWave = 1;
+        
     }
 
     void OnUnitSlain(Enemy unit)
     {
         if (!WaveInProgress) return;
+        var tablet = Instantiate(ScoreTablet, UIPanel.transform);
+        tablet.Origin = unit.transform.position;
+        tablet.Count = unit.Score;
         enemyCount -= 1;
         Player.Instance.Money += unit.Score;
     }
@@ -106,11 +109,11 @@ public class LevelController : MonoBehaviour
     void OnGameWin()
     {
         UIPanel.SetActive(false);
-        WinPanel.SetActive(true);
+        winPanel.SetActive(true);
     }void OnGameOver()
     {
         UIPanel.SetActive(false);
-        LosePanel.SetActive(true);
+        losePanel.SetActive(true);
     }
     void CheckAllive()
     {
@@ -127,7 +130,6 @@ public class LevelController : MonoBehaviour
         WaveSettings waveSettings = waveController.WaveSettings.First();
         enemyCount = waveSettings.Size*Spawners.Length;
         WaveInProgress = true;
-
         foreach (var spawner in Spawners)
         {
             spawner.SpawnWave(waveSettings, waveController);

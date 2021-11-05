@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
-public class DestroyableObject : Enemy
+public class DestroyableObject : Targetable
 {
     // Start is called before the first frame update
     private Square ParentTile;
@@ -16,18 +17,8 @@ public class DestroyableObject : Enemy
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    
-
-    public override void ApplyDamage(float damage)
-    {
-        Health -= damage;
-        if (Health<=0)
-        {
-            Destroy(gameObject);
-        }
-        OnHealthChanged?.Invoke(Health);
+        base.Update();
+        HandleDebuffs();
     }
 
     private void OnDestroy()

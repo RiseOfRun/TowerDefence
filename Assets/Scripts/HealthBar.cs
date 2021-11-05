@@ -19,7 +19,7 @@ public class HealthBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var parent = GetComponentInParent<Enemy>();
+        var parent = GetComponentInParent<Targetable>();
         HealthText.text = ((int) CurrentHealth).ToString();
         MaxHealth = parent.Health;
         CurrentHealth = parent.Health;

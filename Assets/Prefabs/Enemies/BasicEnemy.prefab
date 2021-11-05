@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4715838168555044786}
   - component: {fileID: 4715838168555044789}
   - component: {fileID: 2094756951579449329}
+  - component: {fileID: 6930685944208258904}
   m_Layer: 3
   m_Name: BasicEnemy
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7992285931248214241}
-  - {fileID: 9196732168991756130}
+  - {fileID: 7196192436378072076}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -51,14 +52,7 @@ MonoBehaviour:
   Score: 1
   Penalty: 1
   Debuffs: []
-  Waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Waypoints: []
   InitHealth: 100
   InitScore: 20
   InitSpeed: 1
@@ -76,6 +70,25 @@ CapsuleCollider:
   m_Height: 0.1
   m_Direction: 0
   m_Center: {x: 0, y: 0.06512536, z: 0}
+--- !u!95 &6930685944208258904
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715838168555044787}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e9d47f012fb2b6e439fdc26f8e123777, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7323307200751254107
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,10 +268,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5956069417349215597, guid: 8241c9ef26e256143b5ac42eda0ed1b8, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8241c9ef26e256143b5ac42eda0ed1b8, type: 3}
---- !u!224 &9196732168991756130 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5681128608822283779, guid: 8241c9ef26e256143b5ac42eda0ed1b8, type: 3}
+--- !u!4 &7196192436378072076 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5956069417349215597, guid: 8241c9ef26e256143b5ac42eda0ed1b8, type: 3}
   m_PrefabInstance: {fileID: 3564097112624857441}
   m_PrefabAsset: {fileID: 0}

@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullet : SourceOfDamage
 {
     public float Speed;
-    public Enemy Target;
+    public Targetable Target;
     // Start is called before the first frame update
     private Vector3 lastTargetPosition;
     public void Init(int damage, Enemy target)
@@ -13,7 +13,7 @@ public class Bullet : SourceOfDamage
         Target = Targets[0];
         lastTargetPosition = target.transform.position;
     }
-    public override void Init(List<Enemy> targets, float damage, List<Debuff> debuffs = null)
+    public override void Init(List<Targetable> targets, float damage, List<Debuff> debuffs = null)
     {
         base.Init(targets, damage, debuffs);
         Target = targets[0];

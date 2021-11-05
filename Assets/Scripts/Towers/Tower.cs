@@ -8,14 +8,15 @@ using UnityEngine.Serialization;
 public class Tower : MonoBehaviour
 {
     public Transform SourcePosition;
-    public List<Upgrade> Upgrades;
     public float Range;
     public float Damage=200;
     public int Cost;
     public bool CanForceTarget;
     public List<Debuff> DebuffsToApply = new List<Debuff>();
-    [FormerlySerializedAs("targets")] public List<Enemy> Targets = new List<Enemy>();
+    [FormerlySerializedAs("targets")] public List<Targetable> Targets = new List<Targetable>();
     [FormerlySerializedAs("SourceOfDamage_Prefab")] public SourceOfDamage SourceOfDamagePrefab;
+    
+    public List<TowerPattern> Upgrades = new List<TowerPattern>();
     public float AttackPerSecond = 1f;
     private float currentTime = 0;
     protected float SecondsOnAttack;
@@ -39,7 +40,7 @@ public class Tower : MonoBehaviour
 
     protected void CheckTarget()
     {
-        Targets = new List<Enemy>();
+        Targets = new List<Targetable>();
         List<Enemy> selectedTargets = new List<Enemy>();
         if (CanForceTarget)
         {
@@ -55,7 +56,7 @@ public class Tower : MonoBehaviour
             if (Targets.Contains(unit)) continue;
             selectedTargets.Add(unit);
         }
-        Targets.AddRange(selectedTargets.OrderByDescending(x=>x.PercentComplete));
+        Targets.AddRange(selectedTargets.Where(x => x.enabled).OrderByDescending(x => x.PercentComplete));
     }
 
     public void Attack()
@@ -77,7 +78,7 @@ public class Tower : MonoBehaviour
 
     private void OnTimerTick()
     {
-        var source = Instantiate(SourceOfDamagePrefab, transform);
+        SourceOfDamage source = Instantiate(SourceOfDamagePrefab, transform);
         source.transform.position = SourcePosition.position;
         source.Init(Targets, Damage, DebuffsToApply);
     }

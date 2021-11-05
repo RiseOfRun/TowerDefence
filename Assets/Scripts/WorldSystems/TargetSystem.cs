@@ -5,7 +5,8 @@ using UnityEngine.Serialization;
 
 public class TargetSystem : MonoBehaviour
 {
-    [FormerlySerializedAs("EnemyTarget")] public List<Enemy> EnemyTargets = new List<Enemy>();
+    [FormerlySerializedAs("EnemyTarget")] public List<Targetable> EnemyTargets = new List<Targetable>();
+    public Tower TargetedTower;
     public static TargetSystem Instance;
     public TargetMark TargetMarkPrefab;
 
@@ -29,14 +30,13 @@ public class TargetSystem : MonoBehaviour
     {
         if (BuildManager.Instance.InBuildMode) return;
         if (!Input.GetMouseButtonDown(0)) return;
-
         Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(r, out hit, float.MaxValue, LayerMask.GetMask("Enemies"))
         || Physics.Raycast(r, out hit, float.MaxValue, LayerMask.GetMask("DestroyableObjs")))
         {
             Debug.Log("HIT");
-            Enemy hitEnemy = hit.collider.gameObject.GetComponentInChildren<Enemy>();
+            Targetable hitEnemy = hit.collider.gameObject.GetComponentInChildren<Targetable>();
             if (!EnemyTargets.Contains(hitEnemy))
             {
                 EnemyTargets.Add(hitEnemy);
@@ -48,11 +48,20 @@ public class TargetSystem : MonoBehaviour
                 Destroy(hitEnemy.GetComponentInChildren<TargetMark>().gameObject);
             }
         }
+        if (Physics.Raycast(r, out hit, float.MaxValue, LayerMask.GetMask("Tower")))
+        {
+            TargetedTower = hit.collider.gameObject.GetComponentInParent<Tower>();
+            BuildManager.Instance.BuildPanel.OnTowerSelected(TargetedTower);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (BuildManager.Instance.InBuildMode)
+        {
+            return;
+        }
         LMBHandler();
     }
 }

@@ -13,7 +13,7 @@ public class WaveController : MonoBehaviour
 
     public Enemy GetEnemy(EnemyGroup party)
     {
-        Enemy newEnemy = Instantiate(party.enemyInGroup, LevelController.Instance.UnitPool.transform);
+        Enemy newEnemy = Instantiate(party.EnemyInGroup, LevelController.Instance.UnitPool.transform);
         if (party.ModifyHealth)
         {
             newEnemy.Health = party.Health;
