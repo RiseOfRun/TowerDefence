@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class BuildPanel : MonoBehaviour
 {
-    public List<TowerPattern> Towers;
+    [HideInInspector] public List<TowerPattern> Towers;
     public SelectTowerButton ButtonPatern;
     [FormerlySerializedAs("Space")] public GameObject BuildOptionsSpace;
     public GameObject UpgradesSpace;
@@ -14,6 +14,7 @@ public class BuildPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Towers = LevelController.Instance.TowersToBuild;
         foreach (var tower in Towers)
         {
             var newButton = Instantiate(ButtonPatern, BuildOptionsSpace.transform);
@@ -32,7 +33,7 @@ public class BuildPanel : MonoBehaviour
             Destroy(child.gameObject);
         }
         
-        foreach (var pattern in t.Upgrades)
+        foreach (var pattern in t.Pattern.Upgrades)
         {
             var newButton = Instantiate(ButtonPatern, UpgradesSpace.transform);
             newButton.Init(pattern);

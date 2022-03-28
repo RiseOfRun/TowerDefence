@@ -15,7 +15,6 @@ public class AOEBullet : Bullet
 
     IEnumerator DoDamage(Enemy target)
     {
-        
         for (float i = 0; i < 0.25f; i+=Time.deltaTime)
         {
             yield return null;
@@ -28,7 +27,12 @@ public class AOEBullet : Bullet
             LayerMask.GetMask("Enemies"));
         foreach (var target in currentTargets)
         {
+           
             Enemy enemy = target.GetComponent<Enemy>();
+            if (enemy==null)
+            {
+                continue;
+            }
             enemy.StartCoroutine(DoDamage(enemy));
         }
 

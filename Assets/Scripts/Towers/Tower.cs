@@ -8,26 +8,17 @@ using UnityEngine.Serialization;
 public class Tower : MonoBehaviour
 {
     public Transform SourcePosition;
-    public float Range;
-    public float Damage=200;
-    public int Cost;
+  
     public bool CanForceTarget;
-    public List<Debuff> DebuffsToApply = new List<Debuff>();
     [FormerlySerializedAs("targets")] public List<Targetable> Targets = new List<Targetable>();
-    [FormerlySerializedAs("SourceOfDamage_Prefab")] public SourceOfDamage SourceOfDamagePrefab;
-    
-    public List<TowerPattern> Upgrades = new List<TowerPattern>();
-    public float AttackPerSecond = 1f;
-    private float currentTime = 0;
-    protected float SecondsOnAttack;
-    private float timeToAttack;
+    public TowerPattern Pattern;
+    private float SecondsOnAttack => 1 / Pattern.APS;
+    private float timerToAttack;
     // Start is called before the first frame update
     public virtual void Start()
     {
-        currentTime = 0;
-        SecondsOnAttack = 1 / AttackPerSecond;
         GameEvents.TowerBuilt(this);
-        timeToAttack = SecondsOnAttack;
+        timerToAttack = SecondsOnAttack;
         if (SourcePosition==null)
         {
             SourcePosition = transform;
@@ -36,19 +27,19 @@ public class Tower : MonoBehaviour
         // GameEvents.OnEnemyKilled.Invoke(1);
         // Debug.Log($"towerDamage = {Damage}");
     }
-    
 
-    protected void CheckTarget()
+
+    private void CheckTarget()
     {
         Targets = new List<Targetable>();
         List<Enemy> selectedTargets = new List<Enemy>();
         if (CanForceTarget)
         {
             Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(
-                x=>x!=null && Vector3.Distance(x.transform.position,transform.position)<=Range));
+                x=>x!=null && Vector3.Distance(x.transform.position,transform.position)<=Pattern.Range));
         }
         Collider[] objects = Physics.OverlapSphere(transform.position,
-            Range,
+            Pattern.Range,
             LayerMask.GetMask("Enemies"));
         foreach (Collider item in objects)
         {
@@ -56,31 +47,32 @@ public class Tower : MonoBehaviour
             if (Targets.Contains(unit)) continue;
             selectedTargets.Add(unit);
         }
-        Targets.AddRange(selectedTargets.Where(x => x.enabled).OrderByDescending(x => x.PercentComplete));
+        Targets.AddRange(selectedTargets.Where(x => x!=null && x.enabled).
+            OrderByDescending(x => x.PercentComplete));
     }
 
     public void Attack()
     {
-        timeToAttack -= Time.deltaTime;
+        timerToAttack -= Time.deltaTime;
         if (Targets.Count != 0)
         {
-            if (timeToAttack < 0)
+            if (timerToAttack < 0)
             {
                 OnTimerTick();
-                timeToAttack += SecondsOnAttack;
+                timerToAttack += SecondsOnAttack;
             }
         }
         else
         {
-            timeToAttack = 0;
+            timerToAttack = 0;
         }
     }
 
     private void OnTimerTick()
     {
-        SourceOfDamage source = Instantiate(SourceOfDamagePrefab, transform);
+        SourceOfDamage source = Instantiate(Pattern.DamageSource, transform);
         source.transform.position = SourcePosition.position;
-        source.Init(Targets, Damage, DebuffsToApply);
+        source.Init(Targets, Pattern.Damage, Pattern.Debuffs);
     }
     IEnumerator DrawLaser()
     {
@@ -99,7 +91,7 @@ public class Tower : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position,Range);
+        Gizmos.DrawWireSphere(transform.position,Pattern.Range);
 
     }
 }

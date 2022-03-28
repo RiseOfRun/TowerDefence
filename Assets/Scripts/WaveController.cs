@@ -6,21 +6,19 @@ using UnityEngine;
 [Serializable]
 public class WaveController : MonoBehaviour
 {
-    public float ScoreMulti = 1;
-    public float HealthMulti = 1;
-    public float SpeedMulti = 1;
+    public int TotalWaveCount;
+    public AnimationCurve HealthCurve;
+    public AnimationCurve SpeedCureve;
+    public AnimationCurve ScoreCurve;
+
     public List<WaveSettings> WaveSettings = new List<WaveSettings>();
 
     public Enemy GetEnemy(EnemyGroup party)
     {
         Enemy newEnemy = Instantiate(party.EnemyInGroup, LevelController.Instance.UnitPool.transform);
-        if (party.ModifyHealth)
-        {
-            newEnemy.Health = party.Health;
-            newEnemy.Score = party.Score;
-            newEnemy.Speed = party.Speed;
-        }
-        newEnemy.Init(ScoreMulti, HealthMulti, SpeedMulti, LevelController.Instance.CurrentWave - 1);
+        newEnemy.Health = party.BaseHealth * HealthCurve.Evaluate(LevelController.Instance.CurrentWave);
+        newEnemy.Speed = party.BaseSpeed * SpeedCureve.Evaluate(LevelController.Instance.CurrentWave);
+        newEnemy.Score = (int)(party.BaseScore * ScoreCurve.Evaluate(LevelController.Instance.CurrentWave));
         return newEnemy;
     }
 }
@@ -32,12 +30,9 @@ public class WaveSettings
 
     public int Size
     {
-        get
-        {
-            return EnemyGroups.Sum(@group => @group.Size);
-        }
+        get { return EnemyGroups.Sum(@group => @group.Size); }
     }
-    
+
     public float Delay = 1f;
     public List<EnemyGroup> EnemyGroups = new List<EnemyGroup>();
 }

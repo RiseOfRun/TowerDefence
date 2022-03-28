@@ -13,7 +13,6 @@ public class Enemy : Targetable
     public int InitScore;
     public float InitSpeed;
     public float PercentComplete => passedDistance / fullDistance;
-
     private float fullDistance=0;
     private float passedDistance=0;
 
@@ -57,20 +56,22 @@ public class Enemy : Targetable
             Path.Dequeue();
         }
     }
-    
-    public void Init(float scoreMulti, float healthMulti, float speedMulti = 1, int level = 1)
+
+    public void Init(float health, float speed, int score)
     {
-        Health += InitHealth * healthMulti * level;
-        Speed += InitSpeed * speedMulti * level;
-        Score += (int) (InitScore * scoreMulti * level);
+        Health = health;
+        Speed =speed;
+        Score = score;
     }
 
 
     public override void OnDeath()
     {
+        GameEvents.EnemySlain(this);
         enabled = false;
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("Die");
+        Destroy(this);
     }
 
     private void Death()
@@ -81,12 +82,15 @@ public class Enemy : Targetable
 
     public override void ApplyDamage(float damage)
     {
-        Debug.Log($"Ouch! {damage}");
+        if (Health<=0)
+        {
+            return;
+        }
+        // Debug.Log($"Ouch! {damage}");
         Health -= damage;
         OnHealthChanged?.Invoke(Health);
         if (Health <= 0)
         {
-            GameEvents.EnemySlain(this);
             OnDeath();
 
         }

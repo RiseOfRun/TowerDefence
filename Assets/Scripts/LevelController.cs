@@ -11,7 +11,7 @@ public class LevelController : MonoBehaviour
     [HideInInspector]public GameObject UnitPool;
     [HideInInspector]public List<Tower> Towers = new List<Tower>();
     [HideInInspector][FormerlySerializedAs("Panel")] public BuildPanel BuuldPanel;
-    [HideInInspector][FormerlySerializedAs("CoinGain")] public ScoreAlert ScoreTablet;
+    public ScoreAlert ScoreTablet;
     public float timeToWave;
     public Field GameField;
     public Spawner[] Spawners;
@@ -28,16 +28,19 @@ public class LevelController : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance == null) 
         {
             Instance = this;
-        }
-        else if(Instance == this)
+        } else if(Instance == this)
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
+        
         UIPanel = GetComponentInChildren<levelUI>().gameObject;
+        losePanel = GetComponentInChildren<LosePanel>(includeInactive:true).gameObject;
+        winPanel = GetComponentInChildren<WinPanel>(includeInactive:true).gameObject;
+        
         BuuldPanel = GetComponentInChildren<BuildPanel>();
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
         GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
@@ -61,7 +64,7 @@ public class LevelController : MonoBehaviour
         tablet.Origin = unit.transform.position;
         tablet.Count = unit.Score;
         enemyCount -= 1;
-        Player.Instance.Money += unit.Score;
+        Debug.Log($"Enemy slain. Least: {enemyCount}");
     }
 
     void OnEnemyEndPath(Enemy unit)
@@ -126,6 +129,10 @@ public class LevelController : MonoBehaviour
 
     public void NextWave()
     {
+        if (CurrentWave>WaveCount)
+        {
+            return;
+        }
         timeToWave = TimeBetweenWaves;
         WaveSettings waveSettings = waveController.WaveSettings.First();
         enemyCount = waveSettings.Size*Spawners.Length;

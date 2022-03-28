@@ -20,20 +20,22 @@ public class SelectTowerButton : MonoBehaviour
 
     public void Init(TowerPattern Tower)
     {
-        Pattern = Instantiate(Tower);
+        Pattern = Tower;
         Name.text = Pattern.Name;
-        Cost.text = Pattern.TowerPref.Cost.ToString();
+        Cost.text = Pattern.Cost.ToString();
         Icon.sprite = Tower.Icon;
     }
 
     public void OnButtonClick()
     {
+        if (Pattern.Cost > Player.Instance.Money)
+        {
+            return;
+        }
+        
         if (!Pattern.IsUpgrade)
         {
-            if (Pattern.TowerPref.Cost > Player.Instance.Money)
-            {
-                return;
-            }
+            
             BuildManager.Instance.EnterToBuildMode(Pattern.Mirage, Pattern);
             return;
         }

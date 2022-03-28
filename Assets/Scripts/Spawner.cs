@@ -43,7 +43,7 @@ public class Spawner : MonoBehaviour
             Enemy newEnemy = controller.GetEnemy(current);
             newEnemy.Waypoints = WayPoints;
             Vector3 position = transform.position;
-            newEnemy.gameObject.transform.position += new Vector3(position.x,0,position.z);
+            newEnemy.gameObject.transform.position = new Vector3(position.x,0,position.z);
             yield return new WaitForSeconds(settings.Delay);
         }
     }

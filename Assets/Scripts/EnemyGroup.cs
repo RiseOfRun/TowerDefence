@@ -6,8 +6,7 @@ public class EnemyGroup
 {
     [FormerlySerializedAs("TargetableInGroup")] [FormerlySerializedAs("enemyInGroup")] public Enemy EnemyInGroup;
     public int Size;
-    public float Health;
-    public float Speed;
-    public int Score;
-    public bool ModifyHealth;
+    public float BaseHealth;
+    public float BaseSpeed;
+    public int BaseScore;
 }

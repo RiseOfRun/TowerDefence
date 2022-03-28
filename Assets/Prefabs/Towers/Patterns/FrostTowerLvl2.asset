@@ -16,7 +16,7 @@ MonoBehaviour:
   Mirage: {fileID: 7395671602286826706, guid: 95b05900b18e78e4499bc4c7f6ea0ba0, type: 3}
   Icon: {fileID: 5462533576348290075, guid: ae0af7fa21cb91344bb6d31bf149241d, type: 3}
   Name: Frost Tower
-  IsUpgrade: 0
+  IsUpgrade: 1
   Compose: 1
   DamageSource: {fileID: 0}
   Damage: 10

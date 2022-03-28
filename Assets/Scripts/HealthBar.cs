@@ -64,6 +64,11 @@ public class HealthBar : MonoBehaviour
         {
             r.enabled = true;
         }
+
+        if (Math.Abs(CurrentHealth) < 0.1f)
+        {
+            Destroy(gameObject);
+        }
         transform.rotation = Camera.main.transform.rotation;
     }
 }
