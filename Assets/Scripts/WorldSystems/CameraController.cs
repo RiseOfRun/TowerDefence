@@ -32,7 +32,6 @@ public class CameraController : MonoBehaviour
         {
             Vector3 NextPosition = Input.mousePosition;
             FirstClickPosition = Rotate(NextPosition);
-            Debug.Log($"power: {FirstClickPosition} {NextPosition}");
         }
 
         if (Input.GetMouseButtonUp(1))

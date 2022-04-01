@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BuildManager : MonoBehaviour
 {
     public TowerPattern currentTower;
     public static BuildManager Instance;
     public bool InBuildMode = false;
-    public MirageOfTower MiragePrefab;
-    public BuildPanel BuildPanel;
+    [HideInInspector] public MirageOfTower MiragePrefab;
+    [HideInInspector]public BuildPanel BuildPanel;
     public ParticleSystem OnBuildParticle;
-    private MirageOfTower mirage;
+    [HideInInspector][FormerlySerializedAs("mirage")] public MirageOfTower Mirage;
 
     // Start is called before the first frame update
     private void Awake()
@@ -35,23 +36,9 @@ public class BuildManager : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        CheckClick();
-    }
-
-    public void CheckClick()
-    {
-        if (!InBuildMode) return;
-        if (Input.GetMouseButtonDown(0))
-        {
-            BuildTower();
-        }
         
-        if (Input.GetMouseButtonDown(1) && mirage !=null)
-        {
-            InBuildMode = false;
-            Destroy(mirage.gameObject);
-        }
     }
+    
     
     public void BuildTower()
     {
@@ -60,7 +47,7 @@ public class BuildManager : MonoBehaviour
         Square hitSquare = hitInfo.collider.gameObject.GetComponent<Square>();
         if (hitSquare == null || !hitSquare.CanBuild) return;
         Build(hitSquare,currentTower);
-        Destroy(mirage.gameObject);
+        Destroy(Mirage.gameObject);
         InBuildMode = false;
     }
 
@@ -78,15 +65,24 @@ public class BuildManager : MonoBehaviour
 
     }
 
+    public void UpgradeTower(TowerPattern p)
+    {
+        Tower targetTower = TargetSystem.Instance.TargetedTower;
+        Square place = targetTower.transform.parent.GetComponent<Square>();
+        Destroy(targetTower.gameObject);
+        Instance.BuildPanel.OnFreeTower();
+        Instance.Build(place,p);
+    }
+
     public void EnterToBuildMode(MirageOfTower miragePref, TowerPattern towerPref)
     {
         MiragePrefab = miragePref;
         currentTower = towerPref;
         InBuildMode = true;
-        if (mirage!=null)
+        if (Mirage!=null)
         {
-            Destroy(mirage.gameObject);
+            Destroy(Mirage.gameObject);
         }
-        mirage = Instantiate(Instance.MiragePrefab);
+        Mirage = Instantiate(Instance.MiragePrefab);
     }
 }

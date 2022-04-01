@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectTowerButton : MonoBehaviour
+public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndDragHandler, IPointerClickHandler
 {
     public TowerPattern Pattern;
     public Image Icon;
     public Text Cost;
     public Text Name;
-
+    
+    private Transform defaultParent;
+    private int defaultSiblingIndex;
     private Button button;
 
     void Start()
     {
+        defaultParent = transform.parent;
+        defaultSiblingIndex = transform.GetSiblingIndex();
         button = GetComponentInChildren<Button>();
-        button.onClick.AddListener(OnButtonClick);
     }
 
     public void Init(TowerPattern Tower)
@@ -28,21 +33,98 @@ public class SelectTowerButton : MonoBehaviour
 
     public void OnButtonClick()
     {
-        if (Pattern.Cost > Player.Instance.Money)
-        {
-            return;
-        }
-        
         if (!Pattern.IsUpgrade)
         {
             
             BuildManager.Instance.EnterToBuildMode(Pattern.Mirage, Pattern);
             return;
         }
-        Tower targetTower = TargetSystem.Instance.TargetedTower;
-        var place = targetTower.transform.parent.GetComponent<Square>();
-        Destroy(targetTower.gameObject);
-        BuildManager.Instance.BuildPanel.OnFreeTower();
-        BuildManager.Instance.Build(place,Pattern);
+        
+    }
+
+    bool CheckIfOverBuildPanel(PointerEventData eventData)
+    {
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        foreach (var item in results)
+        {
+            var panel = item.gameObject.GetComponent<BuildPanel>();
+            if (panel!=null)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (!CheckCanDrag())
+        {
+            return;
+        }
+        transform.parent = defaultParent.parent;
+        BuildManager.Instance.EnterToBuildMode(Pattern.Mirage, Pattern);
+        Cost.gameObject.SetActive(false);
+        Name.gameObject.SetActive(false);
+
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (!CheckCanDrag())
+        {
+            return;
+        }
+        transform.position = eventData.position;
+        if (Pattern.IsUpgrade)
+        {
+            return;
+        }
+
+        if (CheckIfOverBuildPanel(eventData))
+        {
+            BuildManager.Instance.Mirage.gameObject.SetActive(false);
+            Icon.gameObject.SetActive(true);
+        }
+        else
+        {
+            BuildManager.Instance.Mirage.gameObject.SetActive(true);
+            Icon.gameObject.SetActive(false);
+
+        }
+
+    }
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        Icon.gameObject.SetActive(true);
+        Name.gameObject.SetActive(true);
+        Cost.gameObject.SetActive(true);
+        transform.SetParent(defaultParent);
+        transform.SetSiblingIndex(defaultSiblingIndex);
+        if (!CheckCanDrag())
+        {
+            return;
+        }
+
+        if (!CheckIfOverBuildPanel(eventData))
+        {
+            BuildManager.Instance.BuildTower();
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (Pattern.IsUpgrade)
+        {
+            BuildManager.Instance.UpgradeTower(Pattern);
+        }
+    }
+
+    private bool CheckCanDrag()
+    {
+        return !Pattern.IsUpgrade && Player.Instance.Money >= Pattern.Cost;
     }
 }

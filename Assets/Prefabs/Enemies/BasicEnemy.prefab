@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4715838168555044787}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7992285931248214241}
@@ -48,14 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 1
+  Debuffs: []
   Speed: 1
   Score: 1
   Penalty: 1
-  Debuffs: []
   Waypoints: []
-  InitHealth: 100
-  InitScore: 20
-  InitSpeed: 1
+  FlyHeight: 0.2
 --- !u!136 &2094756951579449329
 CapsuleCollider:
   m_ObjectHideFlags: 0

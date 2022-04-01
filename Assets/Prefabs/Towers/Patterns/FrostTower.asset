@@ -17,10 +17,10 @@ MonoBehaviour:
   Icon: {fileID: 5462533576348290075, guid: ae0af7fa21cb91344bb6d31bf149241d, type: 3}
   Name: Frost Tower
   IsUpgrade: 0
-  Compose: 0
-  DamageSource: {fileID: 0}
+  DamageSource: {fileID: 9153009474300756896, guid: f2a23803c6fb3bc4589cbf5027409e2e, type: 3}
   Damage: 0
   APS: 0
-  Cost: 80
+  Cost: 50
+  Range: 0
   Debuffs: []
   Upgrades: []

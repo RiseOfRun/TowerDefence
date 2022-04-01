@@ -6,25 +6,23 @@ using UnityEngine.Serialization;
 public class LevelController : MonoBehaviour
 {
     public static LevelController Instance;
-    [HideInInspector]public GameObject winPanel;
-    [HideInInspector]public GameObject losePanel;
+    [FormerlySerializedAs("UIPanel")] public GameObject UICanvas;
     [HideInInspector]public GameObject UnitPool;
     [HideInInspector]public List<Tower> Towers = new List<Tower>();
     [HideInInspector][FormerlySerializedAs("Panel")] public BuildPanel BuuldPanel;
-    public ScoreAlert ScoreTablet;
-    public float timeToWave;
-    public Field GameField;
+    [FormerlySerializedAs("timeToWave")] public float TimeToWave;
     public Spawner[] Spawners;
-    public GameObject Finish;
     public int WaveCount;
     public int TimeBetweenWaves;
-    public bool newStart = true;
     public int CurrentWave;
     public bool WaveInProgress;
     public List<TowerPattern> TowersToBuild;
-    private GameObject UIPanel;
+    
     private WaveController waveController;
     private int enemyCount;
+    private GameObject winPanel;
+    private GameObject losePanel;
+
     
     private void Awake()
     {
@@ -35,13 +33,11 @@ public class LevelController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         DontDestroyOnLoad(gameObject);
-        
-        UIPanel = GetComponentInChildren<levelUI>().gameObject;
-        losePanel = GetComponentInChildren<LosePanel>(includeInactive:true).gameObject;
-        winPanel = GetComponentInChildren<WinPanel>(includeInactive:true).gameObject;
-        
-        BuuldPanel = GetComponentInChildren<BuildPanel>();
+        losePanel = UICanvas.GetComponentInChildren<LosePanel>(true).gameObject;
+        winPanel = UICanvas.GetComponentInChildren<WinPanel>(includeInactive:true).gameObject;
+        BuuldPanel = UICanvas.GetComponentInChildren<BuildPanel>();
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
         GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
         waveController = GetComponentInChildren<WaveController>();
@@ -52,7 +48,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         BuuldPanel.Towers = TowersToBuild;
-        timeToWave = TimeBetweenWaves;
+        TimeToWave = TimeBetweenWaves;
         CurrentWave = 1;
         
     }
@@ -60,9 +56,7 @@ public class LevelController : MonoBehaviour
     void OnUnitSlain(Enemy unit)
     {
         if (!WaveInProgress) return;
-        var tablet = Instantiate(ScoreTablet, UIPanel.transform);
-        tablet.Origin = unit.transform.position;
-        tablet.Count = unit.Score;
+
         enemyCount -= 1;
         Debug.Log($"Enemy slain. Least: {enemyCount}");
     }
@@ -83,8 +77,8 @@ public class LevelController : MonoBehaviour
     {
         if (!WaveInProgress)
         {
-            timeToWave -= Time.deltaTime;
-            if (timeToWave<=0)
+            TimeToWave -= Time.deltaTime;
+            if (TimeToWave<=0)
             {
                 NextWave();
             }
@@ -111,11 +105,11 @@ public class LevelController : MonoBehaviour
 
     void OnGameWin()
     {
-        UIPanel.SetActive(false);
+        UICanvas.gameObject.SetActive(false);
         winPanel.SetActive(true);
     }void OnGameOver()
     {
-        UIPanel.SetActive(false);
+        UICanvas.gameObject.SetActive(false);
         losePanel.SetActive(true);
     }
     void CheckAllive()
@@ -133,7 +127,7 @@ public class LevelController : MonoBehaviour
         {
             return;
         }
-        timeToWave = TimeBetweenWaves;
+        TimeToWave = TimeBetweenWaves;
         WaveSettings waveSettings = waveController.WaveSettings.First();
         enemyCount = waveSettings.Size*Spawners.Length;
         WaveInProgress = true;

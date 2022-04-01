@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +9,21 @@ public class levelUI : MonoBehaviour
     public Text Lives;
     public Text WaveNumber;
     public Text Timer;
-    // Start is called before the first frame update
-    void Start()
+    public ScoreAlert ScoreTablet;
+
+    private void Start()
     {
-        
+        GameEvents.OnEnemySlain.AddListener(OnEnemySlain);
+        StartWaveButton.onClick.AddListener(LevelController.Instance.NextWave);
     }
 
-    // Update is called once per frame
+    private void OnEnemySlain(Enemy arg0)
+    {
+        var tablet = Instantiate(ScoreTablet, transform);
+        tablet.Origin = arg0.transform.position;
+        tablet.Count = arg0.Score;
+    }
+
     void Update()
     {       
        // Debug.Log($"progres? {LevelController.Instance.WaveInProgress}");
@@ -26,7 +35,7 @@ public class levelUI : MonoBehaviour
 
         if (!LevelController.Instance.WaveInProgress)
         {
-            Timer.text = ((int)LevelController.Instance.timeToWave).ToString();
+            Timer.text = ((int)LevelController.Instance.TimeToWave).ToString();
             Timer.enabled = true;
         }
         else
