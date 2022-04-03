@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7100496154659306606}
   - component: {fileID: 9135934083288293895}
   - component: {fileID: 2978776413625080116}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BlankTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,6 +139,10 @@ PrefabInstance:
       value: BlankMesh
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5a916a764e6c673478a539d3807a8186, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5a916a764e6c673478a539d3807a8186, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -212,6 +216,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 8e646522d129c5f44a582f6f6cee2a22, type: 3}
       propertyPath: m_Name
       value: towerSquare_bottomA
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8e646522d129c5f44a582f6f6cee2a22, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8e646522d129c5f44a582f6f6cee2a22, type: 3}
       propertyPath: m_IsActive

@@ -42,8 +42,11 @@ public class BuildManager : MonoBehaviour
     
     public void BuildTower()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (!Physics.Raycast(ray, out RaycastHit hitInfo,float.MaxValue)) return;
+        var transform1 = Mirage.transform;
+        var position = transform1.position;
+        Ray ray = new Ray(new Vector3(position.x,100,position.z), Vector3.down);
+        if (!Physics.Raycast(ray, out RaycastHit hitInfo,
+            float.MaxValue, LayerMask.GetMask("Ground"))) return;
         Square hitSquare = hitInfo.collider.gameObject.GetComponent<Square>();
         if (hitSquare == null || !hitSquare.CanBuild) return;
         Build(hitSquare,currentTower);

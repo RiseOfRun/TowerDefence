@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class LevelController : MonoBehaviour
@@ -17,7 +18,6 @@ public class LevelController : MonoBehaviour
     public int CurrentWave;
     public bool WaveInProgress;
     public List<TowerPattern> TowersToBuild;
-    
     private WaveController waveController;
     private int enemyCount;
     private GameObject winPanel;
@@ -56,9 +56,7 @@ public class LevelController : MonoBehaviour
     void OnUnitSlain(Enemy unit)
     {
         if (!WaveInProgress) return;
-
         enemyCount -= 1;
-        Debug.Log($"Enemy slain. Least: {enemyCount}");
     }
 
     void OnEnemyEndPath(Enemy unit)
@@ -105,7 +103,7 @@ public class LevelController : MonoBehaviour
 
     void OnGameWin()
     {
-        UICanvas.gameObject.SetActive(false);
+        //UICanvas.SetActive(false);
         winPanel.SetActive(true);
     }void OnGameOver()
     {

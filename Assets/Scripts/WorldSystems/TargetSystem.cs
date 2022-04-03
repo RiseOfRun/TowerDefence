@@ -36,6 +36,10 @@ public class TargetSystem : MonoBehaviour
         {
             Debug.Log("HIT");
             Targetable hitEnemy = hit.collider.gameObject.GetComponentInChildren<Targetable>();
+            if (hitEnemy==null)
+            {
+                return;
+            }
             if (!EnemyTargets.Contains(hitEnemy))
             {
                 EnemyTargets.Add(hitEnemy);
