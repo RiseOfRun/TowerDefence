@@ -182,7 +182,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7051633560946027967}
         m_TargetAssemblyTypeName: BuildPanel, Assembly-CSharp
-        m_MethodName: OnFreeTower
+        m_MethodName: FreeTower
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -387,6 +387,7 @@ MonoBehaviour:
   BuildOptionsSpace: {fileID: 1073648382797672765}
   UpgradesSpace: {fileID: 5546782903639174650}
   UpgradesUI: {fileID: 6122218493658000402}
+  UpgradesText: {fileID: 2718598896625647591}
 --- !u!1 &7976209313840827474
 GameObject:
   m_ObjectHideFlags: 0

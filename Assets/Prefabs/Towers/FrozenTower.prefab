@@ -76,16 +76,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SourcePosition: {fileID: 3506752766965896972}
-  Upgrades: []
-  Range: 2.5
-  Damage: 10
-  Cost: 80
   CanForceTarget: 0
-  DebuffsToApply:
-  - {fileID: 11400000, guid: da2210f86e850f44081e237cffacee06, type: 2}
   Targets: []
-  SourceOfDamagePrefab: {fileID: 9153009474300756896, guid: f2a23803c6fb3bc4589cbf5027409e2e, type: 3}
-  AttackPerSecond: 0.5
+  Pattern: {fileID: 11400000, guid: 256cd4c05dbb65945bae3b14d951f507, type: 2}
 --- !u!1001 &1637602028006432308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115,7 +108,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7589d221bc110f543bb7a26a7be27ad2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7589d221bc110f543bb7a26a7be27ad2, type: 3}
       propertyPath: m_LocalPosition.z

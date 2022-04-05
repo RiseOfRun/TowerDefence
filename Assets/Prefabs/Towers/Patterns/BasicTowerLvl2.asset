@@ -20,7 +20,7 @@ MonoBehaviour:
   DamageSource: {fileID: 4207677129459178337, guid: be1be834c7a58d14b88c7e6be6898a42, type: 3}
   Damage: 100
   APS: 1.5
-  Cost: 100
+  Cost: 10
   Range: 2
   Debuffs: []
   Upgrades: []

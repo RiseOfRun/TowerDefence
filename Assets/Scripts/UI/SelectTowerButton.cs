@@ -63,7 +63,6 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
     {
         if (!CheckCanDrag())
         {
-            OnEndDrag(eventData);
             return;
         }
         transform.parent = defaultParent.parent;
@@ -80,10 +79,6 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
             return;
         }
         transform.position = eventData.position;
-        if (Pattern.IsUpgrade)
-        {
-            return;
-        }
 
         if (CheckIfOverBuildPanel(eventData))
         {
@@ -94,7 +89,6 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
         {
             BuildManager.Instance.Mirage.gameObject.SetActive(true);
             Icon.gameObject.SetActive(false);
-
         }
 
     }

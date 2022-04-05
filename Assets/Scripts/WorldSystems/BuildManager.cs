@@ -73,7 +73,7 @@ public class BuildManager : MonoBehaviour
         Tower targetTower = TargetSystem.Instance.TargetedTower;
         Square place = targetTower.transform.parent.GetComponent<Square>();
         Destroy(targetTower.gameObject);
-        Instance.BuildPanel.OnFreeTower();
+        Instance.BuildPanel.FreeTower();
         Instance.Build(place,p);
     }
 

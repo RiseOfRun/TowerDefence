@@ -18,10 +18,6 @@ public class Bullet : SourceOfDamage
         base.Init(targets, damage, debuffs);
         Target = targets[0];
     }
-    public Bullet()
-    {
-        
-    }
     void Move()
     {
         if (Target != null) 

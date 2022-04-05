@@ -23,4 +23,6 @@ public abstract class SourceOfDamage : MonoBehaviour
             newDebuff.Init(target);
         }
     }
+    
+    
 }

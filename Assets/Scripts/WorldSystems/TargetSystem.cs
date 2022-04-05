@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 public class TargetSystem : MonoBehaviour
@@ -9,7 +11,7 @@ public class TargetSystem : MonoBehaviour
     public Tower TargetedTower;
     public static TargetSystem Instance;
     public TargetMark TargetMarkPrefab;
-
+    public Action OnFreeTower;
     private GameObject targetMark;
 
     void Awake()
@@ -32,6 +34,7 @@ public class TargetSystem : MonoBehaviour
         if (!Input.GetMouseButtonDown(0)) return;
         Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        
         if (Physics.Raycast(r, out hit, float.MaxValue, LayerMask.GetMask("Enemies", "DestroyableObjs")))
         {
             Debug.Log("HIT");
@@ -56,6 +59,16 @@ public class TargetSystem : MonoBehaviour
         {
             TargetedTower = hit.collider.gameObject.GetComponentInParent<Tower>();
             BuildManager.Instance.BuildPanel.OnTowerSelected(TargetedTower);
+            return;
+        }
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        if (TargetedTower!=null)
+        {
+            OnFreeTower?.Invoke();
         }
     }
 
