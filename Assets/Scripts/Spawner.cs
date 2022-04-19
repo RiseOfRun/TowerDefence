@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    public Queue<EnemyGroup> WavePopulation = new Queue<EnemyGroup>();
     public Transform[] WayPoints;
-
+    [HideInInspector] public Queue<EnemyGroup> WavePopulation = new Queue<EnemyGroup>();
     // Start is called before the first frame update
     void Start()
     {
@@ -40,10 +39,9 @@ public class Spawner : MonoBehaviour
                 break;
             }
             WavePopulation.Dequeue();
-            Enemy newEnemy = controller.GetEnemy(current);
+            Enemy newEnemy = controller.GetEnemy(current,transform.position);
             newEnemy.Waypoints = WayPoints;
             Vector3 position = transform.position;
-            newEnemy.gameObject.transform.position = new Vector3(position.x,0,position.z);
             yield return new WaitForSeconds(settings.Delay);
         }
     }

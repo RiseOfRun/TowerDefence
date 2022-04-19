@@ -19,8 +19,8 @@ MonoBehaviour:
   IsUpgrade: 0
   DamageSource: {fileID: 4207677129459178337, guid: be1be834c7a58d14b88c7e6be6898a42, type: 3}
   Damage: 50
-  APS: 1.2
+  APS: 1.25
   Cost: 50
-  Range: 2.3
+  Range: 2.5
   Debuffs: []
   Upgrades: []

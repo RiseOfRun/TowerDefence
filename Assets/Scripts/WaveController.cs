@@ -13,9 +13,9 @@ public class WaveController : MonoBehaviour
 
     public List<WaveSettings> WaveSettings = new List<WaveSettings>();
 
-    public Enemy GetEnemy(EnemyGroup party)
+    public Enemy GetEnemy(EnemyGroup party,Vector3 position)
     {
-        Enemy newEnemy = Instantiate(party.EnemyInGroup, LevelController.Instance.UnitPool.transform);
+        Enemy newEnemy = Instantiate(party.EnemyInGroup, position,Quaternion.identity,LevelController.Instance.UnitPool.transform);
         newEnemy.Health = party.BaseHealth * HealthCurve.Evaluate(LevelController.Instance.CurrentWave);
         newEnemy.Speed = party.BaseSpeed * SpeedCureve.Evaluate(LevelController.Instance.CurrentWave);
         newEnemy.Score = (int)(party.BaseScore * ScoreCurve.Evaluate(LevelController.Instance.CurrentWave));

@@ -21,7 +21,7 @@ public class Enemy : Targetable
     {
     }
 
-    void Start()
+    void CalculateDistance()
     {
         Vector3 currentPosition = transform.position;
         foreach (var point in Waypoints)
@@ -30,6 +30,20 @@ public class Enemy : Targetable
             fullDistance += Vector3.Distance(currentPosition, point.position);
             currentPosition = point.position;
         }
+    }
+    void Start()
+    {
+        CalculateDistance();
+    }
+
+    public void ReturnToStart()
+    {
+        passedDistance = 0;
+        Path = new Queue<Vector3>();
+        transform.position = Waypoints[0].transform.position;
+        fullDistance = 0;
+        CalculateDistance();
+        gameObject.SetActive(false);
     }
 
     void Update()
@@ -53,16 +67,29 @@ public class Enemy : Targetable
 
     private void Move()
     {
-        Vector3 point = Path.Peek();
+        Vector3 target = Path.Peek();
         Vector3 position = transform.position;
+        
         Vector3 nextPos = Vector3.MoveTowards(position, startedMove
-            ? new Vector3(point.x, position.y, point.z)
-            : new Vector3(point.x, point.y, point.z), Time.deltaTime * Speed);
+            ? new Vector3(target.x, position.y, target.z)
+            : new Vector3(target.x, target.y, target.z), Time.deltaTime * Speed);
+        
         passedDistance += Vector3.Distance(nextPos, position);
         position = nextPos;
         transform.position = position;
-        if (Math.Abs(transform.position.x - point.x) > 0.0000000001f ||
-            Math.Abs(transform.position.z - point.z) > 0.0000000001f) return;
+        if (startedMove)
+        {
+            if (!Mathf.Approximately(transform.position.x, target.x) ||
+                !Mathf.Approximately(transform.position.z, target.z)) return;
+        }
+        else
+        {
+            if (transform.position != target)
+            {
+                return;
+            }
+        }
+
         Path.Dequeue();
         startedMove = true;
     }
@@ -76,7 +103,7 @@ public class Enemy : Targetable
 
         Vector3 position = transform.position;
         Ray ray = new Ray(new Vector3(position.x, 20, position.z), Vector3.down);
-        if (!Physics.Raycast(ray, out RaycastHit hit,float.MaxValue, LayerMask.GetMask("Ground")))
+        if (!Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, LayerMask.GetMask("Ground")))
         {
             return;
         }
