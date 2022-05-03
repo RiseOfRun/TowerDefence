@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IEndDragHandler, IPointerClickHandler
+public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
 {
     public TowerPattern Pattern;
     public Image Icon;
-    public Text Cost;
-    public Text Name;
-    
+    public TMP_Text Cost;
+    public TMP_Text Name;
+
     private Transform defaultParent;
     private int defaultSiblingIndex;
     private Button button;
@@ -30,17 +31,7 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
         Cost.text = Pattern.Cost.ToString();
         Icon.sprite = Tower.Icon;
     }
-
-    public void OnButtonClick()
-    {
-        if (!Pattern.IsUpgrade)
-        {
-            
-            BuildManager.Instance.EnterToBuildMode(Pattern.Mirage, Pattern);
-            return;
-        }
-        
-    }
+    
 
     bool CheckIfOverBuildPanel(PointerEventData eventData)
     {
@@ -49,7 +40,7 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
         foreach (var item in results)
         {
             var panel = item.gameObject.GetComponent<BuildPanel>();
-            if (panel!=null)
+            if (panel != null)
             {
                 return true;
             }
@@ -57,7 +48,7 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
 
         return false;
     }
-    
+
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -65,19 +56,20 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
         {
             return;
         }
+
         transform.parent = defaultParent.parent;
         BuildManager.Instance.EnterToBuildMode(Pattern.Mirage, Pattern);
         Cost.gameObject.SetActive(false);
         Name.gameObject.SetActive(false);
-
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!CheckCanDrag()||!BuildManager.Instance.InBuildMode)
+        if (!CheckCanDrag() || !BuildManager.Instance.InBuildMode)
         {
             return;
         }
+        
         transform.position = eventData.position;
 
         if (CheckIfOverBuildPanel(eventData))
@@ -90,8 +82,8 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
             BuildManager.Instance.Mirage.gameObject.SetActive(true);
             Icon.gameObject.SetActive(false);
         }
-
     }
+
     public void OnEndDrag(PointerEventData eventData)
     {
         Icon.gameObject.SetActive(true);
@@ -99,6 +91,7 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
         Cost.gameObject.SetActive(true);
         transform.SetParent(defaultParent);
         transform.SetSiblingIndex(defaultSiblingIndex);
+
         if (!CheckCanDrag())
         {
             return;
@@ -109,10 +102,12 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
             BuildManager.Instance.BuildTower();
         }
 
-        if (!BuildManager.Instance.InBuildMode && BuildManager.Instance.Mirage!=null)
+        if (!BuildManager.Instance.InBuildMode && BuildManager.Instance.Mirage != null)
         {
             BuildManager.Instance.Mirage.gameObject.SetActive(false);
         }
+
+        BuildManager.Instance.BuildPanel.HideDescription();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -120,7 +115,9 @@ public class SelectTowerButton : MonoBehaviour,IDragHandler,IBeginDragHandler,IE
         if (Pattern.IsUpgrade)
         {
             BuildManager.Instance.UpgradeTower(Pattern);
+            return;
         }
+        BuildManager.Instance.BuildPanel.ShowDescription(Pattern);
     }
 
     private bool CheckCanDrag()

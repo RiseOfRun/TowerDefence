@@ -23,8 +23,6 @@ public class BuildManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(this);
     }
 
     private void Start()
@@ -32,12 +30,6 @@ public class BuildManager : MonoBehaviour
         BuildPanel = FindObjectOfType<BuildPanel>();
     }
 
-
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        
-    }
     
     
     public bool BuildTower()

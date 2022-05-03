@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class TowerPattern : ScriptableObject
     public MirageOfTower Mirage;
     public Sprite Icon;
     public string Name;
+    [TextArea] public string Description;
     public bool IsUpgrade = false;
     public SourceOfDamage DamageSource;
     public float Damage;

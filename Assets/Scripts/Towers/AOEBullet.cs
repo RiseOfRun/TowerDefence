@@ -8,10 +8,6 @@ public class AOEBullet : Bullet
 {
     public float ExplosionRange;
     public GameObject Explosion;
-    void Start()
-    {
-        
-    }
 
     IEnumerator DoDamage(Enemy target)
     {
@@ -19,11 +15,12 @@ public class AOEBullet : Bullet
         {
             yield return null;
         }
+        ApplyDebuffs(target);
         target.ApplyDamage(Damage);
     }
     public override void DoAction()
     {
-        var currentTargets = Physics.OverlapSphere(transform.position, ExplosionRange/2,
+        var currentTargets = Physics.OverlapSphere(transform.position, ExplosionRange,
             LayerMask.GetMask("Enemies"));
         foreach (var target in currentTargets)
         {
@@ -39,7 +36,7 @@ public class AOEBullet : Bullet
         if (Explosion!=null)
         {
             GameObject exp = Instantiate(Explosion,transform.position,Quaternion.identity);
-            exp.transform.localScale = new Vector3(ExplosionRange, ExplosionRange, ExplosionRange); 
+            exp.transform.localScale = new Vector3(ExplosionRange*2, ExplosionRange, ExplosionRange*2); 
         }
         Destroy(gameObject);
     }

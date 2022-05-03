@@ -24,8 +24,6 @@ public class TargetSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(this);
     }
 
     void LMBHandler()

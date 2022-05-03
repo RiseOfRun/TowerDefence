@@ -10,7 +10,7 @@ public class LevelController : MonoBehaviour
     [FormerlySerializedAs("UIPanel")] public GameObject UICanvas;
     [HideInInspector]public GameObject UnitPool;
     [HideInInspector]public List<Tower> Towers = new List<Tower>();
-    [HideInInspector][FormerlySerializedAs("Panel")] public BuildPanel BuuldPanel;
+    public BuildPanel BuildPanel;
     [FormerlySerializedAs("timeToWave")] public float TimeToWave;
     public Spawner[] Spawners;
     public int WaveCount;
@@ -22,6 +22,7 @@ public class LevelController : MonoBehaviour
     private int enemyCount;
     private GameObject winPanel;
     private GameObject losePanel;
+    private bool gameIN = true;
 
     
     private void Awake()
@@ -33,11 +34,9 @@ public class LevelController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        DontDestroyOnLoad(gameObject);
         losePanel = UICanvas.GetComponentInChildren<LosePanel>(true).gameObject;
         winPanel = UICanvas.GetComponentInChildren<WinPanel>(includeInactive:true).gameObject;
-        BuuldPanel = UICanvas.GetComponentInChildren<BuildPanel>();
+        BuildPanel = UICanvas.GetComponentInChildren<BuildPanel>();
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
         GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
         waveController = GetComponentInChildren<WaveController>();
@@ -47,11 +46,13 @@ public class LevelController : MonoBehaviour
 
     void Start()
     {
-        BuuldPanel.Towers = TowersToBuild;
+        BuildPanel.Towers = TowersToBuild;
         TimeToWave = TimeBetweenWaves;
         CurrentWave = 1;
         
     }
+    
+    //ToDO Save/Load system
 
     void OnUnitSlain(Enemy unit)
     {
@@ -73,6 +74,7 @@ public class LevelController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!gameIN) return;
         if (!WaveInProgress)
         {
             TimeToWave -= Time.deltaTime;
@@ -103,12 +105,12 @@ public class LevelController : MonoBehaviour
 
     void OnGameWin()
     {
-        //UICanvas.SetActive(false);
         winPanel.SetActive(true);
+        gameIN = false;
     }void OnGameOver()
     {
-        UICanvas.gameObject.SetActive(false);
         losePanel.SetActive(true);
+        gameIN = false;
     }
     void CheckAllive()
     {

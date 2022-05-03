@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Teleport
   m_EditorClassIdentifier: 
   State: 0
-  CoolDown: 1
-  Cost: 0
+  CoolDown: 50
+  Cost: 150
+  Name: Teleport
+  Icon: {fileID: 0}
   IndicatorPrefab: {fileID: 8876313397819811846, guid: 3284f5928b26fd0468e97d29703fb5c3, type: 3}
-  Range: 2
+  Range: 1.5
   ReactivateDelay: 1

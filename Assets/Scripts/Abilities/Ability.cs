@@ -3,31 +3,35 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Ability : ScriptableObject
 {
-    public enum AbiltyStatement
+    public enum AbilityStatement
     {
         Ready,
         Aim,
         CoolDown
     }
-    public AbiltyStatement State;
+    public AbilityStatement State;
     public float CoolDown;
+    [Header("Parameters")]
     public float Cost;
+    public string Name;
+    public Sprite Icon;
 
     public virtual void StartAim()
     {
-        State = AbiltyStatement.Aim;
+        State = AbilityStatement.Aim;
     }
     
     public virtual void EndAim()
     {
-        State = AbiltyStatement.Ready;
+        State = AbilityStatement.Ready;
     }
     public virtual bool Perform()
     {
-        State = AbiltyStatement.CoolDown;
+        State = AbilityStatement.CoolDown;
         return true;
     }
 

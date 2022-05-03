@@ -7,18 +7,16 @@ public class Bullet : SourceOfDamage
     public Targetable Target;
     // Start is called before the first frame update
     private Vector3 lastTargetPosition;
-    public void Init(int damage, Enemy target)
-    {
-        Damage = damage;
-        Target = Targets[0];
-        lastTargetPosition = target.transform.position;
-    }
+ 
     public override void Init(List<Targetable> targets, float damage, List<Debuff> debuffs = null)
     {
         base.Init(targets, damage, debuffs);
-        Target = targets[0];
+        if (targets.Count!=0)
+        {
+            Target = targets[0];
+        }
     }
-    void Move()
+    public virtual void Move()
     {
         if (Target != null) 
         {

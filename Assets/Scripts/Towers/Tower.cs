@@ -74,14 +74,6 @@ public class Tower : MonoBehaviour
         source.transform.position = SourcePosition.position;
         source.Init(Targets, Pattern.Damage, Pattern.Debuffs);
     }
-    IEnumerator DrawLaser()
-    {
-        while (Targets.Count != 0 && Targets[0] != null)
-        {
-            Debug.DrawLine(transform.position+new Vector3(0,1f,0) ,Targets[0].transform.position,Color.red);
-            yield return null;
-        }
-    }
 
     public void Update()
     {

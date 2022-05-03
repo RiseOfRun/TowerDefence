@@ -8,11 +8,19 @@ using UnityEngine.UI;
 public class BuildPanel : MonoBehaviour
 {
     [HideInInspector] public List<TowerPattern> Towers;
-    public SelectTowerButton ButtonPatern;
-    [FormerlySerializedAs("Space")] public GameObject BuildOptionsSpace;
+    public SelectTowerButton ButtonPattern;
+
+    [Header("BuildOptions")]
+    public GameObject BuildOptions;
+    public GameObject BuildOptionsSpace;
+    [Header("Upgrades")]
     public GameObject UpgradesSpace;
     [FormerlySerializedAs("UpgradesText")] public GameObject UpgradesUI;
     public TMP_Text UpgradesText;
+    [Header("Description")]
+    public GameObject DescriptionSpace;
+    public TMP_Text DescriptionName;
+    public TMP_Text TowerDescription;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +29,7 @@ public class BuildPanel : MonoBehaviour
         Towers = LevelController.Instance.TowersToBuild;
         foreach (var tower in Towers)
         {
-            var newButton = Instantiate(ButtonPatern, BuildOptionsSpace.transform);
+            var newButton = Instantiate(ButtonPattern, BuildOptionsSpace.transform);
             newButton.Init(tower);
         }
     }
@@ -30,7 +38,7 @@ public class BuildPanel : MonoBehaviour
     {
         UpgradesSpace.SetActive(true);
         UpgradesUI.SetActive(true);
-        BuildOptionsSpace.SetActive(false);
+        BuildOptions.SetActive(false);
 
         foreach (Transform child in UpgradesSpace.transform)
         {
@@ -44,19 +52,35 @@ public class BuildPanel : MonoBehaviour
         UpgradesText.gameObject.SetActive(true);
         foreach (var pattern in t.Pattern.Upgrades)
         {
-            var newButton = Instantiate(ButtonPatern, UpgradesSpace.transform);
+            var newButton = Instantiate(ButtonPattern, UpgradesSpace.transform);
             newButton.Init(pattern);
         }
+        ShowDescription(t.Pattern);
     }
 
     public void FreeTower()
     {
         UpgradesSpace.SetActive(false);
-        BuildOptionsSpace.SetActive(true);
+        BuildOptions.SetActive(true);
         UpgradesUI.SetActive(false);
         TargetSystem.Instance.TargetedTower = null;
+        HideDescription();
     }
 
+    public void ShowDescription(TowerPattern tower)
+    {
+        DescriptionName.text = tower.Name + ":";
+        TowerDescription.text = tower.Description;
+        DescriptionSpace.SetActive(true);
+
+    }
+
+    public void HideDescription()
+    {
+        DescriptionSpace.SetActive(false);
+    }
+    
+    public 
     // Update is called once per frame
     void Update()
     {
