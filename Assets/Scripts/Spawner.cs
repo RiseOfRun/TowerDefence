@@ -5,14 +5,11 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public Transform[] WayPoints;
-    [HideInInspector] public Queue<EnemyGroup> WavePopulation = new Queue<EnemyGroup>();
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    private readonly Queue<EnemyGroup> WavePopulation = new Queue<EnemyGroup>();
+    
     public void SpawnWave(WaveSettings currentWave, WaveController controller)
     {
-        WavePopulation = new Queue<EnemyGroup>();
+        WavePopulation.Clear();
         foreach (var party in currentWave.EnemyGroups)
         {
             for (int i = 0; i < party.Size; i++)
@@ -24,11 +21,7 @@ public class Spawner : MonoBehaviour
 
 
     }
-    // Update is called once per frame
-    void Update()
-    {
-  
-    }
+    
     IEnumerator Spawn(WaveSettings settings, WaveController controller)
     {
         for (int i = 0; i < settings.Size; i++)
@@ -41,7 +34,6 @@ public class Spawner : MonoBehaviour
             WavePopulation.Dequeue();
             Enemy newEnemy = controller.GetEnemy(current,transform.position);
             newEnemy.Waypoints = WayPoints;
-            Vector3 position = transform.position;
             yield return new WaitForSeconds(settings.Delay);
         }
     }

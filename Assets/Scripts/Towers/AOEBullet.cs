@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.SocialPlatforms;
 
 public class AOEBullet : Bullet
 {
     public float ExplosionRange;
-    public GameObject Explosion;
+    [FormerlySerializedAs("Explosion")] public GameObject Effect;
 
     IEnumerator DoDamage(Enemy target)
     {
@@ -33,9 +34,9 @@ public class AOEBullet : Bullet
             enemy.StartCoroutine(DoDamage(enemy));
         }
 
-        if (Explosion!=null)
+        if (Effect!=null)
         {
-            GameObject exp = Instantiate(Explosion,transform.position,Quaternion.identity);
+            GameObject exp = Instantiate(Effect,transform.position,Quaternion.identity);
             exp.transform.localScale = new Vector3(ExplosionRange*2, ExplosionRange, ExplosionRange*2); 
         }
         Destroy(gameObject);

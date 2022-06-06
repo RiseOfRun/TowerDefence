@@ -2,22 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Targetable : MonoBehaviour
+public abstract class Targetable : MonoBehaviour
 {
-    public float Health = 0;
+    public float Health
+    {
+        get => health;
+        set
+        {
+            if (Math.Abs(value - health) < 0.01f) return;
+            health = value;
+            OnHealthChanged?.Invoke(health);
+        }
+    }
     public Action<float> OnHealthChanged;
     public List<Debuff> Debuffs = new List<Debuff>();
+    [SerializeField] private float health = 0;
     
-    private void Awake()
-    {
-    }
-
-    void Start()
-    {
-        
-    }
-
-    public void Update()
+    public virtual void Update()
     {
         if (Health <= 0)
         {
@@ -38,17 +39,21 @@ public class Targetable : MonoBehaviour
 
     public virtual void ApplyDamage(float damage)
     {
-        Health -= damage;
-        if (Health<=0)
+        if (Health <= 0)
         {
-            Destroy(gameObject);
+            return;
         }
-        OnHealthChanged?.Invoke(Health);
+        Health -= damage;
+        if (Health <= 0)
+        {
+            Die();
+        }
     }
 
-    public virtual void OnDeath()
+    public virtual void Die()
     {
-        
+        Destroy(gameObject);
+
     }
     
 }

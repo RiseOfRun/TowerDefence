@@ -13,17 +13,11 @@ public class FreezingPulse : SourceOfDamage
             ApplyDebuffs(target);
             target.ApplyDamage(Damage);
         }
-        Invoke("EndEffect",1);
+        Invoke(nameof(EndEffect),1);
     }
 
-    void EndEffect()
+    private void EndEffect()
     {
         Destroy(gameObject);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

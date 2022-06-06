@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4372685649982454779}
   - component: {fileID: -1991255428373656284}
+  - component: {fileID: 8399090758382162775}
   m_Layer: 7
   m_Name: FrozenTower
   m_TagString: Untagged
@@ -79,6 +80,19 @@ MonoBehaviour:
   CanForceTarget: 0
   Targets: []
   Pattern: {fileID: 11400000, guid: 256cd4c05dbb65945bae3b14d951f507, type: 2}
+--- !u!65 &8399090758382162775
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8980637826533046330}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!1001 &1637602028006432308
 PrefabInstance:
   m_ObjectHideFlags: 0

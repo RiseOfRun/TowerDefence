@@ -39,14 +39,8 @@ public class Bullet : SourceOfDamage
         Destroy(gameObject);
     }
     
-    // Update is called once per frame
     public void Update()
     {
         Move();
-    }
-
-    public virtual void Init()
-    {
-        throw new System.NotImplementedException();
     }
 }

@@ -47,7 +47,7 @@ MonoBehaviour:
   Targets: []
   Damage: 0
   DebuffsToApply: []
-  Speed: 5
+  Speed: 10
   Target: {fileID: 0}
 --- !u!1001 &6638945364109961152
 PrefabInstance:

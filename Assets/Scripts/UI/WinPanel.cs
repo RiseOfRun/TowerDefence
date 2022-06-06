@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WinPanel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Button NextLevelButton;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        if (GameManager.CurrentLevel >= GameManager.LevelsCount - 1)
+        {
+            NextLevelButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            NextLevelButton.gameObject.SetActive(true);
+        }
     }
 }

@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int Money = 100;
+    public float Money = 100;
     public int Lives;
-    public float Mana = 100;
+
     public static Player Instance;
     // Start is called before the first frame update
 
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
         {
             Instance = this;
         }
-        else if (Instance == this)
+        else
         {
             Destroy(gameObject);
         }
@@ -28,8 +28,5 @@ public class Player : MonoBehaviour
     void OnEnemySlain(Enemy unit)
     {
         Money += unit.Score;
-        Mana += 1;
     }
 }
-    
-

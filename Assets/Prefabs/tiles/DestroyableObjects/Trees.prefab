@@ -60,8 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd051c0739d99f245ab73109074eb1d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 2000
   Debuffs: []
+  health: 2000
 --- !u!1001 &5924446699668130815
 PrefabInstance:
   m_ObjectHideFlags: 0

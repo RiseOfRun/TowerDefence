@@ -8,21 +8,24 @@ using UnityEngine.Serialization;
 public class Tower : MonoBehaviour
 {
     public Transform SourcePosition;
-  
     public bool CanForceTarget;
     [FormerlySerializedAs("targets")] public List<Targetable> Targets = new List<Targetable>();
     public TowerPattern Pattern;
+    public Action OnShoot;
     private float SecondsOnAttack => 1 / Pattern.APS;
+
     private float timerToAttack;
+
     // Start is called before the first frame update
-    public virtual void Start()
+    public void Start()
     {
         GameEvents.TowerBuilt(this);
         timerToAttack = SecondsOnAttack;
-        if (SourcePosition==null)
+        if (SourcePosition == null)
         {
             SourcePosition = transform;
         }
+
         // GameEvents.TowerBuilt(this);
         // GameEvents.OnEnemyKilled.Invoke(1);
         // Debug.Log($"towerDamage = {Damage}");
@@ -36,8 +39,10 @@ public class Tower : MonoBehaviour
         if (CanForceTarget)
         {
             Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(
-                x=>x!=null && Vector3.Distance(x.transform.position,transform.position)<=Pattern.Range));
+                x => x is Enemy && x != null &&
+                     Vector3.Distance(x.transform.position, transform.position) <= Pattern.Range));
         }
+
         Collider[] objects = Physics.OverlapSphere(transform.position,
             Pattern.Range,
             LayerMask.GetMask("Enemies"));
@@ -47,8 +52,11 @@ public class Tower : MonoBehaviour
             if (Targets.Contains(unit)) continue;
             selectedTargets.Add(unit);
         }
-        Targets.AddRange(selectedTargets.Where(x => x!=null && x.enabled).
-            OrderByDescending(x => x.PercentComplete));
+
+        Targets.AddRange(selectedTargets.Where(x => x != null && x.enabled)
+            .OrderByDescending(x => x.PercentComplete));
+        Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(x => x is DestroyableObject &&
+                                                                       x != null));
     }
 
     public void Attack()
@@ -62,7 +70,7 @@ public class Tower : MonoBehaviour
                 timerToAttack += SecondsOnAttack;
             }
         }
-        else
+        else if (timerToAttack < 0)
         {
             timerToAttack = 0;
         }
@@ -71,8 +79,9 @@ public class Tower : MonoBehaviour
     private void OnTimerTick()
     {
         SourceOfDamage source = Instantiate(Pattern.DamageSource, transform);
-        source.transform.position = SourcePosition.position;
+        source.transform.position = SourcePosition.transform.position;
         source.Init(Targets, Pattern.Damage, Pattern.Debuffs);
+        OnShoot?.Invoke();
     }
 
     public void Update()
@@ -83,7 +92,6 @@ public class Tower : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position,Pattern.Range);
-
+        Gizmos.DrawWireSphere(transform.position, Pattern.Range);
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4715838168555044789}
   - component: {fileID: 2094756951579449329}
   - component: {fileID: 6930685944208258904}
+  - component: {fileID: 115346763865932680}
   m_Layer: 3
   m_Name: BasicEnemy
   m_TagString: Untagged
@@ -47,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b153162cc0be9c840b560c3e233497f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 1
   Debuffs: []
+  health: 100
   Speed: 1
   Score: 1
   Penalty: 1
@@ -87,6 +88,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &115346763865932680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4715838168555044787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f1762cb3a2a6f46bf1d8d60c2fd603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lerp: 0
+  NumbersOfElementsToColorize: 0000000002000000
+  DefaultColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!1 &7323307200751254107
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,10 +162,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5380546593303026781, guid: 6f0a80efa83c7244782baf8e85ae3216, type: 3}
-  - {fileID: -872196626646429207, guid: 6f0a80efa83c7244782baf8e85ae3216, type: 3}
-  - {fileID: -4231637370832951941, guid: 6f0a80efa83c7244782baf8e85ae3216, type: 3}
-  - {fileID: -6271897200390792742, guid: 6f0a80efa83c7244782baf8e85ae3216, type: 3}
+  - {fileID: 5380546593303026781, guid: 512bebff979bea3418e9e09e9a3ceebd, type: 3}
+  - {fileID: -872196626646429207, guid: c3452ef37d5131848a480c3f9650cb4a, type: 3}
+  - {fileID: -4231637370832951941, guid: 1e6744cfd49613c4eaffd779263ada70, type: 3}
+  - {fileID: -6271897200390792742, guid: e32005e9203043144ace9976af49d783, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

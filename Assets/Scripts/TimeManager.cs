@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour
     }
 
 
-    [SerializeField] private float currentTimeScale;
+    [SerializeField] private float currentTimeScale = 1;
     private float fixedDeltaTime;
     // Start is called before the first frame update
     void Start()

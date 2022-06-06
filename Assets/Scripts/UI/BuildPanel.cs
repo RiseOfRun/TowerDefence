@@ -29,6 +29,10 @@ public class BuildPanel : MonoBehaviour
         Towers = LevelController.Instance.TowersToBuild;
         foreach (var tower in Towers)
         {
+            if (tower.IsUpgrade)
+            {
+                continue;
+            }
             var newButton = Instantiate(ButtonPattern, BuildOptionsSpace.transform);
             newButton.Init(tower);
         }
@@ -44,18 +48,21 @@ public class BuildPanel : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        ShowDescription(t.Pattern);
         if (t.Pattern.Upgrades.Count == 0)
         {
-            UpgradesText.gameObject.SetActive(false);
+            UpgradesText.text = "No upgrades available";
             return;
         }
-        UpgradesText.gameObject.SetActive(true);
+        else
+        {
+            UpgradesText.text = "Upgrades:";
+        }
         foreach (var pattern in t.Pattern.Upgrades)
         {
             var newButton = Instantiate(ButtonPattern, UpgradesSpace.transform);
             newButton.Init(pattern);
         }
-        ShowDescription(t.Pattern);
     }
 
     public void FreeTower()
@@ -78,11 +85,5 @@ public class BuildPanel : MonoBehaviour
     public void HideDescription()
     {
         DescriptionSpace.SetActive(false);
-    }
-    
-    public 
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

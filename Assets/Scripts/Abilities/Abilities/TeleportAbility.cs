@@ -26,12 +26,12 @@ public class TeleportAbility : AreaAbility
         {
             float delay = (i + 1) * ReactivateDelay;
             var current = detectedEnemies[i];
-            LevelController.Instance.StartCoroutine(Reactiovate(current, delay));
+            LevelController.Instance.StartCoroutine(Reactivate(current, delay));
         }
         return true;
     }
 
-    IEnumerator Reactiovate(Enemy enemy, float delay)
+    IEnumerator Reactivate(Enemy enemy, float delay)
     {
         yield return new WaitForSeconds(delay);
         enemy.gameObject.SetActive(true);

@@ -20,7 +20,7 @@ public class TargetSystem : MonoBehaviour
         {
             Instance = this;
         }
-        else if (Instance == this)
+        else
         {
             Destroy(gameObject);
         }
@@ -56,7 +56,7 @@ public class TargetSystem : MonoBehaviour
         if (Physics.Raycast(r, out hit, float.MaxValue, LayerMask.GetMask("Tower")))
         {
             TargetedTower = hit.collider.gameObject.GetComponentInParent<Tower>();
-            BuildManager.Instance.BuildPanel.OnTowerSelected(TargetedTower);
+            BuildManager.Instance.BuildOptionsPanel.OnTowerSelected(TargetedTower);
             return;
         }
 

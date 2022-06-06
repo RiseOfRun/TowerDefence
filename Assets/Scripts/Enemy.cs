@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class Enemy : Targetable
 {
     public float Speed = 0;
-    public int Score = 0;
+    public float Score = 0;
     public int Penalty = 1;
     public Transform[] Waypoints;
     public float FlyHeight;
@@ -16,11 +16,7 @@ public class Enemy : Targetable
     private float fullDistance = 0;
     private float passedDistance = 0;
     private bool startedMove = false;
-
-    void Awake()
-    {
-    }
-
+    private static readonly int Die1 = Animator.StringToHash("Die");
     void CalculateDistance()
     {
         Vector3 currentPosition = transform.position;
@@ -115,12 +111,12 @@ public class Enemy : Targetable
         }
     }
 
-    public override void OnDeath()
+    public override void Die()
     {
         GameEvents.EnemySlain(this);
         enabled = false;
         Animator animator = GetComponent<Animator>();
-        animator.SetTrigger("Die");
+        animator.SetTrigger(Die1);
         Destroy(this);
     }
 
@@ -128,21 +124,5 @@ public class Enemy : Targetable
     {
         Debug.Log("died");
         Destroy(gameObject);
-    }
-
-    public override void ApplyDamage(float damage)
-    {
-        if (Health <= 0)
-        {
-            return;
-        }
-
-        // Debug.Log($"Ouch! {damage}");
-        Health -= damage;
-        OnHealthChanged?.Invoke(Health);
-        if (Health <= 0)
-        {
-            OnDeath();
-        }
     }
 }

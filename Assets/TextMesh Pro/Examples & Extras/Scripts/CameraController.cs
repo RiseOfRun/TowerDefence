@@ -96,7 +96,6 @@ namespace TMPro.Examples
                 {
                     // Free Camera implementation
                 }
-
                 if (MovementSmoothing == true)
                 {
                     // Using Smoothing

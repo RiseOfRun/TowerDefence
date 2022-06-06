@@ -14,7 +14,6 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
     public Ability ConnectedAbility;
     public TMP_Text Name;
     public TMP_Text Cost;
-    public Image Icon;
     private float cd;
     private GameObject aPanel;
     // Start is called before the first frame update
@@ -26,7 +25,6 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
             return;
         }
         Name.text = ConnectedAbility.Name;
-        Icon.sprite = ConnectedAbility.Icon;
         Cost.text = ConnectedAbility.Cost.ToString();
         aPanel = transform.parent.gameObject;
         cd = ConnectedAbility.CoolDown;
@@ -39,7 +37,6 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
     {
         if (ConnectedAbility.State == Ability.AbilityStatement.CoolDown)
         {
-            
             cd -= Time.deltaTime;
             if (cd<0)
             {
@@ -54,7 +51,6 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
         if (CanUse())
         {
             ConnectedAbility.StartAim();
-            //aPanel.SetActive(false);
         }
     }
     
@@ -72,14 +68,15 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        ConnectedAbility.EndAim();
-        aPanel.SetActive(true);
         if (CanUse())
         {
+            ConnectedAbility.EndAim();
+            aPanel.SetActive(true);
             bool performed = ConnectedAbility.Perform();
             if (performed)
             {
                 cd = ConnectedAbility.CoolDown;
+                ConnectedAbility.State = Ability.AbilityStatement.CoolDown;
                 Player.Instance.Money -= (int)ConnectedAbility.Cost;
             }
         }
@@ -87,7 +84,7 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
 
     bool CanUse()
     {
-        return (ConnectedAbility.State == Ability.AbilityStatement.Ready &&
+        return (ConnectedAbility.State!=Ability.AbilityStatement.CoolDown &&
                 ConnectedAbility.Cost <= Player.Instance.Money);
     }
 }

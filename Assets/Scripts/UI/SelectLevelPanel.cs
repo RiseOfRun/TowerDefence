@@ -14,12 +14,13 @@ public class SelectLevelPanel : MonoBehaviour
 
     public void Start()
     {
-        int competedLevels = PlayerPrefs.GetInt("CompletedLevels");
+        int competedLevels = PlayerPrefs.GetInt("CompletedLevels",0);
         for (int i = 0; i < GameManager.LevelsCount; i++)
         {
-            var newButton = Instantiate(SelectLevelButtonPrefab,Space.transform);
-            newButton.onClick.AddListener(() => {OnButtonPress(i);});
-            newButton.GetComponentInChildren<TMP_Text>().text = $"Level:\n {i+1}";
+            Button newButton = Instantiate(SelectLevelButtonPrefab,Space.transform);
+            int levelNumber = i;
+            newButton.onClick.AddListener(() => {OnButtonPress(levelNumber);});
+            newButton.GetComponentInChildren<TMP_Text>().text = $"Level:\n{i+1}";
             if (i>competedLevels)
             {
                 newButton.interactable = false;
@@ -31,6 +32,7 @@ public class SelectLevelPanel : MonoBehaviour
     void OnButtonPress(int levelNumber)
     {
         GameManager.CurrentLevel = levelNumber;
+        PlayerPrefs.SetInt("OnLevel",-1);
         SceneManager.LoadScene("Scenes/GameLevel");
     }
 

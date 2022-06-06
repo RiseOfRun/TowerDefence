@@ -7,8 +7,8 @@ public class BuildManager : MonoBehaviour
     public TowerPattern currentTower;
     public static BuildManager Instance;
     public bool InBuildMode = false;
+    [FormerlySerializedAs("BuildPanel")] public BuildPanel BuildOptionsPanel;
     [HideInInspector] public MirageOfTower MiragePrefab;
-    [HideInInspector]public BuildPanel BuildPanel;
     public ParticleSystem OnBuildParticle;
     [HideInInspector][FormerlySerializedAs("mirage")] public MirageOfTower Mirage;
 
@@ -24,34 +24,33 @@ public class BuildManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void Start()
-    {
-        BuildPanel = FindObjectOfType<BuildPanel>();
-    }
-
     
-    
-    public bool BuildTower()
+    public void BuildTower()
     {
-        var transform1 = Mirage.transform;
-        var position = transform1.position;
+        InBuildMode = false;
+        
+        var position = Mirage.transform.position;
         Ray ray = new Ray(new Vector3(position.x,100,position.z), Vector3.down);
         if (!Physics.Raycast(ray, out RaycastHit hitInfo,
-            float.MaxValue, LayerMask.GetMask("Ground"))) return InBuildMode = false;
+            float.MaxValue, LayerMask.GetMask("Ground")))
+        {
+            return;
+        }
+
         Square hitSquare = hitInfo.collider.gameObject.GetComponent<Square>();
-        if (hitSquare == null || !hitSquare.CanBuild) return InBuildMode = false;
+        if (hitSquare == null || !hitSquare.CanBuild)
+        {
+            return;
+        }
+
         Build(hitSquare,currentTower);
         Destroy(Mirage.gameObject);
-        InBuildMode = false;
-        return true;
     }
 
     public void Build(Square place, TowerPattern tower)
     {
         if (Player.Instance.Money < tower.Cost) return;
         Tower newTower = tower.SpawnTower(place);
-        LevelController.Instance.Towers.Add(newTower);
         if (OnBuildParticle!=null)
         {
             Instantiate(OnBuildParticle, newTower.transform);
@@ -66,7 +65,7 @@ public class BuildManager : MonoBehaviour
         Tower targetTower = TargetSystem.Instance.TargetedTower;
         Square place = targetTower.transform.parent.GetComponent<Square>();
         Destroy(targetTower.gameObject);
-        Instance.BuildPanel.FreeTower();
+        Instance.BuildOptionsPanel.FreeTower();
         Instance.Build(place,p);
     }
 
@@ -80,5 +79,12 @@ public class BuildManager : MonoBehaviour
             Destroy(Mirage.gameObject);
         }
         Mirage = Instantiate(Instance.MiragePrefab);
+    }
+
+    public void ExitFromBuildMod()
+    {
+        InBuildMode = false;
+        Mirage.gameObject.SetActive(false); 
+        BuildOptionsPanel.HideDescription();
     }
 }

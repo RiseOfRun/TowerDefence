@@ -50,7 +50,7 @@ MonoBehaviour:
   Speed: 10
   Target: {fileID: 0}
   ExplosionRange: 2
-  Explosion: {fileID: 868427639234779176, guid: 5048d2c527c10114a9dd8ebd52621e15, type: 3}
+  Effect: {fileID: 868427639234779176, guid: 5048d2c527c10114a9dd8ebd52621e15, type: 3}
 --- !u!1001 &6638945364109961152
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -62,6 +62,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: model
       objectReference: {fileID: 0}
+    - target: {fileID: 2405747053461556096, guid: d9554e6791d5f2b4e91fca4fb96a65fc, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2405747053461556096, guid: d9554e6791d5f2b4e91fca4fb96a65fc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7dbd8c2b363063b42a6c15befd45831f, type: 2}
+    - target: {fileID: 2405747053461556096, guid: d9554e6791d5f2b4e91fca4fb96a65fc, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 7555185752953191562, guid: 740d2c879d15fe84689905d2f1f4abd8, type: 3}
     - target: {fileID: 2405747053461556098, guid: d9554e6791d5f2b4e91fca4fb96a65fc, type: 3}
       propertyPath: scalingMode
       value: 0
@@ -110,6 +122,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2405747053461556103, guid: d9554e6791d5f2b4e91fca4fb96a65fc, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9554e6791d5f2b4e91fca4fb96a65fc, type: 3}
 --- !u!4 &9025402290932345926 stripped

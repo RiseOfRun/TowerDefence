@@ -49,8 +49,8 @@ MonoBehaviour:
   DebuffsToApply: []
   Speed: 5
   Target: {fileID: 0}
-  ExplosionRange: 3
-  Explosion: {fileID: 868427639234779176, guid: 5048d2c527c10114a9dd8ebd52621e15, type: 3}
+  ExplosionRange: 2.5
+  Effect: {fileID: 868427639234779176, guid: 5048d2c527c10114a9dd8ebd52621e15, type: 3}
 --- !u!1001 &7234724277978166047
 PrefabInstance:
   m_ObjectHideFlags: 0

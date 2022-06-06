@@ -24,12 +24,12 @@ public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler,
         button = GetComponentInChildren<Button>();
     }
 
-    public void Init(TowerPattern Tower)
+    public void Init(TowerPattern tower)
     {
-        Pattern = Tower;
+        Pattern = tower;
         Name.text = Pattern.Name;
         Cost.text = Pattern.Cost.ToString();
-        Icon.sprite = Tower.Icon;
+        Icon.sprite = tower.Icon;
     }
     
 
@@ -104,20 +104,18 @@ public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
         if (!BuildManager.Instance.InBuildMode && BuildManager.Instance.Mirage != null)
         {
-            BuildManager.Instance.Mirage.gameObject.SetActive(false);
+            BuildManager.Instance.ExitFromBuildMod();
         }
-
-        BuildManager.Instance.BuildPanel.HideDescription();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Pattern.IsUpgrade)
+        if (Pattern.IsUpgrade && Player.Instance.Money >= Pattern.Cost)
         {
             BuildManager.Instance.UpgradeTower(Pattern);
             return;
         }
-        BuildManager.Instance.BuildPanel.ShowDescription(Pattern);
+        BuildManager.Instance.BuildOptionsPanel.ShowDescription(Pattern);
     }
 
     private bool CheckCanDrag()
