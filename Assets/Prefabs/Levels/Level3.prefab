@@ -663,12 +663,12 @@ MonoBehaviour:
   PlayerStartMoney: 100
   WaveCount: 10
   TimeBetweenWaves: 30
-  CurrentWave: 0
+  CurrentWave: 1
   WaveInProgress: 0
   TowersToBuild:
   - {fileID: 11400000, guid: b47637ef1b46f884280662f91d318b0d, type: 2}
   - {fileID: 11400000, guid: 256cd4c05dbb65945bae3b14d951f507, type: 2}
-  OnWaveEnd:
+  EndWave:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &4350452799963139278

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float Money = 100;
+    public float Money;
     public int Lives;
 
     public static Player Instance;

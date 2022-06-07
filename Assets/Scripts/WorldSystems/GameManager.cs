@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
         Level = Levels[CurrentLevel];
         Level.gameObject.SetActive(true);
         Loader.SetLayout(Level);
-        Loader.SaveLevel();
+        Loader.Invoke("SaveLevel",0.1f); //??
         
     }
 

@@ -16,6 +16,7 @@ public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler,
     private Transform defaultParent;
     private int defaultSiblingIndex;
     private Button button;
+    private bool canDrag = true;
 
     void Start()
     {
@@ -65,7 +66,7 @@ public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!CheckCanDrag() || !BuildManager.Instance.InBuildMode)
+        if (!canDrag)
         {
             return;
         }
@@ -86,25 +87,24 @@ public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!canDrag)
+        {
+            return;
+        }
         Icon.gameObject.SetActive(true);
         Name.gameObject.SetActive(true);
         Cost.gameObject.SetActive(true);
         transform.SetParent(defaultParent);
         transform.SetSiblingIndex(defaultSiblingIndex);
 
-        if (!CheckCanDrag())
-        {
-            return;
-        }
-
         if (!CheckIfOverBuildPanel(eventData))
         {
             BuildManager.Instance.BuildTower();
         }
-
-        if (!BuildManager.Instance.InBuildMode && BuildManager.Instance.Mirage != null)
+        else
         {
             BuildManager.Instance.ExitFromBuildMod();
+
         }
     }
 
@@ -120,6 +120,6 @@ public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
     private bool CheckCanDrag()
     {
-        return !Pattern.IsUpgrade && Player.Instance.Money >= Pattern.Cost;
+        return canDrag = !Pattern.IsUpgrade && Player.Instance.Money >= Pattern.Cost;
     }
 }

@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-
     public Animator Anim;
-    [SerializeField]private float timeToReloadWeapon = 0.1f;
-    [SerializeField]private GameObject Bullet;
-    [SerializeField]private GameObject HorizontalPart;
-    [SerializeField]private GameObject VerticalPart;
+    [SerializeField] private float timeToReloadWeapon = 0.1f;
+    [SerializeField] private GameObject Bullet;
+    [SerializeField] private GameObject HorizontalPart;
+    [SerializeField] private GameObject VerticalPart;
     private Tower Owner;
     private AudioSource audioSource;
 
@@ -21,40 +20,36 @@ public class Weapon : MonoBehaviour
 
     void OnShoot()
     {
-        if (Anim!=null)
+        if (Anim != null)
         {
             Anim.SetTrigger("Shoot");
         }
 
-        if (audioSource!=null)
+        if (audioSource != null)
         {
             audioSource.Play();
         }
     }
 
-    void ReactivateWeapon()
-    {
-        Bullet.SetActive(true);
-    }
 
     void RotateWeapon()
     {
-        if (Owner.Targets.Count == 0|| Owner.Targets.All(x => x == null))
+        if (Owner.Targets.Count == 0 || Owner.Targets.All(x => x == null))
         {
             return;
         }
-        
-        var target = Owner.Targets.First(x=> x!=null);
-        float angle = Vector3.SignedAngle(HorizontalPart.transform.position,target.transform.position,Vector3.up);
-        
+
+        var target = Owner.Targets.First(x => x != null);
+        float angle = Vector3.SignedAngle(HorizontalPart.transform.position, target.transform.position, Vector3.up);
+
         var lookPos = target.transform.position - HorizontalPart.transform.position;
         lookPos.y = 0;
         HorizontalPart.transform.rotation = Quaternion.LookRotation(lookPos);
         VerticalPart.transform.LookAt(target.transform);
     }
+
     void Update()
     {
         RotateWeapon();
     }
-    
 }

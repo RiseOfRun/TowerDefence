@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 class TowerState
@@ -35,16 +36,16 @@ class LevelState
 {
     public int CurrentWave;
     public float[] PlayerStats = new float[2];
-    public List<DObjState> DObjts = new List<DObjState>();
+    [FormerlySerializedAs("DObjts")] public List<DObjState> DObjects = new List<DObjState>();
     public TowerState[] Towers = new TowerState[0];
 
 
-    public LevelState(int currentWave, float[] playerStats, List<DObjState> dObjts, 
+    public LevelState(int currentWave, float[] playerStats, List<DObjState> dObjects, 
         TowerState[] towers)
     {
         CurrentWave = currentWave;
         PlayerStats = playerStats;
-        DObjts = dObjts;
+        DObjects = dObjects;
         Towers = towers;
     }
 }
@@ -101,31 +102,30 @@ public class LevelLoader : MonoBehaviour
     {
         string json = PlayerPrefs.GetString("LevelState");
         LevelState state = JsonUtility.FromJson<LevelState>(json);
-        
         level.CurrentWave = state.CurrentWave;
         //Load PlayerState
         Player.Instance.Lives = (int)state.PlayerStats[0];
         Player.Instance.Money = state.PlayerStats[1];
         //Load DObjts
-        state.DObjts.ToList().Sort((x, y) => x.TileID.CompareTo(y.TileID));
+        state.DObjects.ToList().Sort((x, y) => x.TileID.CompareTo(y.TileID));
         int currentDObjID = 0;
-        int curTileID = state.DObjts[currentDObjID].TileID;
-        for (int i = 0; i < tiles.Count && currentDObjID < state.DObjts.Count; i++)
+        int currentTileID = state.DObjects.Count!=0 ? state.DObjects[currentDObjID].TileID : 0;
+        for (int i = 0; i < tiles.Count && currentDObjID < state.DObjects.Count; i++)
         {
-            curTileID = state.DObjts[currentDObjID].TileID;
+            currentTileID = state.DObjects[currentDObjID].TileID;
             DestroyableObject DObj = tiles[i].GetComponentInChildren<DestroyableObject>();
             if (DObj == null)
             {
                 continue;
             }
-            if (i<curTileID)
+            if (i<currentTileID)
             {
                 Destroy(DObj.gameObject);
                 continue;
             }
-            if (i == curTileID)
+            if (i == currentTileID)
             {
-               DObj.Health = state.DObjts[currentDObjID].Health;
+               DObj.Health = state.DObjects[currentDObjID].Health;
                currentDObjID++;
             }
         }
@@ -133,8 +133,9 @@ public class LevelLoader : MonoBehaviour
         {
             var pattern = Towers.Find(x => x.Name == tState.Name);
             pattern.SpawnTower(tiles[tState.TileID]);
-            tiles[tState.TileID].CanBuild = false;
+            tiles[tState.TileID].OnBuildTower();
         }
+        needToLoad = false;
     }
 
     private void Update()
@@ -142,7 +143,6 @@ public class LevelLoader : MonoBehaviour
         if (needToLoad)
         {
             LoadLevel();
-            needToLoad = false;
         }
     }
 }

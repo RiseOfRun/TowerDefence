@@ -55,8 +55,8 @@ public class Tower : MonoBehaviour
 
         Targets.AddRange(selectedTargets.Where(x => x != null && x.enabled)
             .OrderByDescending(x => x.PercentComplete));
-        Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(x => x is DestroyableObject &&
-                                                                       x != null));
+        Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(x => x is DestroyableObject && x != null
+            && Vector3.Distance(x.transform.position, transform.position) <= Pattern.Range));
     }
 
     public void Attack()

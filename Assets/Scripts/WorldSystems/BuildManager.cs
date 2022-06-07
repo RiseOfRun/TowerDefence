@@ -27,10 +27,9 @@ public class BuildManager : MonoBehaviour
     
     public void BuildTower()
     {
-        InBuildMode = false;
-        
         var position = Mirage.transform.position;
         Ray ray = new Ray(new Vector3(position.x,100,position.z), Vector3.down);
+        ExitFromBuildMod();
         if (!Physics.Raycast(ray, out RaycastHit hitInfo,
             float.MaxValue, LayerMask.GetMask("Ground")))
         {
@@ -42,9 +41,7 @@ public class BuildManager : MonoBehaviour
         {
             return;
         }
-
         Build(hitSquare,currentTower);
-        Destroy(Mirage.gameObject);
     }
 
     public void Build(Square place, TowerPattern tower)
@@ -65,8 +62,8 @@ public class BuildManager : MonoBehaviour
         Tower targetTower = TargetSystem.Instance.TargetedTower;
         Square place = targetTower.transform.parent.GetComponent<Square>();
         Destroy(targetTower.gameObject);
-        Instance.BuildOptionsPanel.FreeTower();
-        Instance.Build(place,p);
+        BuildOptionsPanel.FreeTower();
+        Build(place,p);
     }
 
     public void EnterToBuildMode(MirageOfTower miragePref, TowerPattern towerPref)
@@ -84,7 +81,6 @@ public class BuildManager : MonoBehaviour
     public void ExitFromBuildMod()
     {
         InBuildMode = false;
-        Mirage.gameObject.SetActive(false); 
-        BuildOptionsPanel.HideDescription();
+        Destroy(Mirage.gameObject);
     }
 }
