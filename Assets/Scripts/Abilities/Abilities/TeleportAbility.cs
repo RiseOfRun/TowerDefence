@@ -9,8 +9,14 @@ public class TeleportAbility : AreaAbility
     public float ReactivateDelay = 0;
     public override bool Perform()
     {
+        bool canPerform = base.Perform();
+        if (!canPerform)
+        {
+            return false;
+        }
         var enemies = Physics.OverlapSphere(indicator.transform.position,
             Range,LayerMask.GetMask("Enemies"));
+        EndAim();
         List<Enemy> detectedEnemies = new List<Enemy>();
         foreach (var enemy in enemies)
         {

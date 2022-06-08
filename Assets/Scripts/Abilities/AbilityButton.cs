@@ -16,6 +16,11 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
     public TMP_Text Cost;
     private float cd;
     private GameObject aPanel;
+    private bool canDrag = true;
+    private Image icon;
+    private Transform defaultParent;
+    private int defaultSiblingIndex;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +33,9 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
         Cost.text = ConnectedAbility.Cost.ToString();
         aPanel = transform.parent.gameObject;
         cd = ConnectedAbility.CoolDown;
+        icon = GetComponent<Image>();
+        defaultParent = transform.parent;
+        defaultSiblingIndex = transform.GetSiblingIndex();
         ConnectedAbility.State = Ability.AbilityStatement.CoolDown;
 
     }
@@ -48,30 +56,63 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (CanUse())
+        if (canDrag = CanUse())
         {
             ConnectedAbility.StartAim();
+            transform.parent = defaultParent.parent;
+            Name.gameObject.SetActive(false);
+            Cost.gameObject.SetActive(false);
         }
     }
     
     public void OnDrag(PointerEventData eventData)
     {
-        if (ConnectedAbility.State != Ability.AbilityStatement.Aim)
+        if (!canDrag)
         {
             return;
         }
-        ConnectedAbility.Aim();
-        
+
+        transform.position = eventData.position;
+        if (CheckIfOverBuildPanel(eventData))
+        {
+            icon.enabled = true;
+            if (ConnectedAbility.State == Ability.AbilityStatement.Aim)
+            {
+                ConnectedAbility.EndAim();
+            }
+            
+        }
+        else
+        {
+            icon.enabled = false;
+            if (ConnectedAbility.State == Ability.AbilityStatement.Aim)
+            {
+                ConnectedAbility.Aim();
+            }
+            else
+            {
+                ConnectedAbility.StartAim();
+                ConnectedAbility.Aim();
+            }
+        }
     }
 
     
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        icon.enabled = true;
+        Name.gameObject.SetActive(true);
+        Cost.gameObject.SetActive(true);
+        transform.SetParent(defaultParent);
+        transform.SetSiblingIndex(defaultSiblingIndex);
+        if (!canDrag)
+        {
+            return;
+        }
+        
         if (CanUse())
         {
-            ConnectedAbility.EndAim();
-            aPanel.SetActive(true);
             bool performed = ConnectedAbility.Perform();
             if (performed)
             {
@@ -81,7 +122,19 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
             }
         }
     }
-
+    bool CheckIfOverBuildPanel(PointerEventData eventData)
+    {
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        foreach (var item in results)
+        {
+            if (item.gameObject == aPanel)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     bool CanUse()
     {
         return (ConnectedAbility.State!=Ability.AbilityStatement.CoolDown &&

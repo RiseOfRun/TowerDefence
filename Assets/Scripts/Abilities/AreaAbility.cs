@@ -10,7 +10,6 @@ public class AreaAbility : Ability
     {
         base.StartAim();
         indicator = Instantiate(IndicatorPrefab);
-        State = AbilityStatement.Aim;
         indicator.transform.localScale = new Vector3(Range*2,1,Range*2);
     }
 
@@ -27,5 +26,14 @@ public class AreaAbility : Ability
     {
         base.EndAim();
         Destroy(indicator);
+    }
+
+    public override bool Perform()
+    {
+        if (State!=AbilityStatement.Aim)
+        {
+            return false;
+        }
+        return true;
     }
 }

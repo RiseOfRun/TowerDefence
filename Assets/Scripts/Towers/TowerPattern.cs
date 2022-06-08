@@ -11,7 +11,19 @@ public class TowerPattern : ScriptableObject
     public MirageOfTower Mirage;
     public Sprite Icon;
     public string Name;
-    [TextArea] public string Description;
+
+    [HideInInspector]
+    public string Description
+    {
+        get
+        {
+            string parcedDescription = description;
+            parcedDescription = parcedDescription.Replace("%d", Damage.ToString("0.00"));
+            parcedDescription = parcedDescription.Replace("%r", Range.ToString("0.00"));
+            parcedDescription = parcedDescription.Replace("%a", APS.ToString("0.00"));
+            return parcedDescription;
+        }
+    }
     public bool IsUpgrade = false;
     public SourceOfDamage DamageSource;
     public float Damage;
@@ -20,7 +32,9 @@ public class TowerPattern : ScriptableObject
     public float Range;
     public List<Debuff> Debuffs = new List<Debuff>();
     public List<TowerPattern> Upgrades = new List<TowerPattern>();
-    
+
+    [SerializeField][TextArea] private string description;
+
     public Tower SpawnTower(Square square)
     {
         Tower newTower =  Instantiate(TowerPref, square.transform);

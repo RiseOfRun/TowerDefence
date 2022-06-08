@@ -16,7 +16,6 @@ MonoBehaviour:
   Mirage: {fileID: 107874045729960576, guid: d98a4626801702145a0bd3216b5e5ca1, type: 3}
   Icon: {fileID: -382305985603570283, guid: ae0af7fa21cb91344bb6d31bf149241d, type: 3}
   Name: Basic Tower
-  Description: Deals single target damage
   IsUpgrade: 0
   DamageSource: {fileID: 4207677129459178337, guid: b764d6757fe8e3640807d3ad75e34727, type: 3}
   Damage: 50
@@ -26,3 +25,8 @@ MonoBehaviour:
   Debuffs: []
   Upgrades:
   - {fileID: 11400000, guid: 5237adc405d9963498e8ed1398ff464c, type: 2}
+  description: 'Deals single target damage
+
+    damage - %d
+
+    aps - %a'

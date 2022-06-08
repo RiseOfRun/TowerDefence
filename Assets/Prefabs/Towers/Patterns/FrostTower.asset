@@ -16,9 +16,6 @@ MonoBehaviour:
   Mirage: {fileID: 7395671602286826706, guid: 95b05900b18e78e4499bc4c7f6ea0ba0, type: 3}
   Icon: {fileID: 5462533576348290075, guid: ae0af7fa21cb91344bb6d31bf149241d, type: 3}
   Name: Frost Tower
-  Description: 'for a couple second reduces enemies movement speed  in a circle radius
-
-'
   IsUpgrade: 0
   DamageSource: {fileID: 9153009474300756896, guid: f2a23803c6fb3bc4589cbf5027409e2e, type: 3}
   Damage: 0
@@ -28,3 +25,4 @@ MonoBehaviour:
   Debuffs:
   - {fileID: 11400000, guid: da2210f86e850f44081e237cffacee06, type: 2}
   Upgrades: []
+  description: Reduces enemy movement speed (doesn't stack)
