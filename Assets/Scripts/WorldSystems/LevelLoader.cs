@@ -9,14 +9,14 @@ using UnityEngine.Serialization;
 class TowerState
 {
     public string Name;
-    public Vector3 position;
+    public Vector3 Position;
     public int TileID;
 
     public TowerState(Tower t, int tileid)
     {
         Name = t.Pattern.Name;
         TileID = tileid;
-        position = t.transform.position;
+        Position = t.transform.position;
     }
 }
 [Serializable]
@@ -35,23 +35,25 @@ class DObjState
 class LevelState
 {
     public int CurrentWave;
-    public float[] PlayerStats = new float[2];
-    [FormerlySerializedAs("DObjts")] public List<DObjState> DObjects = new List<DObjState>();
+    public int PlayerHealth;
+    public float PlayerMoney;
+    public List<DObjState> DObjects = new List<DObjState>();
     public TowerState[] Towers = new TowerState[0];
 
 
-    public LevelState(int currentWave, float[] playerStats, List<DObjState> dObjects, 
+    public LevelState(int currentWave, int playerHealth,float playerMoney , List<DObjState> dObjects, 
         TowerState[] towers)
     {
         CurrentWave = currentWave;
-        PlayerStats = playerStats;
+        PlayerHealth = playerHealth;
+        PlayerMoney = playerMoney;
         DObjects = dObjects;
         Towers = towers;
     }
 }
 public class LevelLoader : MonoBehaviour
 {
-    public bool needToLoad = false;
+    public bool NeedToLoad = false;
     public LevelController level;
     private List<Square> tiles = new List<Square>();
     private List<TowerPattern> Towers = new List<TowerPattern>();
@@ -90,9 +92,8 @@ public class LevelLoader : MonoBehaviour
             int tileID = tiles.IndexOf(dobj.GetComponentInParent<Square>());
             dobjts.Add(new DObjState(dobj.Health, tileID));
         }
-
-        float[] pStats = {Player.Instance.Lives, Player.Instance.Money};
-        LevelState state = new LevelState(level.CurrentWave, pStats,dobjts,TowerStates.ToArray());
+        LevelState state = new LevelState(level.CurrentWave, Player.Instance.Lives,Player.Instance.Money,
+            dobjts,TowerStates.ToArray());
         string json = JsonUtility.ToJson(state);
         LevelState tmpCheckState = JsonUtility.FromJson<LevelState>(json);
         PlayerPrefs.SetString("LevelState", json);
@@ -104,28 +105,27 @@ public class LevelLoader : MonoBehaviour
         LevelState state = JsonUtility.FromJson<LevelState>(json);
         level.CurrentWave = state.CurrentWave;
         //Load PlayerState
-        Player.Instance.Lives = (int)state.PlayerStats[0];
-        Player.Instance.Money = state.PlayerStats[1];
+        Player.Instance.Lives = state.PlayerHealth;
+        Player.Instance.Money = state.PlayerMoney;
         //Load DObjts
         state.DObjects.ToList().Sort((x, y) => x.TileID.CompareTo(y.TileID));
         int currentDObjID = 0;
-        int currentTileID = state.DObjects.Count!=0 ? state.DObjects[currentDObjID].TileID : 0;
         for (int i = 0; i < tiles.Count && currentDObjID < state.DObjects.Count; i++)
         {
-            currentTileID = state.DObjects[currentDObjID].TileID;
-            DestroyableObject DObj = tiles[i].GetComponentInChildren<DestroyableObject>();
-            if (DObj == null)
+            int currentTileID = state.DObjects[currentDObjID].TileID;
+            DestroyableObject dObj = tiles[i].GetComponentInChildren<DestroyableObject>();
+            if (dObj == null)
             {
                 continue;
             }
             if (i<currentTileID)
             {
-                Destroy(DObj.gameObject);
+                Destroy(dObj.gameObject);
                 continue;
             }
             if (i == currentTileID)
             {
-               DObj.Health = state.DObjects[currentDObjID].Health;
+               dObj.Health = state.DObjects[currentDObjID].Health;
                currentDObjID++;
             }
         }
@@ -135,12 +135,12 @@ public class LevelLoader : MonoBehaviour
             pattern.SpawnTower(tiles[tState.TileID]);
             tiles[tState.TileID].OnBuildTower();
         }
-        needToLoad = false;
+        NeedToLoad = false;
     }
 
     private void Update()
     {
-        if (needToLoad)
+        if (NeedToLoad)
         {
             LoadLevel();
         }

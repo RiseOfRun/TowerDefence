@@ -12,7 +12,6 @@ public class TowerPattern : ScriptableObject
     public Sprite Icon;
     public string Name;
 
-    [HideInInspector]
     public string Description
     {
         get

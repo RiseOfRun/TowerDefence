@@ -20,14 +20,10 @@ public abstract class Targetable : MonoBehaviour
     
     public virtual void Update()
     {
-        if (Health <= 0)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        HandleDebuffs();
     }
 
-    public void HandleDebuffs()
+    private void HandleDebuffs()
     {
         foreach (Debuff debuff in Debuffs)
         {
@@ -37,7 +33,7 @@ public abstract class Targetable : MonoBehaviour
         Debuffs.RemoveAll(d => d.IsOver);
     }
 
-    public virtual void ApplyDamage(float damage)
+    public void ApplyDamage(float damage)
     {
         if (Health <= 0)
         {
@@ -53,7 +49,5 @@ public abstract class Targetable : MonoBehaviour
     public virtual void Die()
     {
         Destroy(gameObject);
-
     }
-    
 }

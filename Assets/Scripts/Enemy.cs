@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Enemy : Targetable
 {
@@ -11,13 +9,15 @@ public class Enemy : Targetable
     public int Penalty = 1;
     public Transform[] Waypoints;
     public float FlyHeight;
-    [HideInInspector] public Queue<Vector3> Path = new Queue<Vector3>();
+    private Queue<Vector3> Path = new Queue<Vector3>();
     public float PercentComplete => passedDistance / fullDistance;
     private float fullDistance = 0;
     private float passedDistance = 0;
     private bool startedMove = false;
+    
     private static readonly int Die1 = Animator.StringToHash("Die");
-    void CalculateDistance()
+
+    private void CalculateDistance()
     {
         Vector3 currentPosition = transform.position;
         foreach (var point in Waypoints)
@@ -27,7 +27,8 @@ public class Enemy : Targetable
             currentPosition = point.position;
         }
     }
-    void Start()
+
+    private void Start()
     {
         CalculateDistance();
     }
@@ -42,8 +43,10 @@ public class Enemy : Targetable
         gameObject.SetActive(false);
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
+        
         if (Health <= 0)
         {
             return;
@@ -52,11 +55,9 @@ public class Enemy : Targetable
         if (Path.Count == 0)
         {
             GameEvents.EnemyEndPath(this);
-            //Destroy(gameObject);
             return;
         }
 
-        HandleDebuffs();
         Move();
         CorrectHeight();
     }
@@ -105,9 +106,9 @@ public class Enemy : Targetable
         }
 
         Vector3 point = ray.GetPoint(hit.distance);
-        if (Math.Abs(point.y - position.y + FlyHeight) > 0.00001)
+        if (Math.Abs(point.y - position.y + FlyHeight) > 0.00001f)
         {
-            transform.position = new Vector3(transform.position.x, point.y + FlyHeight, transform.position.z);
+            transform.position = new Vector3(position.x, point.y + FlyHeight, position.z);
         }
     }
 

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
+        Application.targetFrameRate = 60;
         Time.fixedDeltaTime = Time.fixedUnscaledDeltaTime;
         Time.timeScale = 1;
         if (ForceLoad)
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
         Level.gameObject.SetActive(true);
         newGame = false;
         Loader.SetLayout(Level);
-        Loader.needToLoad = true;
+        Loader.NeedToLoad = true;
 
     }
 

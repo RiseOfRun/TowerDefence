@@ -8,44 +8,33 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    public float MaxHealth;
-    public float CurrentHealth;
     public Image ForeGround;
     public float ChangeSpeed;
     public bool Visible = false;
     public TMP_Text HealthText;
-    private float TargetFillPct => CurrentHealth/MaxHealth;
+    private float TargetFillPct => currentHealth/maxHealth;
     private Canvas r;
-    // Start is called before the first frame update
+    private float currentHealth;
+    private float maxHealth;
+    private Camera mainCamera;
+
+
     void Start()
     {
         var parent = GetComponentInParent<Targetable>();
-        HealthText.text = ((int) CurrentHealth).ToString();
-        MaxHealth = parent.Health;
-        CurrentHealth = parent.Health;
+        HealthText.text = ((int) currentHealth).ToString();
+        maxHealth = parent.Health;
+        currentHealth = parent.Health;
         parent.OnHealthChanged += ChangeHealth;
-        r = transform.GetComponentInChildren<Canvas>();
-    }
-
-    IEnumerator ChangePct()
-    {
-        var lastFillPct = ForeGround.fillAmount;
-        var to = TargetFillPct;
-        for (float i = 0; i < 1; i+=Time.deltaTime/ChangeSpeed)
-        {
-            ForeGround.fillAmount = Mathf.Lerp(lastFillPct, to,i);
-            yield return null;
-        }
-        ForeGround.fillAmount = to;
-
+        r = transform.GetComponentInChildren<Canvas>(true);
+        mainCamera = Camera.main;
     }
     private void ChangeHealth(float current)
     {
-        CurrentHealth = current;
-        HealthText.text = ((int) CurrentHealth).ToString();
+        currentHealth = current;
+        HealthText.text = ((int) currentHealth).ToString();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float current=ForeGround.fillAmount;
@@ -55,20 +44,19 @@ public class HealthBar : MonoBehaviour
             ForeGround.fillAmount=Mathf.MoveTowards(current, target, Time.deltaTime/ChangeSpeed);
         }
         
-        if (Mathf.Approximately(CurrentHealth,0) || Mathf.Approximately(CurrentHealth,MaxHealth))
+        if (Mathf.Approximately(currentHealth,0) || Mathf.Approximately(currentHealth,maxHealth))
         {
             r.enabled = false;
-            //transform.Rotate(0,180,0);
         }
         else
         {
             r.enabled = true;
         }
 
-        if (Math.Abs(CurrentHealth) < 0.1f)
+        if (Math.Abs(currentHealth) < 0.1f)
         {
             Destroy(gameObject);
         }
-        transform.rotation = Camera.main.transform.rotation;
+        transform.rotation = mainCamera.transform.rotation;
     }
 }

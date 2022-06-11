@@ -12,8 +12,8 @@ public class ChillDebuff : Debuff
 
     public override void OnDebuffEnd()
     {
-        Object.Destroy(handler);
-        ((Enemy)Target).Speed *= Power;
+        Destroy(handler);
+        ((Enemy) Target).Speed *= Power;
     }
 
     public override void OnApply()
@@ -22,6 +22,7 @@ public class ChillDebuff : Debuff
         {
             return;
         }
+
         Debuff similar = Target.Debuffs.Find(x => x.GetType() == GetType());
         if (similar != null)
         {
@@ -42,6 +43,6 @@ public class ChillDebuff : Debuff
         Target.Debuffs.Remove(similar);
         Target.Debuffs.Add(this);
         handler = Object.Instantiate(HandlerPrefab, Target.transform);
-        ((Enemy)Target).Speed /= Power;
+        ((Enemy) Target).Speed /= Power;
     }
 }

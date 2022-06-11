@@ -16,6 +16,11 @@ public class ToolTipHelper : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.CurrentLevel<0)
+        {
+            Destroy(TooltipAlert.gameObject);
+            return;
+        }
         int k = 0;
         if (AvailablePrompts.Count < GameManager.CurrentLevel || 
             AvailablePrompts[GameManager.CurrentLevel].PromptsOnLevel.Count==0)

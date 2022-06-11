@@ -56,7 +56,8 @@ public class AbilityButton : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndD
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (canDrag = CanUse())
+        canDrag = CanUse();
+        if (canDrag)
         {
             ConnectedAbility.StartAim();
             transform.parent = defaultParent.parent;

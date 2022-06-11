@@ -11,11 +11,12 @@ public class Bullet : SourceOfDamage
     public override void Init(List<Targetable> targets, float damage, List<Debuff> debuffs = null)
     {
         base.Init(targets, damage, debuffs);
-        if (targets.Count!=0)
+        if (targets!=null)
         {
             Target = targets[0];
         }
     }
+    
     public virtual void Move()
     {
         if (Target != null) 

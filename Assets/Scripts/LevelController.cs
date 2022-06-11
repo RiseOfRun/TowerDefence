@@ -51,7 +51,7 @@ public class LevelController : MonoBehaviour
         Spawners = GetComponentsInChildren<Spawner>();
     }
 
-    void Start()
+    private void Start()
     {
         BuildPanel.Towers = TowersToBuild;
         UICanvas.SetActive(true);
@@ -59,13 +59,13 @@ public class LevelController : MonoBehaviour
         Player.Instance.Money = PlayerStartMoney;
     }
 
-    void OnUnitSlain(Enemy unit)
+    private void OnUnitSlain(Enemy unit)
     {
         if (!WaveInProgress) return;
         enemyCount -= 1;
     }
 
-    void OnEnemyEndPath(Enemy unit)
+    private void OnEnemyEndPath(Enemy unit)
     {
         enemyCount -= 1;
         Player.Instance.Lives -= unit.Penalty;
@@ -77,8 +77,7 @@ public class LevelController : MonoBehaviour
         Destroy(unit.gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!gameIN) return;
         if (!WaveInProgress)
@@ -92,13 +91,13 @@ public class LevelController : MonoBehaviour
 
         if (WaveInProgress)
         {
-            CheckAllive();
+            CheckAlive();
         }
 
         CheckGameState();
     }
 
-    void CheckGameState()
+    private void CheckGameState()
     {
         if (Player.Instance.Lives <= 0)
         {
@@ -112,7 +111,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    void OnGameWin()
+    private void OnGameWin()
     {
         winPanel.SetActive(true);
         if (PlayerPrefs.GetInt("CompletedLevels",-1) < GameManager.CurrentLevel)
@@ -122,14 +121,14 @@ public class LevelController : MonoBehaviour
         PlayerPrefs.SetInt("OnLevel", -1);
     }
 
-    void OnGameOver()
+    private void OnGameOver()
     {
         gameIN = false;
         losePanel.SetActive(true);
         PlayerPrefs.SetInt("OnLevel", -1);
     }
 
-    void CheckAllive()
+    private void CheckAlive()
     {
         if (enemyCount <= 0 && WaveInProgress)
         {

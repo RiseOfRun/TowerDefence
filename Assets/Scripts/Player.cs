@@ -6,8 +6,6 @@ public class Player : MonoBehaviour
     public int Lives;
 
     public static Player Instance;
-    // Start is called before the first frame update
-
     void Awake()
     {
         if (Instance == null)

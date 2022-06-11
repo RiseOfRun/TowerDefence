@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a682bcc7a80fffb47b61412724ec9d05, type: 3}
   m_Name: Bomb
   m_EditorClassIdentifier: 
-  State: 2
-  CoolDown: 30
+  State: 0
+  CoolDown: 50
   Cost: 35
   Name: Bomb
   Icon: {fileID: 21300000, guid: 9b6025629207e8041a2a767437d407dc, type: 3}

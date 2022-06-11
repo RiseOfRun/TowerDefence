@@ -34,12 +34,12 @@ public class Weapon : MonoBehaviour
 
     void RotateWeapon()
     {
-        if (Owner.Targets.Count == 0 || Owner.Targets.All(x => x == null))
+        if (Owner.Targets.Count == 0)
         {
             return;
         }
 
-        var target = Owner.Targets.First(x => x != null);
+        var target = Owner.Targets[0];
         float angle = Vector3.SignedAngle(HorizontalPart.transform.position, target.transform.position, Vector3.up);
 
         var lookPos = target.transform.position - HorizontalPart.transform.position;

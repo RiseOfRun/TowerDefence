@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    Vector3 Rotate(Vector3 to)
+    private Vector3 Rotate(Vector3 to)
     {
         float horizontal = to.x - FirstClickPosition.x;
         float vertical = to.y - FirstClickPosition.y;

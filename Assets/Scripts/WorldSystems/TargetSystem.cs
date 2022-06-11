@@ -31,14 +31,14 @@ public class TargetSystem : MonoBehaviour
         if (BuildManager.Instance.InBuildMode) return;
         if (!Input.GetMouseButtonDown(0)) return;
         Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        
-        if (Physics.Raycast(r, out hit, float.MaxValue, LayerMask.GetMask("Enemies", "DestroyableObjs")))
+        if (Physics.Raycast(r, out RaycastHit hit, float.MaxValue, LayerMask.GetMask("Enemies", "DestroyableObjs","Tower")))
         {
             Debug.Log("HIT");
             Targetable hitEnemy = hit.collider.gameObject.GetComponentInChildren<Targetable>();
             if (hitEnemy==null)
             {
+                TargetedTower = hit.collider.gameObject.GetComponentInParent<Tower>();
+                BuildManager.Instance.BuildOptionsPanel.OnTowerSelected(TargetedTower);
                 return;
             }
             if (!EnemyTargets.Contains(hitEnemy))
@@ -52,14 +52,6 @@ public class TargetSystem : MonoBehaviour
                 Destroy(hitEnemy.GetComponentInChildren<TargetMark>().gameObject);
             }
         }
-
-        if (Physics.Raycast(r, out hit, float.MaxValue, LayerMask.GetMask("Tower")))
-        {
-            TargetedTower = hit.collider.gameObject.GetComponentInParent<Tower>();
-            BuildManager.Instance.BuildOptionsPanel.OnTowerSelected(TargetedTower);
-            return;
-        }
-
         if (IsPointerOverUIObject())
         {
             return;

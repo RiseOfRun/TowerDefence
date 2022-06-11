@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f488e2c2c16a05541baa506c550890f0, type: 3}
   m_Name: BasicTowerLvl1
   m_EditorClassIdentifier: 
-  TowerPref: {fileID: 7473171443476290798, guid: e57b5197471a7ce4da0c5de61a0c2eff, type: 3}
+  TowerPref: {fileID: 7735293763329287979, guid: e57b5197471a7ce4da0c5de61a0c2eff, type: 3}
   Mirage: {fileID: 107874045729960576, guid: d98a4626801702145a0bd3216b5e5ca1, type: 3}
   Icon: {fileID: -382305985603570283, guid: ae0af7fa21cb91344bb6d31bf149241d, type: 3}
   Name: Basic Tower
-  Description: Deals single target damage
   IsUpgrade: 0
   DamageSource: {fileID: 4207677129459178337, guid: be1be834c7a58d14b88c7e6be6898a42, type: 3}
   Damage: 50
@@ -26,3 +25,4 @@ MonoBehaviour:
   Debuffs: []
   Upgrades:
   - {fileID: 11400000, guid: 2c54d4e8ac69df349908ddd57c314549, type: 2}
+  description: 

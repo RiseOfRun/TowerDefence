@@ -17,7 +17,7 @@ public class AreaAbility : Ability
     {
         if (State != AbilityStatement.Aim) return;
         Plane p = new Plane(Vector3.up, new Vector3(0,0.25f,0));
-        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray r = AbilityPanel.MainCamera.ScreenPointToRay(Input.mousePosition);
         p.Raycast(r, out float enter);
         Vector3 position = r.GetPoint(enter);
         indicator.transform.position = position;

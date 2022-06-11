@@ -5,17 +5,16 @@ using UnityEngine;
 
 public class TargetMark : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Camera mainCamera;
     private void Awake()
     {
+        mainCamera = Camera.main;
         var anchor = transform.parent.GetComponent<Collider>();
         transform.position = anchor.bounds.center;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        transform.rotation = Camera.main.transform.rotation;
+        transform.rotation = mainCamera.transform.rotation;
     
     }
     

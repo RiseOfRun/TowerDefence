@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,8 +14,8 @@ public class Tower : MonoBehaviour
     public TowerPattern Pattern;
     public Action OnShoot;
     private float SecondsOnAttack => 1 / Pattern.APS;
-
     private float timerToAttack;
+    protected Collider[] TargetBuffer = new Collider[200];
 
     // Start is called before the first frame update
     public void Start()
@@ -32,9 +33,9 @@ public class Tower : MonoBehaviour
     }
 
 
-    private void CheckTarget()
+    protected virtual void CheckTarget()
     {
-        Targets = new List<Targetable>();
+        Targets.Clear();
         List<Enemy> selectedTargets = new List<Enemy>();
         if (CanForceTarget)
         {
@@ -42,21 +43,25 @@ public class Tower : MonoBehaviour
                 x => x is Enemy && x != null &&
                      Vector3.Distance(x.transform.position, transform.position) <= Pattern.Range));
         }
-
-        Collider[] objects = Physics.OverlapSphere(transform.position,
-            Pattern.Range,
-            LayerMask.GetMask("Enemies"));
-        foreach (Collider item in objects)
+        
+        int count = Physics.OverlapSphereNonAlloc(transform.position,
+            Pattern.Range, TargetBuffer,LayerMask.GetMask("Enemies"));
+        for (int i = 0; i < count; i++)
         {
-            Enemy unit = item.GetComponent<Enemy>();
-            if (Targets.Contains(unit)) continue;
+            Enemy unit = TargetBuffer[i].GetComponent<Enemy>();
+            if (unit ==null || Targets.Contains(unit)) continue;
             selectedTargets.Add(unit);
         }
 
-        Targets.AddRange(selectedTargets.Where(x => x != null && x.enabled)
+        Targets.AddRange(selectedTargets.Where(x => x.enabled)
             .OrderByDescending(x => x.PercentComplete));
-        Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(x => x is DestroyableObject && x != null
-            && Vector3.Distance(x.transform.position, transform.position) <= Pattern.Range));
+        
+        if (CanForceTarget)
+        {
+            Targets.AddRange(TargetSystem.Instance.EnemyTargets.Where(
+                x => x is DestroyableObject && x != null
+                && Vector3.Distance(x.transform.position, transform.position) <= Pattern.Range));
+        }
     }
 
     public void Attack()
