@@ -12,7 +12,7 @@ public class SingleTargetTower : Tower
         if (CanForceTarget)
         {
             var target = TargetSystem.Instance.EnemyTargets.FirstOrDefault(x => x is Enemy && x != null
-                && Vector3.Distance(transform.position, x.transform.position) <= Pattern.Range);
+                && x.enabled && Vector3.Distance(transform.position, x.transform.position) <= Pattern.Range);
             if (target!=null)
             {
                 Targets.Add(target);
@@ -28,7 +28,7 @@ public class SingleTargetTower : Tower
         for (int i = 0; i < count; i++)
         {
             Enemy currentEnemy = TargetBuffer[i].GetComponent<Enemy>();
-            if (currentEnemy!=null && currentEnemy.PercentComplete > maxPath)
+            if (currentEnemy!=null && currentEnemy.enabled && currentEnemy.PercentComplete > maxPath)
             {
                 bestEnemy = currentEnemy;
                 maxPath = currentEnemy.PercentComplete;

@@ -23,7 +23,7 @@ public class InfoPanel : MonoBehaviour
     {
         var tablet = Instantiate(ScoreTablet, transform);
         tablet.Origin = arg0.transform.position;
-        tablet.Count = (int)arg0.Score;
+        tablet.Count = arg0.Score;
     }
 
     void Update()

@@ -30,6 +30,7 @@ public class Enemy : Targetable
 
     private void Start()
     {
+        MaxHealth = health;
         CalculateDistance();
     }
 

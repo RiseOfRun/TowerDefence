@@ -18,7 +18,7 @@ public class ScoreAlert : MonoBehaviour
     private IEnumerator Start()
     {
         mainCamera = Camera.main;
-        Text.text = $"+{Count}$";
+        Text.text = $"+{Count:0.#}$";
         for (float i = 0; i < 1; i += Time.deltaTime / LifeSize)
         {
             transform.position = mainCamera.WorldToScreenPoint(Origin)+ new Vector3(0,Shift*Mathf.Sqrt(i),0);

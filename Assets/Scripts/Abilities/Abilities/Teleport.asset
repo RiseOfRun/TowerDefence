@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23c3054d376b4240ab18799d20f9ab4, type: 3}
   m_Name: Teleport
   m_EditorClassIdentifier: 
-  State: 0
+  State: 2
   CoolDown: 50
-  Cost: 100
+  Cost: 85
   Name: Teleport
   Icon: {fileID: 0}
   IndicatorPrefab: {fileID: 8876313397819811846, guid: 3284f5928b26fd0468e97d29703fb5c3, type: 3}

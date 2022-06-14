@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0c157327f4d714f8aa44e54266617b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Available: 1
+  AvailableMaterial: {fileID: 2100000, guid: 4e324b4e5cfdd2840a0c5b2e4ab44ef7, type: 2}
+  InvalidMaterial: {fileID: 2100000, guid: 65d9e10ebd2d0134ba4701a23a5bee54, type: 2}
 --- !u!1 &6898465738921743183
 GameObject:
   m_ObjectHideFlags: 0

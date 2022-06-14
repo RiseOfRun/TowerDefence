@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6961093845743852231}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 52.783, y: 94.853, z: 19.356}
 --- !u!108 &1352124017
 Light:
@@ -247,7 +247,6 @@ Transform:
   m_Children:
   - {fileID: 6961093845507210109}
   - {fileID: 6961093846265133433}
-  - {fileID: 6961093846539796872}
   - {fileID: 6961093845896395611}
   - {fileID: 4923682786881098258}
   - {fileID: 1352124016}
@@ -267,19 +266,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UICanvas: {fileID: 0}
-  UnitPool: {fileID: 6961093846539796874}
+  UnitPool: {fileID: 0}
   Towers: []
   BuildPanel: {fileID: 0}
   TimeToWave: 0
   Spawners:
   - {fileID: 0}
+  PlayerStartMoney: 50
   WaveCount: 10
   TimeBetweenWaves: 10
   CurrentWave: 0
   WaveInProgress: 0
   TowersToBuild:
   - {fileID: 11400000, guid: b47637ef1b46f884280662f91d318b0d, type: 2}
-  OnWaveEnd:
+  EndWave:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &6961093845896395610
@@ -311,7 +311,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6961093845743852231}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6961093845896395608
 MonoBehaviour:
@@ -425,7 +425,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6961093846265133433}
-  - component: {fileID: 6961093846265133432}
   m_Layer: 0
   m_Name: GameField
   m_TagString: Untagged
@@ -544,64 +543,6 @@ Transform:
   m_Father: {fileID: 6961093845743852231}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6961093846265133432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6961093846265133435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8610adc4d4e71764bb61b7b2b8ba90e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlankPrefab: {fileID: 0}
-  Rows: 11
-  Cols: 11
---- !u!1 &6961093846539796874
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6961093846539796872}
-  - component: {fileID: 6961093846539796875}
-  m_Layer: 0
-  m_Name: UnitPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6961093846539796872
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6961093846539796874}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6961093845743852231}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6961093846539796875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6961093846539796874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e38be399e64b2b145b22e2e8d975e3ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6961093846776175799
 GameObject:
   m_ObjectHideFlags: 0
@@ -3545,7 +3486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7100496154659306606, guid: cbb07abc76c24a144883b54fb3e21a90, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7100496154659306606, guid: cbb07abc76c24a144883b54fb3e21a90, type: 3}
       propertyPath: m_LocalPosition.x

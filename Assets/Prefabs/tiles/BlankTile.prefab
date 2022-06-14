@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!65 &6063641684612857595
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638993074199633805}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1 &2748730579353654366
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +23,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7100496154659306606}
   - component: {fileID: 9135934083288293895}
-  - component: {fileID: 2978776413625080116}
   m_Layer: 8
   m_Name: BlankTile
   m_TagString: Untagged
@@ -50,19 +62,6 @@ MonoBehaviour:
   CanBuild: 1
   BlankMesh: {fileID: 1638993074199633805}
   TowerMesh: {fileID: 5148519029358046569}
---- !u!65 &2978776413625080116
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2748730579353654366}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.2, z: 1}
-  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1001 &1909445245581632220
 PrefabInstance:
   m_ObjectHideFlags: 0

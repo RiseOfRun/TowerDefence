@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Square : MonoBehaviour
 {
-    public bool Blank = true;
     public bool CanBuild = false;
     public GameObject BlankMesh;
     public GameObject TowerMesh;

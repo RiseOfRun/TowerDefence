@@ -33,23 +33,28 @@ public class TargetSystem : MonoBehaviour
         Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(r, out RaycastHit hit, float.MaxValue, LayerMask.GetMask("Enemies", "DestroyableObjs","Tower")))
         {
-            Debug.Log("HIT");
             Targetable hitEnemy = hit.collider.gameObject.GetComponentInChildren<Targetable>();
             if (hitEnemy==null)
             {
                 TargetedTower = hit.collider.gameObject.GetComponentInParent<Tower>();
-                BuildManager.Instance.BuildOptionsPanel.OnTowerSelected(TargetedTower);
-                return;
-            }
-            if (!EnemyTargets.Contains(hitEnemy))
-            {
-                EnemyTargets.Add(hitEnemy);
-                Instantiate(TargetMarkPrefab, hitEnemy.transform);
+                if (TargetedTower!=null)
+                {
+                    BuildManager.Instance.BuildOptionsPanel.OnTowerSelected(TargetedTower);
+                    return;
+                }
             }
             else
             {
-                EnemyTargets.Remove(hitEnemy);
-                Destroy(hitEnemy.GetComponentInChildren<TargetMark>().gameObject);
+                if (!EnemyTargets.Contains(hitEnemy))
+                {
+                    EnemyTargets.Add(hitEnemy);
+                    Instantiate(TargetMarkPrefab, hitEnemy.transform);
+                }
+                else
+                {
+                    EnemyTargets.Remove(hitEnemy);
+                    Destroy(hitEnemy.GetComponentInChildren<TargetMark>().gameObject);
+                } 
             }
         }
         if (IsPointerOverUIObject())

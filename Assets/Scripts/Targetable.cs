@@ -16,8 +16,14 @@ public abstract class Targetable : MonoBehaviour
     }
     public Action<float> OnHealthChanged;
     public List<Debuff> Debuffs = new List<Debuff>();
-    [SerializeField] private float health = 0;
-    
+    [HideInInspector] public float MaxHealth;
+    [SerializeField] protected float health = 0;
+
+    private void Start()
+    {
+        MaxHealth = health;
+    }
+
     public virtual void Update()
     {
         HandleDebuffs();

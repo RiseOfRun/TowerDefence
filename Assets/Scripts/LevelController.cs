@@ -9,7 +9,6 @@ public class LevelController : MonoBehaviour
 {
     public static LevelController Instance;
     [FormerlySerializedAs("UIPanel")] public GameObject UICanvas;
-    [HideInInspector] public GameObject UnitPool;
     [HideInInspector] public List<Tower> Towers = new List<Tower>();
     public BuildPanel BuildPanel;
     [FormerlySerializedAs("timeToWave")] public float TimeToWave;
@@ -42,9 +41,9 @@ public class LevelController : MonoBehaviour
         }
 
         UICanvas = FindObjectOfType<UICanvas>(true).gameObject;
+        BuildPanel = UICanvas.GetComponentInChildren<BuildPanel>();
         losePanel = UICanvas.GetComponentInChildren<LosePanel>(true).gameObject;
         winPanel = UICanvas.GetComponentInChildren<WinPanel>(true).gameObject;
-        BuildPanel = UICanvas.GetComponentInChildren<BuildPanel>();
         GameEvents.OnEnemySlain.AddListener(OnUnitSlain);
         GameEvents.OnEnemyEndPath.AddListener(OnEnemyEndPath);
         waveController = GetComponentInChildren<WaveController>();
@@ -107,17 +106,18 @@ public class LevelController : MonoBehaviour
         if (CurrentWave > WaveCount && !WaveInProgress)
         {
             gameIN = false;
-            Invoke(nameof(OnGameWin),0.5f);
+            Invoke(nameof(OnGameWin), 0.5f);
         }
     }
 
     private void OnGameWin()
     {
         winPanel.SetActive(true);
-        if (PlayerPrefs.GetInt("CompletedLevels",-1) < GameManager.CurrentLevel)
+        if (PlayerPrefs.GetInt("CompletedLevels", -1) < GameManager.CurrentLevel)
         {
-            PlayerPrefs.SetInt("CompletedLevels", GameManager.CurrentLevel+1);
+            PlayerPrefs.SetInt("CompletedLevels", GameManager.CurrentLevel + 1);
         }
+
         PlayerPrefs.SetInt("OnLevel", -1);
     }
 
@@ -146,7 +146,8 @@ public class LevelController : MonoBehaviour
         }
 
         TimeToWave = TimeBetweenWaves;
-        WaveSettings waveSettings = waveController.WaveSettings.First();
+        int wsNumber = (CurrentWave - 1) % waveController.WaveSettings.Count;
+        WaveSettings waveSettings = waveController.WaveSettings.First(x=>x.Name == waveController.Waves[wsNumber]);
         enemyCount = waveSettings.Size * Spawners.Length;
         WaveInProgress = true;
         foreach (var spawner in Spawners)

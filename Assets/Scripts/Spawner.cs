@@ -18,8 +18,6 @@ public class Spawner : MonoBehaviour
             }
         }
         StartCoroutine(Spawn(currentWave,controller));
-
-
     }
     
     IEnumerator Spawn(WaveSettings settings, WaveController controller)

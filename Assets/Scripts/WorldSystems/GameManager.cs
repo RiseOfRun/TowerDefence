@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static int CurrentLevel = -1;
-    public static int LevelsCount = 3;
+    public static int LevelsCount = 4;
     public LevelController[] Levels;
     public LevelController Level;
     public bool ForceLoad;

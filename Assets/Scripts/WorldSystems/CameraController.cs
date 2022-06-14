@@ -13,12 +13,6 @@ public class CameraController : MonoBehaviour
 
     public float Threshold = 0.1f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
     void Update()
     {
         ControlRotation();
@@ -58,12 +52,12 @@ public class CameraController : MonoBehaviour
         if (Mathf.Abs(vertical) > Threshold)
         {
             Handler.transform.Rotate(transform.right, -vertical * Speed, Space.World);
-            if (transform.position.y<0.1f)
+            if (transform.position.y < 0.1f)
             {
                 Handler.transform.rotation = lastTransform;
             }
         }
-        
+
         return to;
     }
 }

@@ -36,7 +36,7 @@ public class BuildManager : MonoBehaviour
             return;
         }
 
-        Square hitSquare = hitInfo.collider.gameObject.GetComponent<Square>();
+        Square hitSquare = hitInfo.collider.gameObject.GetComponentInParent<Square>();
         if (hitSquare == null || !hitSquare.CanBuild)
         {
             return;
