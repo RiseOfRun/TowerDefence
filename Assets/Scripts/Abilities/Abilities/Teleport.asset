@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d23c3054d376b4240ab18799d20f9ab4, type: 3}
   m_Name: Teleport
   m_EditorClassIdentifier: 
-  State: 2
+  State: 0
   CoolDown: 50
   Cost: 85
   Name: Teleport

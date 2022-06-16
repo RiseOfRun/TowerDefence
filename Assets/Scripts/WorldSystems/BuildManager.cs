@@ -25,7 +25,7 @@ public class BuildManager : MonoBehaviour
         }
     }
     
-    public void BuildTower()
+    public void TryBuildTower()
     {
         var position = Mirage.transform.position;
         Ray ray = new Ray(new Vector3(position.x,100,position.z), Vector3.down);

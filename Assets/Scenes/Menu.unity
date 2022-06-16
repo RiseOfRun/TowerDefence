@@ -791,7 +791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0000014305, y: -101.1}
+  m_AnchoredPosition: {x: 0.0000014305, y: -198}
   m_SizeDelta: {x: 800, y: 202.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1005928818
@@ -814,7 +814,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GameName TD
+  m_text: UFO Invaders
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8a89fa14b10d46a99122fd4f73fca9a2, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 8dcf2746f5d932c489170fc4d601f9dd, type: 2}

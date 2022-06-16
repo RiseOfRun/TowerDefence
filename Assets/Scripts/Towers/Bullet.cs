@@ -5,7 +5,6 @@ public class Bullet : SourceOfDamage
 {
     public float Speed;
     public Targetable Target;
-    // Start is called before the first frame update
     private Vector3 lastTargetPosition;
  
     public override void Init(List<Targetable> targets, float damage, List<Debuff> debuffs = null)
@@ -14,6 +13,7 @@ public class Bullet : SourceOfDamage
         if (targets!=null)
         {
             Target = targets[0];
+            transform.LookAt(Target.transform.position);
         }
     }
     

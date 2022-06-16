@@ -99,10 +99,9 @@ public class SelectTowerButton : MonoBehaviour, IDragHandler, IBeginDragHandler,
 
         if (!CheckIfOverBuildPanel(eventData))
         {
-            BuildManager.Instance.BuildTower();
+            BuildManager.Instance.TryBuildTower();
         }
-
-        if (!BuildManager.Instance.InBuildMode && BuildManager.Instance.Mirage != null)
+        else
         {
             BuildManager.Instance.ExitFromBuildMod();
         }

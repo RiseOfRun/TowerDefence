@@ -81,8 +81,7 @@ public class Tower : MonoBehaviour
 
     private void OnTimerTick()
     {
-        SourceOfDamage source = Instantiate(Pattern.DamageSource, transform);
-        source.transform.position = SourcePosition.transform.position;
+        SourceOfDamage source = Instantiate(Pattern.DamageSource, SourcePosition);
         source.Init(Targets, Pattern.Damage, Pattern.Debuffs);
         OnShoot?.Invoke();
     }
